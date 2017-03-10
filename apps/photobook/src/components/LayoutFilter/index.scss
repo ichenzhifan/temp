@@ -1,0 +1,13 @@
+.layout-filter {
+  padding: 0 30px 0 30px;
+
+  a {
+    display: inline-block;
+    margin-right: 13px;
+    color: #909090;
+    &.selected {
+      color: #3a3a3a;
+      font-weight: 500;
+    }
+  }
+}

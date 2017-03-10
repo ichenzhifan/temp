@@ -1,0 +1,25 @@
+.element {
+  position: absolute;
+  background-color: #fff;
+  opacity: 0.7;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  transition: opacity 0.2s ease-in-out;
+  box-sizing: border-box;
+  &.selected {
+    opacity: 0.9;
+    border: 2px solid #212121;
+  }
+
+  .element-content {
+    height: 100%;
+    cursor: default;
+    user-select: none;
+  }
+
+  .lock-icon {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    font-size: 20px;
+  }
+}

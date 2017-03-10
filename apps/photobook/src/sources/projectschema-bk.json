@@ -1,0 +1,542 @@
+{
+  "project": {
+    "version": "3.7",
+    "clientId": "web-h5",
+    "createAuthor": "web-h5|1.1|1",
+    "guid": "1539074",
+    "userId": "489651",
+    "artisan": "lei",
+    "sku": "FM_CC_8x8",
+    "createdDate": "2016-11-14 23:18:46",
+    "updatedDate": "2016-11-14 23:18:46",
+    "summary": {
+      "pageCount": 16,
+      "pageAdded": 0,
+      "pageBase": 16,
+      "useStamp": false,
+      "freeLogo": true,
+      "useLEStamp": false,
+      "useGilding": false,
+      "useTextPrinting": false,
+      "editorSetting": {
+        "autoLayout": true,
+        "borderFrame": true,
+        "border": {
+          "color": "#000000",
+          "size": 1,
+          "opacity": 100
+        },
+        "background": {
+          "color": "#000000"
+        },
+        "font": {
+          "fontSize": 96,
+          "color": "#000000",
+          "fontFamilyId": "font_arial",
+          "fontId": "font_arial_narrow"
+        }
+      }
+    },
+    "spec": {
+      "client": "h5",
+      "product": "FM",
+      "cover": "GL",
+      "cameoShape": "Rect",
+      "leatherColor": "rusticGreen",
+      "gilding": "none",
+      "size": "12X16",
+      "cameo": "M",
+      "paperThickness": "Thick",
+      "paper": "EP"
+    },
+    "cover": {
+      "id": "8A812E41-B92E-865A-B5E5-66DA1900CC7F",
+      "width": 9450,
+      "height": 3450,
+      "bleed": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "bgColor": "#FFFFFF",
+      "bgImageUrl": "/template-resources/images/option/cover/preview/genuine-rustic-green.jpg",
+      "containers": [{
+        "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+        "width": 4300,
+        "height": 3600,
+        "type": "Front",
+        "bgColor": "#FFFFFF",
+        "bleed": {
+          "top": 75,
+          "bottom": 75,
+          "left": 75,
+          "right": 75
+        },
+        "elements": [{
+          "type": "CameoElement",
+          "x": 5677.5,
+          "y": 765,
+          "width": 2820,
+          "height": 1920,
+          "px": 0.6007936507936508,
+          "py": 0.2217391304347826,
+          "pw": 0.2984126984126984,
+          "ph": 0.5565217391304348,
+          "rot": 0,
+          "dep": 999,
+          "imageid": 68021680,
+          "imgRot": 0,
+          "imgFlip": false,
+          "cropLUX": 0.041015625,
+          "cropLUY": 0,
+          "cropRLX": 0.958984375,
+          "cropRLY": 1,
+          "border": {
+            "size": 0.0036068530207394047,
+            "color": "#000000",
+            "opacity": 100
+          },
+          "style": [{
+            "opacity": 100,
+            "effectId": 4
+          }]
+        }],
+        "template": {},
+        "backend": {
+          "isPrint": true,
+          "slice": false
+        }
+      }, {
+        "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+        "width": 4300,
+        "height": 3600,
+        "type": "Back",
+        "bgColor": "#FFFFFF",
+        "bleed": {
+          "top": 75,
+          "bottom": 75,
+          "left": 75,
+          "right": 75
+        },
+        "elements": [],
+        "template": {},
+        "backend": {
+          "isPrint": false,
+          "slice": false
+        }
+      }, {
+        "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+        "width": 4300,
+        "height": 3600,
+        "type": "Spine",
+        "bgColor": "#FFFFFF",
+        "bleed": {
+          "top": 75,
+          "bottom": 75,
+          "left": 75,
+          "right": 75
+        },
+        "elements": [],
+        "template": {},
+        "backend": {
+          "isPrint": false,
+          "slice": false
+        }
+      }, {
+        "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+        "width": 4300,
+        "height": 3600,
+        "bleed": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "type": "Full",
+        "bgColor": "#FFFFFF",
+        "elements": [],
+        "template": {
+          "tplGuid": "544prod-1"
+        },
+        "backend": {
+          "isPrint": false,
+          "slice": false
+        }
+      }]
+    },
+    "pages": [{
+      "id": "146EC37D-2F4B-3598-6ADF-66DA1900EB4F",
+      "width": 9600,
+      "height": 3600,
+      "surfaceNumber": 1,
+      "type": "Sheet",
+      "bgColor": "#FFFFFF",
+      "pageAlign": "Left",
+      "bleed": {
+        "top": 75,
+        "bottom": 75,
+        "left": 75,
+        "right": 75
+      },
+      "elements": [{
+        "type": "PhotoElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "rot": 0,
+        "dep": 91,
+        "imageid": "68021680",
+        "imgRot": 0,
+        "imgFlip": false,
+        "cropLUX": 0.013331623025332816,
+        "cropLUY": 0,
+        "cropRLX": 0.9866683769746671,
+        "cropRLY": 1
+      }, {
+        "type": "PhotoElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "rot": 0,
+        "dep": 91,
+        "imageid": "68021680",
+        "imgRot": 0,
+        "imgFlip": false,
+        "cropLUX": 0.013331623025332816,
+        "cropLUY": 0,
+        "cropRLX": 0.9866683769746671,
+        "cropRLY": 1
+      }, {
+        "type": "PhotoElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "rot": 0,
+        "dep": 91,
+        "imageid": "68021680",
+        "imgRot": 0,
+        "imgFlip": false,
+        "cropLUX": 0.013331623025332816,
+        "cropLUY": 0,
+        "cropRLX": 0.9866683769746671,
+        "cropRLY": 1
+      }],
+      "template": {
+        "tplGuid": "544prod-1"
+      },
+      "backend": {
+        "isPrint": true,
+        "slice": true
+      }
+    }, {
+      "id": "FFF4E038-9356-842C-E1C0-66DA1900C348",
+      "width": 4300,
+      "height": 3600,
+      "surfaceNumber": 2,
+      "type": "Page",
+      "pageAlign": "Right",
+      "bleed": {},
+      "elements": [],
+      "template": {}}, {
+      "id": "8EAD7F36-B171-37DC-501A-66DA19002379",
+      "width": 4300,
+      "height": 3600,
+      "surfaceNumber": 3,
+      "type": "Page",
+      "pageAlign": "Left",
+      "bgColor": "#FFFFFF",
+      "bleed": {
+        "top": 75,
+        "bottom": 75,
+        "left": 75,
+        "right": 75
+      },
+      "elements": [{
+        "type": "DecorationElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "rot": 0,
+        "dep": 91,
+        "decorationid": "d5faf1cd-0f13-4448-9ec4-4449da2eff58",
+        "decorationtype": "sticker"
+      }, {
+        "type": "PhotoElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "rot": 0,
+        "dep": 91,
+        "imageid": "68021680",
+        "imgRot": 0,
+        "imgFlip": false,
+        "cropLUX": 0.013331623025332816,
+        "cropLUY": 0,
+        "cropRLX": 0.9866683769746671,
+        "cropRLY": 1
+      }],
+      "template": {},
+      "backend": {
+        "isPrint": false,
+        "slice": false
+      }
+    }, {
+      "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+      "width": 4300,
+      "height": 3600,
+      "surfaceNumber": 4,
+      "type": "Page",
+      "pageAlign": "Right",
+      "bgColor": "#FFFFFF",
+      "bleed": {
+        "top": 75,
+        "bottom": 75,
+        "left": 75,
+        "right": 75
+      },
+      "elements": [{
+        "type": "TextElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "dep": 91,
+        "textAlign": "left",
+        "textVAlign": "top/middle/bottom",
+        "fontWeight": "normal",
+        "fontFamily": "Arial Narrow",
+        "textAutoWrap": "%7B%22autoWrapType%22%3A%22wordWrap%22%2C%22autowrapPosition%22%3A%5B%5D%7D",
+        "text": "text"
+      }],
+      "template": {},
+      "backend": {
+        "isPrint": false,
+        "slice": false
+      }
+    }, {
+      "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+      "width": 4300,
+      "height": 3600,
+      "surfaceNumber": 5,
+      "type": "Page",
+      "pageAlign": "Left",
+      "bgColor": "#FFFFFF",
+      "bleed": {
+        "top": 75,
+        "bottom": 75,
+        "left": 75,
+        "right": 75
+      },
+      "elements": [{
+        "type": "TextElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "dep": 91,
+        "textAlign": "left",
+        "fontWeight": "normal",
+        "fontFamily": "Arial Narrow",
+        "textAutoWrap": "%7B%22autoWrapType%22%3A%22wordWrap%22%2C%22autowrapPosition%22%3A%5B%5D%7D",
+        "text": "text"
+      }],
+      "template": {
+        "tplGuid": "544prod-1"
+      },
+      "backend": {
+        "isPrint": false,
+        "slice": false
+      }
+    }, {
+      "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+      "width": 4300,
+      "height": 3600,
+      "surfaceNumber": 6,
+      "type": "Page",
+      "pageAlign": "Right",
+      "bgColor": "#FFFFFF",
+      "bleed": {
+        "top": 75,
+        "bottom": 75,
+        "left": 75,
+        "right": 75
+      },
+      "elements": [{
+        "type": "TextElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "dep": 91,
+        "textAlign": "left",
+        "fontWeight": "normal",
+        "fontFamily": "Arial Narrow",
+        "textAutoWrap": "%7B%22autoWrapType%22%3A%22wordWrap%22%2C%22autowrapPosition%22%3A%5B%5D%7D",
+        "text": "text"
+      }],
+      "template": {
+        "tplGuid": "544prod-1"
+      },
+      "backend": {
+        "isPrint": true,
+        "slice": false
+      }
+    }, {
+      "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+      "width": 4300,
+      "height": 3600,
+      "surfaceNumber": 7,
+      "type": "Page",
+      "pageAlign": "Left",
+      "bgColor": "#FFFFFF",
+      "bleed": {
+        "top": 75,
+        "bottom": 75,
+        "left": 75,
+        "right": 75
+      },
+      "elements": [{
+        "type": "TextElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "dep": 91,
+        "textAlign": "left",
+        "fontWeight": "normal",
+        "fontFamily": "Arial Narrow",
+        "textAutoWrap": "%7B%22autoWrapType%22%3A%22wordWrap%22%2C%22autowrapPosition%22%3A%5B%5D%7D",
+        "text": "text"
+      }],
+      "template": {
+        "tplGuid": "544prod-1"
+      },
+      "backend": {
+        "isPrint": true,
+        "slice": false
+      }
+    }, {
+      "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+      "width": 4300,
+      "height": 3600,
+      "surfaceNumber": 8,
+      "type": "Page",
+      "pageAlign": "Right",
+      "bgColor": "#FFFFFF",
+      "bleed": {
+        "top": 75,
+        "bottom": 75,
+        "left": 75,
+        "right": 75
+      },
+      "elements": [{
+        "type": "TextElement",
+        "x": 0,
+        "y": 293.0477528088,
+        "width": 4667.09505334656,
+        "height": 2996.8398876402,
+        "px": 0,
+        "py": 0.081402153558,
+        "pw": 0.4861557347236,
+        "ph": 0.8324555243445,
+        "dep": 91,
+        "textAlign": "left",
+        "fontWeight": "normal",
+        "fontFamily": "Arial Narrow",
+        "textAutoWrap": "%7B%22autoWrapType%22%3A%22wordWrap%22%2C%22autowrapPosition%22%3A%5B%5D%7D",
+        "text": "text"
+      }],
+      "template": {
+        "tplGuid": "544prod-1"
+      },
+      "backend": {
+        "isPrint": true,
+        "slice": false
+      }
+    }],
+    "images": [{
+      "id": "68021680",
+      "guid": "d3496eae-8d27-44dd-a24a-82850e576d66",
+      "order": 1,
+      "name": "01b06972dcee0924099757cf4a5a1ce7",
+      "width": 1920,
+      "height": 1200,
+      "shotTime": "1237544636000"
+    }, {
+      "id": "68021681",
+      "guid": "d3496eae-8d27-44dd-a24a-82850e576d66",
+      "order": 1,
+      "name": "01b06972dcee0924099757cf4a5a1ce7",
+      "width": 1920,
+      "height": 1200,
+      "shotTime": "1237544636000"
+    }, {
+      "id": "68021682",
+      "guid": "d3496eae-8d27-44dd-a24a-82850e576d66",
+      "order": 1,
+      "name": "01b06972dcee0924099757cf4a5a1ce7",
+      "width": 1920,
+      "height": 1200,
+      "shotTime": "1237544636000"
+    }],
+    "decorations": [{
+      "guid": "188d80a9-7c60-4d3e-b954-5a54f65a7198",
+      "name": "circle",
+      "type": "Sticker",
+      "count": 1,
+      "displayRatio": 1,
+      "width": 901,
+      "height": 901
+    }, {
+      "guid": "d5faf1cd-0f13-4448-9ec4-4449da2eff58",
+      "name": "circle",
+      "type": "Sticker",
+      "count": 1,
+      "displayRatio": 1,
+      "width": 901,
+      "height": 901
+    }]
+  }
+}

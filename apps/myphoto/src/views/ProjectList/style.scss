@@ -1,0 +1,11 @@
+@import '../../scss/variables';
+
+.Projects {
+  padding: $Header-height + 40px 0 0 $Sidebar-width;
+  overflow: hidden;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}

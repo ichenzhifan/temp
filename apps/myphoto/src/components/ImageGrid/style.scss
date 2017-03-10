@@ -1,0 +1,36 @@
+@import '../../scss/variables';
+
+.ImageGrid {
+  display: inline-block;
+  margin: 10px 20px;
+}
+
+.ImageGrid__cover {
+  width: $ImageGrid__image-width;
+  height: $ImageGrid__image-height;
+  box-sizing: border-box;
+  padding: 10px;
+  cursor: pointer;
+  &.active {
+    background-color: rgba(204, 204, 204, 0.5);
+  }
+}
+
+.ImageGrid__image {
+  width: 100%;
+  height: 100%;
+  background: no-repeat center center;
+  background-size: contain;
+}
+
+.ImageGrid__name {
+  margin: 0;
+  width: $ImageGrid__image-width;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  padding: 0 20px;
+  box-sizing: border-box;
+  text-align: center;
+  margin: 15px 0;
+}

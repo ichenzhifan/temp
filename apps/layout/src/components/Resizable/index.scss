@@ -1,0 +1,28 @@
+.resizable {
+  .handle {
+    position: absolute;
+    border: 1px solid #ccc;
+    width: 14px;
+    height: 14px;
+
+    &.top-left {
+      top: -8px;
+      left: -8px;
+    }
+
+    &.top-right {
+      top: -8px;
+      right: -8px;
+    }
+
+    &.bottom-left {
+      bottom: -8px;
+      left: -8px;
+    }
+
+    &.bottom-right {
+      bottom: -8px;
+      right: -8px;
+    }
+  }
+}

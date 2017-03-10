@@ -1,0 +1,21 @@
+@import '../../scss/variables';
+
+.Sidebar {
+  position: fixed;
+  width: $Sidebar-width;
+  border-right: 1px solid #ccc;
+  height: 100%;
+  padding-top: $Header-height;
+  background: white;
+}
+
+.SideBar__item {
+  margin: 10px 0 10px 40px;
+  &:first-child {
+    margin-top: 40px;
+  }
+}
+
+.SideBar__item--link {
+  cursor: pointer;
+}

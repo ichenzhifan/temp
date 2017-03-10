@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product-spec version="3.0">
+  <global>
+    <dpi>300</dpi>
+    <imageQualityBufferPercent>30</imageQualityBufferPercent>
+    <imagedimenstions>
+      <imagedimenstion viewWidth="96" viewHeight="96">96x96</imagedimenstion>
+      <imagedimenstion viewWidth="350" viewHeight="350">350x350</imagedimenstion>
+      <imagedimenstion viewWidth="700" viewHeight="700">700x700</imagedimenstion>
+      <imagedimenstion viewWidth="1000" viewHeight="1000">1000x1000</imagedimenstion>
+      <imagedimenstion viewWidth="1500" viewHeight="1500">1500x1500</imagedimenstion>
+    </imagedimenstions>
+    <options>
+      <!-- imagebox name -->
+      <optionGroup id="product">
+        <option id="IB">
+          <title>Image Box</title>
+        </option>
+      </optionGroup>
+      <!-- type -->
+      <optionGroup id="type">
+        <option id="IW" name="Image Wrapped"/>
+        <option id="BL" name="Black Leatherette" default="true"/>
+      </optionGroup>
+      <!-- size -->
+      <optionGroup id="size">
+        <option id="8X8" name="8X8" default="true"/>
+        <option id="8X11" name="8X11"/>
+        <option id="11X8" name="11X8"/>
+        <option id="10X10" name="10X10"/>
+        <option id="11X14" name="11X14"/>
+        <option id="14X11" name="14X11"/>
+        <option id="12X12" name="12X12"/>
+        <option id="12X16" name="12X16"/>
+        <option id="16X12" name="16X12"/>
+        <option id="14X14" name="14X14"/>
+      </optionGroup>
+      <!-- spine -->
+      <optionGroup id="spineThickness">
+        <option id="T" name="Thick"/>
+        <option id="L" name="Thin" default="true"/>
+      </optionGroup>
+      <!-- category -->
+      <!-- <optionGroup id="category">
+                <option id="OUT" name="outside"></option>
+                <option id="IN" name="inside"></option>
+            </optionGroup> -->
+    </options>
+  </global>
+  <configurableOptionMap>
+    <optionMap id="type" keyPattern="product">
+      <entry key="*" value="IW,BL"/>
+    </optionMap>
+
+    <optionMap id="size" keyPattern="product">
+      <entry key="*" value="8X8,8X11,11X8,10X10,11X14,14X11,12X12,12X16,16X12,14X14"/>
+    </optionMap>
+
+    <optionMap id="spineThickness" keyPattern="product">
+      <entry key="*" value="T,L"/>
+    </optionMap>
+
+    <!-- <optionMap id="numberOfMonth" keyPattern="product-size">
+        <entry key="DC-*" value="12"></entry>
+        <entry key="WC-11X8" value="12,18"></entry>
+        <entry key="WC-12X12" value="12"></entry>
+        <entry key="PC-*" value="none"></entry>
+        </optionMap> -->
+  </configurableOptionMap>
+  <parameters>
+    <!-- ??*30/2.54 -->
+    <parameter id="baseWidth" keyPattern="size">
+      <entry key="8X8,11X8" baseValue="242"/>
+      <entry key="10X10" baseValue="297"/>
+      <entry key="8X11,14X11" baseValue="322"/>
+      <entry key="12X12,16X12" baseValue="347"/>
+      <entry key="11X14,14X14" baseValue="402"/>
+      <entry key="12X16" baseValue="452"/>
+    </parameter>
+
+    <parameter id="baseHeight" keyPattern="size">
+      <entry key="8X8,8X11" baseValue="249"/>
+      <entry key="10X10" baseValue="304"/>
+      <entry key="11X8,11X14" baseValue="329"/>
+      <entry key="12X12,12X16" baseValue="354"/>
+      <entry key="14X11,14X14" baseValue="409"/>
+      <entry key="16X12" baseValue="459"/>
+    </parameter>
+
+    <parameter id="innerBaseWidth" keyPattern="size">
+      <entry key="8X8,11X8" baseValue="227"/>
+      <entry key="10X10" baseValue="282"/>
+      <entry key="8X11,14X11" baseValue="307"/>
+      <entry key="12X12,16X12" baseValue="332"/>
+      <entry key="11X14,14X14" baseValue="387"/>
+      <entry key="12X16" baseValue="437"/>
+    </parameter>
+
+    <parameter id="innerBaseHeight" keyPattern="size">
+      <entry key="8X8,8X11" baseValue="227"/>
+      <entry key="10X10" baseValue="282"/>
+      <entry key="11X8,11X14" baseValue="307"/>
+      <entry key="12X12,12X16" baseValue="332"/>
+      <entry key="14X11,14X14" baseValue="387"/>
+      <entry key="16X12" baseValue="437"/>
+    </parameter>
+
+    <parameter id="wrapSize" keyPattern="size">
+      <entry key="8X8,11X8,10X10,8X11,14X11,12X12,16X12,11X14,14X14,12X16" baseValue="28"/>
+    </parameter>
+
+    <parameter id="innerWrapSize" keyPattern="size">
+      <entry key="8X8,11X8,10X10,8X11,14X11,12X12,16X12,11X14,14X14,12X16" baseValue="15"/>
+    </parameter>
+
+    <parameter id="bleedSize" keyPattern="size">
+      <entry key="8X8,11X8,10X10,8X11,14X11,12X12,16X12,11X14,14X14,12X16" baseValue="3"/>
+    </parameter>
+
+    <parameter id="spineSize" keyPattern="spineThickness">
+      <entry key="T" baseValue="70"/>
+      <entry key="L" baseValue="49"/>
+    </parameter>
+  </parameters>
+  <variables>
+    <!-- <variable id="cameoSupport" keyPattern="product-size" >
+            <entry key="IB-8X8-OUT" value="true" />
+        </variable> -->
+  </variables>
+</product-spec>

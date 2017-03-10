@@ -1,0 +1,34 @@
+.book-cover {
+  position: relative;
+  .cover-effect {
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    user-select: none;
+    background-color: #fff;
+
+    .effect-img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1000;
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+  .cover-sheet {
+    position: absolute;
+    // overflow: hidden;
+
+    .backgorund-element {
+      // background: transparent;
+    }
+    .cover-sheet-with-bleed {
+      position: absolute;
+    }
+    .book-page.enabled {
+      background-color: #f6f6f6;
+    }
+  }
+}

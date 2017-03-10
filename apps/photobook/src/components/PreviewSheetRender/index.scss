@@ -1,0 +1,25 @@
+// .preview-modal {
+//   &.content {
+//     padding-top: 20px;
+//     width: 100%;
+//     height: 100%;
+//   }
+//   .book-cover {
+//     .disable-handler {
+//       z-index: 1050;
+//     }
+//   }
+//   .x-pagination {
+//     margin: 0 auto;
+//   }
+// }
+.preview-sheet-render {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+
+  .pagination-wrap{
+    background: #fff;
+  }
+}

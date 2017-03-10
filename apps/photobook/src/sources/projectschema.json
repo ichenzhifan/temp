@@ -1,0 +1,73 @@
+{
+  "project": {
+    "version": "3.7",
+    "clientId": "web-h5",
+    "createAuthor": "web-h5|1.1|1",
+    "guid": "1539074",
+    "userId": "489651",
+    "artisan": "lei",
+    "sku": "FM_CC_8x8",
+    "createdDate": "2016-11-14 23:18:46",
+    "updatedDate": "2016-11-14 23:18:46",
+    "summary": {
+      "pageCount": 16,
+      "pageAdded": 0,
+      "pageBase": 16,
+      "useStamp": false,
+      "freeLogo": true,
+      "useLEStamp": false,
+      "useGilding": false,
+      "useTextPrinting": false,
+      "editorSetting": {
+        "autoLayout": true,
+        "borderFrame": true,
+        "border": {
+          "color": "#000000",
+          "size": 1,
+          "opacity": 100
+        },
+        "background": {
+          "color": "#000000"
+        },
+        "font": {
+          "fontSize": 96,
+          "color": "#000000",
+          "fontFamilyId": "font_arial",
+          "fontId": "font_arial_narrow"
+        }
+      }
+    },
+    "spec": {
+      "client": "h5",
+      "product": "FM",
+      "cover": "GL",
+      "cameoShape": "Rect",
+      "leatherColor": "rusticGreen",
+      "gilding": "none",
+      "size": "12X16",
+      "cameo": "M",
+      "paperThickness": "Thick",
+      "paper": "EP",
+      "frontPaintedText": "Front",
+      "backPaintedText": "Back",
+      "spinePaintedText": "Spine"
+    },
+    "cover": {
+      "id": "8A812E41-B92E-865A-B5E5-66DA1900CC7F",
+      "width": 9450,
+      "height": 3450,
+      "bleed": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "bgColor": "#FFFFFF",
+      "bgImageUrl": "",
+      "containers": []
+    },
+    "pages": [],
+    "images": [],
+    "decorations": []
+  }
+}

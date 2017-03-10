@@ -1,0 +1,27 @@
+@import "../../../../common/styles/fonts";
+@import "../../../../common/styles/base";
+@import "../../../../common/styles/common";
+
+.app {
+  clear: both;
+  overflow: hidden;
+
+  @include font-light();
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .side-bar {
+    position: absolute;
+    top: 94px;
+    bottom: 0;
+  }
+
+  .work-space {
+    margin-top: 82px;
+  }
+}

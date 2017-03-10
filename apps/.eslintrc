@@ -1,0 +1,22 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "rules": {
+    "react/jsx-quotes": 0,
+    "jsx-quotes": [2, "prefer-double"],
+    "react/require-extension": 0,
+    "comma-dangle": 0,
+    "arrow-body-style": 0,
+    "global-require": 0,
+    "react/jsx-filename-extension": [1, {
+      "extensions": [".js", ".jsx"]
+    }],
+    "import/no-extraneous-dependencies": 0,
+    "new-cap": [2, {
+      "capIsNewExceptionPattern": "^Immutable\\.."
+    }]
+  }
+}

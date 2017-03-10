@@ -1,0 +1,31 @@
+.edit-page {
+  &.hide {
+    display: none;
+  }
+  ul.action-bar {
+    position: relative;
+    z-index: 1050;
+    margin: 20px auto 10px;
+  }
+  ul.spreads-list {
+    margin: 0 auto;
+  }
+
+  .x-loading{
+    z-index: 1000;
+  }
+
+  .btns-list {
+    .hide {
+      display: none;
+    }
+    position: relative;
+    .cameo-painted-btns {
+      margin: 0 auto;
+    }
+    .x-pagination {
+      margin-left: 50%;
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+}

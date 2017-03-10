@@ -1,0 +1,65 @@
+@import "../../../../common/styles/fonts";
+@import "../../../../common/styles/common";
+.page-number {
+  @include clearfix;
+  margin: 0 auto 5px;
+
+  .full-page-number{
+
+    .active:hover{
+      cursor: move;
+      @include font-medium();
+      color: #3a3a3a;
+    }
+
+    .page-item{
+      width: auto;
+    }
+  }
+
+  .page-item {
+    @include font-normal();
+    color: #7b7b7b;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    width: 50%;
+    box-sizing: border-box;
+
+    &.disable,
+    &.disable:hover{
+      @include font-normal();
+      color: #7b7b7b;
+      cursor: not-allowed;
+      border-color: transparent;
+    }
+
+    &:hover {
+      @include font-medium();
+      color: #3a3a3a;
+    }
+    &.active {
+      @include font-light();
+      color: #3a3a3a;
+    }
+    &.left-item {
+      float: left;
+      text-align: left;
+    }
+    &.right-item {
+      float: right;
+      text-align: right;
+    }
+
+    &.left-item:hover,
+    &.right-item:hover{
+      cursor: move;
+
+      @include font-medium();
+      color: #3a3a3a;
+    }
+
+    &.active {
+      border-color: #3a3a3a;
+    }
+  }
+}

@@ -1,0 +1,192 @@
+@import "../../../../common/styles/fonts";
+@import "../../../../common/styles/common";
+.photo-action-bar {
+  @include font-light();
+  @include reset-list();
+  box-sizing: border-box;
+  background-color: #393939;
+  border-radius: 4px;
+  line-height: 26px;
+  width: 300px;
+  height: 26px;
+  display: block;
+  margin: 0 auto;
+  z-index: 40000!important;
+
+  &>.icon-item{
+    &:after {
+      position: absolute;
+      display: block;
+      right: 0 ;
+      top: 3px;
+      width: 1px;
+      height: 20px;
+      background: #d6d6d6;
+      content: "";
+    }
+    &:last-child {
+      border-right: none;
+      &:after {
+        display: none;
+      }
+    }
+  }
+  .icon-item {
+    width: 50px;
+    height: 26px;
+    float: left;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+
+    &.hide {
+      display: none;
+    }
+    &:hover {
+      .sub-menu {
+        display: block;
+      }
+      .sub-panel {
+        display: block;
+      }
+    }
+    a {
+      height: 26px;
+      cursor: pointer;
+      display: block;
+      background-size: contain !important;
+    }
+    input[type="checkbox"] {
+      display: none;
+      &:disabled+a {
+        cursor: not-allowed;
+      }
+    }
+    .sub-menu {
+      display: none;
+      width: 38px;
+      height: 38px;
+      position: absolute;
+      top: 102%;
+      left: 5px;
+      li {
+        float: none;
+        width: 40px;
+        height: 26px;
+        background: #393939;
+        border-right: none;
+        &:last-child {
+          border-right: none;
+        }
+        &:hover {
+          background: #000;
+        }
+      }
+      &.text {
+        left: 0;
+        li {
+          width: 115px;
+          text-align: left;
+          padding-left: 8px;
+          a {
+            color: #fff;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  // upload
+  .item-upload a {
+    background: url("./icons/upload.png") center center no-repeat;
+  }
+  // crop
+  .item-crop a {
+    background: url("./icons/crop.png") center center no-repeat;
+  }
+  // rotate
+  .item-rotate a {
+    background: url("./icons/rotate.png") center center no-repeat;
+  }
+  // flip
+  .item-flip a {
+    background: url("./icons/flip.png") center center no-repeat;
+  }
+  // expand
+  .item-expand>label>a {
+    background: url("./icons/expand.png") center center no-repeat;
+  }
+  // expand-to-fullpage
+  .item-expand-full a {
+    background: url("./icons/expand-to-full.png") center center no-repeat;
+  }
+  // expand-to-leftpage
+  .item-expand-left a {
+    background: url("./icons/expand-to-left.png") center center no-repeat;
+  }
+  // expand-to-rightpage
+  .item-expand-right a {
+    background: url("./icons/expand-to-right.png") center center no-repeat;
+  }
+  // layer
+  .item-layer>label>a {
+    background: url("./icons/layer.png") center center no-repeat;
+  }
+  // property
+  .item-property a {
+    background: url("./icons/properties.png") center center no-repeat;
+  }
+  //edit
+  .item-edit a {
+    background: url("./icons/edit.png") center center no-repeat;
+  }
+  // rect
+  .item-rect a {
+    background: url("./icons/rect.png") center center no-repeat;
+  }
+  .item-rect {
+    input[type="checkbox"].highlight+a {
+      background: url("./icons/rectHightLight.png") center center no-repeat;
+    }
+  }
+  // round
+  .item-round a {
+    background: url("./icons/round.png") center center no-repeat;
+  }
+  .item-round {
+    input[type="checkbox"].highlight+a {
+      background: url("./icons/roundHightlight.png") center center no-repeat;
+    }
+  }
+  // small
+  .item-small a {
+    background: url("./icons/S.png") center center no-repeat;
+  }
+  .item-small {
+    input[type="checkbox"].highlight+a {
+      background: url("./icons/Shighlight.png") center center no-repeat;
+    }
+  }
+  // medium
+  .item-medium a {
+    background: url("./icons/M.png") center center no-repeat;
+  }
+  .item-medium {
+    input[type="checkbox"].highlight+a {
+      background: url("./icons/Mhighlight.png") center center no-repeat;
+    }
+  }
+  // crop
+  .item-large a {
+    background: url("./icons/L.png") center center no-repeat;
+  }
+  .item-large {
+    input[type="checkbox"].highlight+a {
+      background: url("./icons/Lhightlight.png") center center no-repeat;
+    }
+  }
+  // clear
+  .item-clear a {
+    background: url("./icons/clear.png") center center no-repeat;
+  }
+}

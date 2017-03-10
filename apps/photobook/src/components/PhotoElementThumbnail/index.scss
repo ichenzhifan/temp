@@ -1,0 +1,15 @@
+.photo-element-thumbnail {
+  &.has-image{
+    background-color: transparent;
+  }
+
+  .layer-image {
+    border: none;
+    outline: none;
+  }
+
+  .x-loading.show{
+    position: absolute;
+    z-index: 9999;
+  }
+}

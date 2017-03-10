@@ -1,0 +1,25 @@
+@import '../../../../common/styles/fonts';
+@import '../../../../common/styles/common';
+.cameo-painted-btns {
+  height: 24px;
+  @include clearfix();
+  .cp-btn {
+    @include font-medium();
+    display: none;
+    font-size: 13px;
+    color: #fff;
+    border-radius: 4px;
+    line-height: 24px;
+    height: 24px;
+    width: 120px;
+    padding: 0;
+    text-align: center;
+    float: right;
+    margin-left: 16px;
+  }
+  .cameo-btn {}
+  .painted-text-btn {}
+  .show {
+    display: block;
+  }
+}

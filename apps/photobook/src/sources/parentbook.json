@@ -1,0 +1,134 @@
+{
+  "project": {
+    "version": "3.7",
+    "clientId": "web-h5",
+    "createAuthor": "web-h5|1.1|1",
+    "parentBookGuid": "1539073",
+    "guid": "1539074",
+    "userId": "489651",
+    "artisan": "lei",
+    "sku": "FM_CC_8x8",
+    "createdDate": "2016-11-14 23:18:46",
+    "updatedDate": "2016-11-14 23:18:46",
+    "summary": {
+      "isParentBook": true,
+      "useTextPrinting": false
+    },
+    "spec": {
+      "cameoShape": "Rect",
+      "leatherColor": "rusticGreen",
+      "gilding": "none",
+      "size": "12X16",
+      "cameo": "M",
+      "paperThickness": "Thick",
+      "paper": "EP"
+    },
+    "cover": {
+      "id": "8A812E41-B92E-865A-B5E5-66DA1900CC7F",
+      "width": 9450,
+      "height": 3450,
+      "bleed": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "bgColor": "#FFFFFF",
+      "bgImageUrl": "/template-resources/images/option/cover/preview/genuine-rustic-green.jpg",
+      "containers": [{
+        "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+        "width": 4300,
+        "height": 3600,
+        "type": "Front",
+        "bleed": {
+          "top": 75,
+          "bottom": 75,
+          "left": 75,
+          "right": 75
+        },
+        "elements": [{
+          "type": "CameoElement",
+          "x": 5677.5,
+          "y": 765,
+          "width": 2820,
+          "height": 1920,
+          "px": 0.6007936507936508,
+          "py": 0.2217391304347826,
+          "pw": 0.2984126984126984,
+          "ph": 0.5565217391304348,
+          "rot": 0,
+          "dep": 999,
+          "imageid": 68021680,
+          "imgRot": 0,
+          "imgFlip": false,
+          "cropLUX": 0.041015625,
+          "cropLUY": 0,
+          "cropRLX": 0.958984375,
+          "cropRLY": 1,
+          "style": [{
+            "opacity": 100,
+            "effectId": 4
+          }]
+        }],
+        "template": {},
+        "backend": {
+          "isPrint": true,
+          "slice": false
+        }
+      }, {
+        "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+        "width": 4300,
+        "height": 3600,
+        "type": "Back",
+        "bleed": {
+          "top": 75,
+          "bottom": 75,
+          "left": 75,
+          "right": 75
+        },
+        "elements": [],
+        "template": {},
+        "backend": {
+          "isPrint": false,
+          "slice": false
+        }
+      }, {
+        "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+        "width": 4300,
+        "height": 3600,
+        "type": "Spine",
+        "bleed": {
+          "top": 75,
+          "bottom": 75,
+          "left": 75,
+          "right": 75
+        },
+        "elements": [],
+        "template": {},
+        "backend": {
+          "isPrint": false,
+          "slice": false
+        }
+      }, {
+        "id": "E9FB592B-8590-EE1E-F4E0-66DA19006BBB",
+        "width": 4300,
+        "height": 3600,
+        "bleed": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0
+        },
+        "type": "Full",
+        "elements": [],
+        "template": {
+          "tplGuid": "544prod-1"
+        },
+        "backend": {
+          "isPrint": false,
+          "slice": false
+        }
+      }]
+    }
+  }
+}

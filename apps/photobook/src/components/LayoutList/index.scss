@@ -1,0 +1,50 @@
+.layout-list {
+  margin: 0 auto;
+  .button {
+    width: 100%;
+    height: 35px;
+    line-height: 33px;
+    margin: 15px 0 0;
+    &.hide {
+      display: none;
+    }
+  }
+  .list {
+    width: 100%;
+    position: absolute;
+    top: 85px;
+    bottom: 0;
+    overflow-y: auto!important;
+    text-align: center;
+
+    &.display-flex{
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .layout-row{
+      display: inline-block;
+    }
+  }
+  .no-layouts {
+    align-self: center;
+  }
+  .lazy-item {
+    margin-top: 15px;
+
+    overflow: hidden;
+    float: left;
+
+    &.selected .layout-img{
+      border-color: #3a3a3a;
+    }
+    &:nth-child(n) {
+      margin-left: 20px;
+    }
+
+    &:first-child{
+      margin-left: 0;
+    }
+  }
+}

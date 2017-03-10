@@ -1,0 +1,23 @@
+.photo-element {
+  &.has-image{
+    background-color: transparent;
+  }
+
+  .photoBackground{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-color: #f6f6f6;
+  }
+
+  .layer-image {
+    border: none;
+    outline: none;
+  }
+
+  .photo-img {
+    font-size: 0;
+    user-drag: none;
+    user-select: none;
+  }
+}

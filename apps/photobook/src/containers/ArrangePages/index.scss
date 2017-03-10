@@ -1,0 +1,51 @@
+@import '../../../../common/styles/fonts';
+.arrange-pages {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 94px;
+  bottom: 0;
+  z-index: 20;
+  background-color: #fff;
+  padding: 50px 30px 0 0;
+  box-sizing: border-box;
+  overflow: auto;
+  user-select: none;
+
+  .x-loading{
+    z-index: 1000;
+  }
+
+  .book-cover,
+  .book-sheet {
+    float: left;
+    margin: 0 0 30px 30px;
+  }
+
+  .cover-sheet{
+    overflow: hidden;
+  }
+
+  .element-container{
+    .element{
+      cursor:default;
+    }
+  }
+
+  .page-number {
+    position: absolute;
+    top: -13px;
+    z-index: 100;
+
+    .page-item {
+      @include font-light();
+      font-size: 12px;
+      color: #7b7b7b;
+      cursor: default;
+
+      &.active {
+        border-color: transparent;
+      }
+    }
+  }
+}

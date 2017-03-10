@@ -1,0 +1,13 @@
+.element-warntip{
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  display: none;
+  z-index: 1;
+  cursor: pointer;
+  user-drag: none;
+  user-select: none;
+  &.show{
+    display: block;
+  }
+}

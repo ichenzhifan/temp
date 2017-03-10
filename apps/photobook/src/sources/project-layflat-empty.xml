@@ -1,0 +1,100 @@
+<project schemaVersion="2.2" projectRevision="0" mergedDesignRevision="-2" clientId="web-flex"
+         createAuthor="web-flex|1.1|1">
+  <guid>182552</guid>
+  <userId>240703</userId>
+  <pageCount>20</pageCount>
+  <pageAdded>0</pageAdded>
+  <artisan>denver</artisan>
+  <title>wqqqq</title>
+  <description/>
+  <pageBase>20</pageBase>
+  <freeLogo>false</freeLogo>
+  <useStamp>false</useStamp>
+  <useCameo>false</useCameo>
+  <useLEStamp>false</useLEStamp>
+  <useGilding>false</useGilding>
+  <useTextPrinting>false</useTextPrinting>
+  <uiSetting>
+    <templateStrip>
+      <showTemplatePanel>true</showTemplatePanel>
+      <autoLayout>true</autoLayout>
+    </templateStrip>
+  </uiSetting>
+  <book>
+    <spec version="3.7">
+      <option id="paperThickness" value="ExtraThin"/>
+      <option id="client" value="flex"/>
+      <option id="cameoShape" value="none"/>
+      <option id="leatherColor" value="none"/>
+      <option id="cover" value="LFPAC"/>
+      <option id="size" value="6X8"/>
+      <option id="product" value="LF"/>
+      <option id="gilding" value="none"/>
+      <option id="paper" value="DP"/>
+      <option id="cameo" value="none"/>
+    </spec>
+    <bookSetting>
+      <border color="0x0" size="1" opacity="100"/>
+      <background color="0xFFFFFF"/>
+      <font fontSize="96" color="0x0" fontFamilyId="font_arial" fontId="font_arial_narrow"/>
+    </bookSetting>
+    <spreads>
+      <spread id="DF6B7A25-4A2F-0E2C-06DB-2D4469DCC0DB" type="coverPage" w="4956.1" h="1800.1" bleedTop="38"
+              bleedBottom="38" bleedLeft="38" bleedRight="38" pageNumber="0" bgColor="16777215" tplGuid="null">
+        <elements>
+          <element type="SpineElement" x="2400.05" y="38" width="156" height="1724.1" px="0.48426181876879"
+                   py="0.02110993833675907" pw="0.03147636246242005" ph="0.9577801233264819" rot="0" dep="999"
+                   spineWidth="156" spineExpandingOverBackcover="0" spineExpandingOverFrontcover="0"/>
+        </elements>
+      </spread>
+      <spread id="E9F56FFB-6C21-32A4-ED35-2D4469DC3F9A" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="1" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+      <spread id="F3FDC93E-8A44-1BC4-0613-2D4469DC3122" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="2" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+      <spread id="3258A489-0E7F-8517-EB96-2D4469DCD0D9" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="3" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+      <spread id="C7E707D2-0A27-43A8-604C-2D4469DC4FB1" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="4" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+      <spread id="5C798AFB-5E8B-F397-D663-2D4469DC45C6" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="5" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+      <spread id="3FFD8B28-5131-0BAF-5EB5-2D4469DC1795" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="6" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+      <spread id="71F65F40-8FDD-77C6-347A-2D4469DC2EE1" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="7" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+      <spread id="F4379AA5-DCA8-985B-5A88-2D4469DCE898" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="8" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+      <spread id="4D5DE07A-9335-0F91-9F6C-2D4469DC0C2B" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="9" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+      <spread id="41767170-ACA3-8E00-5E93-2D4469DC7EAF" type="innerPage" w="4834.1" h="1834.1" bleedTop="55"
+              bleedBottom="55" bleedLeft="55" bleedRight="55" pageNumber="10" bgColor="16777215" tplGuid="null">
+        <elements/>
+      </spread>
+    </spreads>
+  </book>
+  <mergeInfo>
+    <mergedMobileImages/>
+  </mergeInfo>
+  <images/>
+  <designImages/>
+  <decorations/>
+  <createdDate>2016-11-04 10:56:48</createdDate>
+  <updatedDate>2016-11-04 10:56:48</updatedDate>
+</project>

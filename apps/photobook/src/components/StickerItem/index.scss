@@ -1,0 +1,18 @@
+.sticker-item {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  max-width: 100px;
+  margin-top: 15px;
+  box-sizing: border-box;
+  text-align: center;
+  &.selected {
+    border: 3px solid #3a3a3a;
+  }
+  img {
+    max-height: 100%;
+    max-width: 100%;
+    cursor: move;
+  }
+}

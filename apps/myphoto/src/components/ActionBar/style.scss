@@ -1,0 +1,27 @@
+@import '../../scss/variables';
+
+.Header__menus {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: right;
+}
+
+.Header__menus--item {
+  height: $Header__menuItem-height;
+  display: inline-block;
+  text-align: center;
+  a {
+    color: white;
+    line-height: $Header__menuItem-height;
+    height: $Header__menuItem-height;
+    display: block;
+    font-family: $font-GothamSSmA;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 0 20px;
+    cursor: pointer;
+    &:hover {
+      color: #a0a0a0;
+    }
+  }
+}
