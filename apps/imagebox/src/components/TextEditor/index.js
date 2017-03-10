@@ -31,9 +31,7 @@ class TextEditor extends Component {
         styleOptions: null,
         isDoneDisabled: true,
         currentSpread: currentSpread,
-        colorOptions: this.getColorOptions(),
-        hideTipTimer: null,
-        lastAppearIllegalCharTime: null
+        colorOptions: this.getColorOptions()
       }
   }
 
@@ -241,59 +239,20 @@ class TextEditor extends Component {
   }
 
   onTextChanged(event) {
-    const rLegalKeys = /[^\u000d\u000a\u0020-\u007e]*/g;
-    const inputString = event.target.value;
-    const filteredInputString = inputString.replace(rLegalKeys, '');
-
-    const { hideTipInterval } = this.props;
-    const { hideTipTimer, lastAppearIllegalCharTime } = this.state;
-
-    // 当用户输入的内容全部为空白字符时
-    if (/^\s*$/.test(inputString)) {
-      this.setState({
-        text: inputString
-      });
-      this.setState({
-        isDoneDisabled: true
-      });
-      return;
-    }
-
-    if (filteredInputString !== inputString) {
-      if (!lastAppearIllegalCharTime ||
-      (Date.now() - lastAppearIllegalCharTime < hideTipInterval)) {
-        window.clearTimeout(hideTipTimer);
-        const newTimer = window.setTimeout(() => {
-          this.setState({
-            isShowIllegalCharTip: false
-          });
-        }, hideTipInterval);
-
-        this.setState({
-          hideTipTimer: newTimer
-        });
-      } else {
-        this.setState({
-          lastAppearIllegalCharTime: Date.now()
-        });
-      }
-
-
-      this.setState({
-        isShowIllegalCharTip: true
-      });
-    } else {
-      this.setState({
-        isShowIllegalCharTip: false
-      });
+    var value = event.target.value;
+    this.setState({
+      text: value
+    });
+    // 禁用 / 启用Done按钮
+    if(value.trim()){
       this.setState({
         isDoneDisabled: false
       });
+    }else{
+      this.setState({
+        isDoneDisabled: true
+      });
     }
-
-    this.setState({
-      text: filteredInputString
-    });
   }
 
   setTextValue(value){
@@ -503,9 +462,6 @@ class TextEditor extends Component {
 
   render() {
     const {opened,t,textOptions} = this.props;
-    const {
-      isShowIllegalCharTip
-    } = this.state;
     // Done按钮是否禁用
     const DoneButtonClass = classNames('',{
       disabled: this.state.isDoneDisabled
@@ -526,17 +482,6 @@ class TextEditor extends Component {
           </h3>
           <div className="editor">
             <XTextarea onChanged={this.onTextChanged.bind(this)} value={this.state.text}/>
-            <p className="illegal-char-tip">
-              {
-                isShowIllegalCharTip
-                ? (
-                  <span>
-                    Invalid characters removed
-                  </span>
-                )
-                : null
-              }
-            </p>
             <div className="row">
               <div className="col col-2">
                 <label>{ t('FONT_FAMILY') }</label>
@@ -583,10 +528,5 @@ class TextEditor extends Component {
     )
   }
 }
-
-TextEditor.defaultProps = {
-  requestInterval: 1000,
-  hideTipInterval: 2000
-};
 
 export default translate('TextEditor')(TextEditor);

@@ -21,14 +21,14 @@ class SheetsList extends Component {
 
   render() {
     const { actions, data } = this.props;
-    const {urls, size, ratios, position, materials, variables, template, pagination, paginationSpread, settings, project, parameters, snipping, isPreview, ignoreEmpty, isCameoActionBarShow} = data;
+    const {urls, size, ratios, position, materials, variables, template, pagination, paginationSpread, settings, project, parameters, snipping, isPreview, isCameoActionBarShow} = data;
     const { boundPaginationActions, boundProjectActions, boundImageEditModalActions, boundImagesActions, boundUploadImagesActions, boundTextEditModalActions, boundPropertyModalActions, boundTemplateActions, boundTrackerActions, hideCameoActionBar, doSnipping } = actions;
     const {sheetIndex, prevSheetIndex} = pagination;
     // bookcover数据.
     const sheetRenderActions = {boundTemplateActions, boundProjectActions, boundPaginationActions, boundImageEditModalActions, boundImagesActions, boundUploadImagesActions, boundTextEditModalActions, boundPropertyModalActions, boundTrackerActions, hideCameoActionBar, doSnipping };
 
     // booksheet数据.
-    const sheetRenderData = {urls, size, ratios, position, materials, variables, template, pagination, paginationSpread, settings, project, parameters, snipping, isPreview, ignoreEmpty, isCameoActionBarShow};
+    const sheetRenderData = {urls, size, ratios, position, materials, variables, template, pagination, paginationSpread, settings, project, parameters, snipping, isPreview, isCameoActionBarShow};
 
     const listStyle = {
       width: pagination.sheetIndex === 0 ? size.renderCoverSize.width + 'px' : size.renderInnerSize.width + 'px',

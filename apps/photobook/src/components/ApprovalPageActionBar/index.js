@@ -1,6 +1,5 @@
 import { translate } from 'react-translate';
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 
 import './index.scss';
 
@@ -16,12 +15,11 @@ class ApprovalPageActionBar extends Component {
     this.onReviewClick = this.onReviewClick.bind(this);
   }
 
-  onAutofixClick(pageId, elementId, errorItemIndex, sheetIndex) {
+  onAutofixClick(pageId, elementId, errorItemIndex) {
     const { actions } = this.props;
-    const { deleteElement, changeStateSheetIndex } = actions;
+    const { deleteElement } = actions;
     deleteElement(pageId, elementId);
     this.spliceOperatedItem(errorItemIndex);
-    this.onReviewClick(sheetIndex);
   }
 
   onIgnoreClick(errorItemIndex) {
@@ -41,17 +39,6 @@ class ApprovalPageActionBar extends Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { data } = this.props;
-    const { sheetIndex } = data;
-    const ref = this.refs[`error-item-${sheetIndex}`];
-
-    // 确保选中的error项始终都在可视区内.
-    if(ref){
-      ReactDOM.findDOMNode(ref).scrollIntoView(false);
-    }
-  }
-
   render() {
     const { data, t } = this.props;
     const { sheetIndex } = data;
@@ -69,13 +56,13 @@ class ApprovalPageActionBar extends Component {
             {
               this.state.errorItems.map((item, index) => {
                 return (
-                  <li ref={`error-item-${item.get('sheetIndex')}`}
-                    className={item.get('sheetIndex') === sheetIndex ? 'selectedPage item-line' : 'item-line'}
+                  <li
+                    className={item.get('sheetIndex') == sheetIndex ? 'selectedPage' : ''}
                     key={index}
                   >
                     <ul className="approval-actionbar-item fix">
                       <li>{item.get('pageNumber')}</li>
-                      <li title={item.get('errorMessage')}>{item.get('errorMessage')}</li>
+                      <li>{item.get('errorMessage')}</li>
                       <li>
                         {
                           item.get('errorType') === 0
@@ -94,7 +81,7 @@ class ApprovalPageActionBar extends Component {
                           ? (
                             <a
                               title={t('AUTOFIX_TITLE')}
-                              onClick={this.onAutofixClick.bind(this, item.get('pageId'), item.get('elementId'), index, item.get('sheetIndex'))}
+                              onClick={this.onAutofixClick.bind(this, item.get('pageId'), item.get('elementId'), index)}
                             >
                               {t('AUTOFIX')}
                             </a>

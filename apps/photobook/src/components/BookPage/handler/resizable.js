@@ -3,20 +3,22 @@ import { getCropOptions, getCropLRByOptions } from '../../../utils/crop';
 
 const clamp = (n, min, max) => Math.max(Math.min(n, max), min);
 
-export const onResizeStart = (that, data, e) => {
+export const onResizeStart = (that, e) => {
   that.startResizePosition = {
     x: e.pageX,
     y: e.pageY
   };
 };
 
-export const onResize = (that, data, dir, e, resizeData) => {
+export const onResize = (that, dir, e, resizeData) => {
   const { elementArray } = that.state;
-  const { element } = data;
+
+  const selectedElementArray = elementArray.filter(o => o.get('isSelected'));
+
+  const theElement = selectedElementArray.first();
   const theElementIndex = elementArray.findIndex((o) => {
-    return o.get('id') === element.get('id');
+    return o.get('id') === theElement.get('id');
   });
-  const theElement = elementArray.get(theElementIndex);
 
   const curX = e.pageX;
   const curY = e.pageY;
@@ -121,62 +123,56 @@ export const onResize = (that, data, dir, e, resizeData) => {
   });
 };
 
-export const onResizeStop = (that, data, e) => {
+export const onResizeStop = (that, e) => {
   const { actions } = that.props;
   const { boundProjectActions } = actions;
-  const { element } = data;
   const { ratio, page, images } = that.props.data;
 
-  const computed = element.get('computed');
-  const width = computed.get('width') / ratio.workspace;
-  const height = computed.get('height') / ratio.workspace;
-  const x = computed.get('left') / ratio.workspace;
-  const y = computed.get('top') / ratio.workspace;
+  const { elementArray } = that.state;
+  const selectedElementArray = elementArray.filter(o => o.get('isSelected'));
 
+  const updateObjectArray = [];
 
-  const updateObject = {
-    id: element.get('id'),
-    x,
-    y,
-    width,
-    height,
-    px: x / page.get('width'),
-    py: y / page.get('height'),
-    pw: width / page.get('width'),
-    ph: height / page.get('height')
-  };
+  if (selectedElementArray.size) {
+    selectedElementArray.forEach((element) => {
+      const computed = element.get('computed');
+      const width = computed.get('width') / ratio.workspace;
+      const height = computed.get('height') / ratio.workspace;
+      const x = computed.get('left') / ratio.workspace;
+      const y = computed.get('top') / ratio.workspace;
 
-  switch (element.get('type')) {
-    case elementTypes.text: {
-      const fontSizePercent = element.get('fontSize');
-      const fontSize = fontSizePercent * page.get('height');
+      const updateObject = {
+        id: element.get('id'),
+        x,
+        y,
+        width,
+        height,
+        px: x / page.get('width'),
+        py: y / page.get('height'),
+        pw: width / page.get('width'),
+        ph: height / page.get('height')
+      };
 
-      const originalHeight = element.get('height') * ratio.workspace;
-      const fontRatio = originalHeight / fontSize;
-      const fontSizeInPx = computed.get('height') / fontRatio;
-
-      updateObject.fontSize = fontSizeInPx / page.get('height');
-      break;
-    }
-    case elementTypes.photo: {
-      const imageDetail = images.get(element.get('encImgId'));
-      if (imageDetail) {
-        const options = getCropOptions(
-          imageDetail.get('width'), imageDetail.get('height'),
-          computed.get('width'), computed.get('height'), element.get('imgRot')
-        );
-        const { px, py, pw, ph } = options;
-        const lrOptions = getCropLRByOptions(px, py, pw, ph);
-        const { cropLUX, cropLUY, cropRLX, cropRLY } = lrOptions;
-        updateObject.cropLUX = cropLUX;
-        updateObject.cropLUY = cropLUY;
-        updateObject.cropRLX = cropRLX;
-        updateObject.cropRLY = cropRLY;
+      if (element.get('type') === elementTypes.photo) {
+        const imageDetail = images.get(element.get('encImgId'));
+        if (imageDetail) {
+          const options = getCropOptions(
+            imageDetail.get('width'), imageDetail.get('height'),
+            computed.get('width'), computed.get('height'), element.get('imgRot')
+          );
+          const { px, py, pw, ph } = options;
+          const lrOptions = getCropLRByOptions(px, py, pw, ph);
+          const { cropLUX, cropLUY, cropRLX, cropRLY } = lrOptions;
+          updateObject.cropLUX = cropLUX;
+          updateObject.cropLUY = cropLUY;
+          updateObject.cropRLX = cropRLX;
+          updateObject.cropRLY = cropRLY;
+        }
       }
-      break;
-    }
-    default:
+
+      updateObjectArray.push(updateObject);
+    });
   }
 
-  boundProjectActions.updateElement(updateObject);
+  boundProjectActions.updateElements(updateObjectArray);
 };

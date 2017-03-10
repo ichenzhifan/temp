@@ -1,5 +1,4 @@
-import React from 'react';
-import Immutable, { fromJS } from 'immutable';
+import Immutable, {fromJS} from 'immutable';
 import { merge, isEqual, template, get, isArray } from 'lodash';
 import Element from '../../../utils/entries/element';
 import { guid } from '../../../../../common/utils/math';
@@ -13,122 +12,89 @@ import { checkIsEnablePage } from '../../../utils/sizeCalculator';
 import { fixTemplateFontSize } from '../../../utils/fontSizeFixer';
 import { convertResultToJson, formatTemplateInstance, filterCoverTemplates } from '../../../utils/template';
 
-const filterTemplate = (that, templateList, pagination, setting) => {
-  let filters = [];
-  let newList = [];
-  const isCover = pagination.get('sheetIndex') == '0';
-  const coverType = setting.get('cover');
-
-  const isSupportImageInCover = checkIsSupportImageInCover(coverType);
-  const isSupportFullImageInCover = checkIsSupportFullImageInCover(coverType);
-  const isSupportHalfImageInCover = checkIsSupportHalfImageInCover(coverType);
-
-  const pageEnabled = checkIsEnablePage(pagination.get('total'), pagination.get('sheetIndex'), pagination.get('pageIndex'), setting.get('product'), setting.get('cover'), isCover);
-  if (pageEnabled) {
-    if (isCover) {
-      newList = filterCoverTemplates(templateList, coverType);
-    } else {
-      newList = templateList.filter(item => {
-        return item.sheetType.toLowerCase().indexOf('inner') >= 0;
-      });
-    }
-  } else {
-    newList = [];
-  }
-  newList = newList.filter(item => {
-    return !(item.imageNum === 0 && item.textFrameNum === 0);
-  });
-  return newList;
-};
-
-const getCurrentFilterTag = (that, list, page) => {
-  let currentFilterTag = that.state.currentFilterTag;
-
-  if (page && page.get('template')) {
-    const selectedTemplateId = page.getIn(['template', 'tplGuid']);
-
-    const currentTemplate = list.find((item) => {
-      return item.guid === selectedTemplateId;
-    });
-
-    const top20 = list.slice(0, 20);
-    if (currentTemplate) {
-      const index = top20.findIndex((item) => {
-        return item.guid === currentTemplate.guid;
-      });
-
-      if (['my', 'top'].indexOf(currentFilterTag) === -1 || index === -1) {
-        currentFilterTag = 'top';
-        if (currentTemplate.customerId) {
-          currentFilterTag = 'my';
-        } else if (currentTemplate.imageNum < 9) {
-          currentFilterTag = '' + currentTemplate.imageNum;
-        } else {
-          currentFilterTag = '9+';
-        }
-      }
-    }
-  }
-
-  return currentFilterTag;
-};
-
-const getFilterTemplateList = (that, list, pagination, setting) => {
-  let newList = filterTemplate(that, list, pagination, setting);
-
-  // 按照使用频次排序
-  newList = newList.sort((prev, next) => {
-    return next.spread - prev.spread;
-  });
-
-  return newList;
-};
+import React from 'react';
 
 // handlers write here
 export const receiveProps = (that, nextProps) => {
   const { pageSize } = that.state;
   const oldList = that.props.data.template.list;
   let newList = nextProps.data.template.list;
-
   const oldPage = that.props.data.paginationSpread.get('page');
   const newPage = nextProps.data.paginationSpread.get('page');
 
-  if (!Immutable.is(Immutable.List(oldList), Immutable.List(newList)) ||
-    !Immutable.is(Immutable.Map(oldPage), Immutable.Map(newPage))) {
+  if (!Immutable.is(Immutable.List(oldList), Immutable.List(newList)) || !Immutable.is(Immutable.Map(oldPage), Immutable.Map(newPage))) {
     const pagination = get(nextProps, 'data.pagination');
     const setting = get(nextProps, 'data.setting');
+    newList = filterTemplate(that, newList, pagination , setting);
+    if (newPage && newPage.get('template')) {
+      const selectedTemplateId = newPage.getIn(['template', 'tplGuid']);
 
-    // 获取过滤好的模板列表.
-    newList = getFilterTemplateList(that, newList, pagination, setting);
+      const currentTemplate = newList.find(item => {
+        return item.guid === selectedTemplateId;
+      });
 
-    // 计算layout选项卡中,选中的选项卡的名称.
-    const currentFilterTag = getCurrentFilterTag(that, newList, newPage);
+      // 按照使用频次排序
+      newList.sort((prev, next) => {
+        return next.spread - prev.spread;
+      });
 
+      const top20 = newList.slice(0, 20);
+      if (currentTemplate) {
+        const index = top20.findIndex(item => {
+          return item.guid === currentTemplate.guid;
+        });
+
+        let currentFilterTag = that.state.currentFilterTag;
+        if (['my', 'top'].indexOf(currentFilterTag) === -1 || index === -1) {
+          currentFilterTag = 'top';
+          if (currentTemplate.customerId) {
+            currentFilterTag = 'my';
+          } else if(currentTemplate.imageNum<9) {
+            currentFilterTag = "" + currentTemplate.imageNum;
+          } else {
+            currentFilterTag = '9+';
+          }
+        }
+
+        that.setState({
+          currentFilterTag
+        });
+      }
+    }
     that.setState({
-      currentFilterTag,
       templateList: newList
     });
   }
-};
+}
 
-export const didMount = (that) => {
-  let newList = get(that.props, 'data.template.list');
-  const pagination = get(that.props, 'data.pagination');
-  const setting = get(that.props, 'data.setting');
-  const paginationSpread = get(that.props, 'data.paginationSpread');
-  const newPage = paginationSpread.get('page');
+ const filterTemplate = (that, templateList, pagination, setting) => {
+    let filters = [];
+    let newList = [];
+    const isCover = pagination.get('sheetIndex')=='0';
+    const coverType = setting.get('cover');
 
-  // 获取过滤好的模板列表.
-  newList = getFilterTemplateList(that, newList, pagination, setting);
+    const isSupportImageInCover = checkIsSupportImageInCover(coverType);
+    const isSupportFullImageInCover = checkIsSupportFullImageInCover(coverType);
+    const isSupportHalfImageInCover = checkIsSupportHalfImageInCover(coverType);
 
-  // 计算layout选项卡中,选中的选项卡的名称.
-  const currentFilterTag = getCurrentFilterTag(that, newList, newPage);
+    const pageEnabled = checkIsEnablePage(pagination.get('total'), pagination.get('sheetIndex'), pagination.get('pageIndex'), setting.get('product'), setting.get('cover'), isCover);
+    if (pageEnabled) {
+      if (isCover) {
+        newList = filterCoverTemplates(templateList, coverType);
+      } else {
+        newList = templateList.filter(item => {
+          return item.sheetType.toLowerCase().indexOf('inner') >=0;
+        });
+      }
+    } else {
+      newList = [];
+    }
+    newList = newList.filter(item => {
+      return !(item.imageNum===0 && item.textFrameNum === 0);
+    });
+    return newList;
+  }
 
-  that.setState({
-    currentFilterTag,
-    templateList: newList
-  });
-};
 
 /**
  * 根据模板的guid和size, 下载指定模板详细信息.
@@ -156,7 +122,7 @@ export const applyTemplate = (that, guid) => {
       // 格式化template的原始数据, 使它可以在app中可以使用的格式
       const newTemplates = formatTemplateInstance(results, [guid], size);
 
-      if (newTemplates && newTemplates.length) {
+      if(newTemplates && newTemplates.length){
         doApplyTemplate(that, newTemplates[0][templateId]).then(() => {
           boundTemplateActions.changeApplyTemplateStatus(false);
         });
@@ -211,7 +177,7 @@ const updateStickersDep = (baseDep, elements) => {
   });
 
   if (baseDep && sortedElements && sortedElements.size) {
-    const firstElementDep = sortedElements.getIn(['0', 'dep']);
+    const firstElementDep = sortedElements.getIn(['0','dep']);
 
     if (firstElementDep > baseDep) {
       return sortedElements;
@@ -260,7 +226,7 @@ const doApplyTemplate = (that, template) => {
     return element.type === elementTypes.text;
   });
 
-  templateElements = templateElements.map(tmpl => {
+  templateElements = templateElements.map(tmpl=> {
     if (tmpl.type === elementTypes.text) {
       const fixedFontSize = fixTemplateFontSize(tmpl.pw * pageWidth, pageHeight);
       tmpl.fontSize = fixedFontSize;
@@ -287,12 +253,12 @@ const doApplyTemplate = (that, template) => {
       const newStickerElemnets = updateStickersDep(maxDep, stickersElements);
 
       // 更新sticker.
-      if (newStickerElemnets && newStickerElemnets.size) {
+      if(newStickerElemnets && newStickerElemnets.size){
         newElements = newElements.concat(newStickerElemnets);
       }
       // 应用模板, 更新store上的page和page上的elements.
-      if (newElements && newElements.size) {
-        return boundProjectActions.applyTemplate(page.get('id'), template.id, newElements);
+      if(newElements && newElements.size){
+       return boundProjectActions.applyTemplate(page.get('id'), template.id, newElements);
       }
 
       return Promise.resolve();
@@ -308,12 +274,12 @@ const doApplyTemplate = (that, template) => {
     const newStickerElemnets = updateStickersDep(maxDep, stickersElements);
 
     // 更新sticker.
-    if (newStickerElemnets && newStickerElemnets.size) {
+    if(newStickerElemnets && newStickerElemnets.size){
       newElements = newElements.concat(newStickerElemnets);
     }
 
     // 应用模板, 更新store上的page和page上的elements.
-    if (newElements && newElements.size) {
+    if(newElements && newElements.size){
       return boundProjectActions.applyTemplate(page.get('id'), template.id, newElements);
     }
 

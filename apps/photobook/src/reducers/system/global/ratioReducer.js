@@ -4,14 +4,8 @@ import { UPDATE_RATIO } from '../../../contants/actionTypes';
 const initialState = Map({
   coverWorkspace: 0,
   innerWorkspace: 0,
-
-  // preview
   previewCoverWorkspace: 0,
   previewInnerWorkspace: 0,
-
-  // order
-  orderCoverWorkspace: 0,
-  orderInnerWorkspace: 0,
 
   screen: 0,
 

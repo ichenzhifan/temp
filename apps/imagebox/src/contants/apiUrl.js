@@ -63,12 +63,3 @@ export const GET_MAIN_PROJECT_IMAGE = '<%=baseUrl%>clientH5/project/imageInfo?pr
 
 // 将imageIds转换成encImageIds
 export const GET_ENCODE_IMAGE_IDS = '<%=baseUrl%>userid/getEncImgIds?imageIds=<%=imageIds%>';
-
-// 获取项目订单状态地址
-export const GET_PROJECT_ORDERED_STATE = '<%=baseUrl%>userid/<%=userId%>/getProjectOrderedState/<%=projectId%>?webClientId=<%=webClientId%>&autoRandomNum=<%=autoRandomNum%>';
-
-// 获取项目订单详情地址
-export const GET_PROJECT_ORDERED_INFO = '<%=baseUrl%>clientH5/projectInfo/<%=projectId%>?<%=timestamp%>';
-
-// 更新打回订单状态
-export const UPDATE_CHECK_STATUS = '<%=baseUrl%>userid/<%=userId%>/submitCheckFailProject/<%=projectId%>?isParentBook=false&redirectParentBook=false';

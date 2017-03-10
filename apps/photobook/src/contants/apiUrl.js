@@ -47,7 +47,7 @@ export const IMAGES_CROPPER_PARAMS = '?encImgId=<%=encImgId%>&px=<%=px%>&py=<%=p
 
 // 图片滤镜接口
 export const IMAGES_API = '<%=baseUrl%>imgservice/op/crop';
-export const IMAGES_FILTER_PARAMS = '?encImgId=<%=encImgId%>&px=<%=px%>&py=<%=py%>&pw=<%=pw%>&ph=<%=ph%>&width=<%=width%>&height=<%=height%>&rotation=<%=rotation%>&effectId=<%=effectId%>&opacity=<%=opacity%>&flop=<%=imgFlip%>&shape=<%=shape%>'
+export const IMAGES_FILTER_PARAMS = '?encImgId=<%=encImgId%>&px=<%=px%>&py=<%=py%>&pw=<%=pw%>&ph=<%=ph%>&width=<%=width%>&height=<%=height%>&rotation=<%=rotation%>&effectId=<%=effectId%>&opacity=<%=opacity%>&flop=<%=imgFlip%>&shape=<%=shape%>';
 
 // 获取接口的base url.
 export const GET_ENV = '<%=baseUrl%>userid/getEnv';
@@ -71,25 +71,25 @@ export const GET_PRODUCT_PRICE = '<%=baseUrl%>clientH5/product/book/price?produc
 export const IMAGE_SRC = 'upload/UploadServer/PicRender';
 
 // 获取文字图片地址
-export const TEXT_SRC = '/api/product/text/textImage?text=<%=text%>&font=<%=fontFamily%>&fontSize=<%=fontSize%>&color=<%=fontColor%>&align=<%=textAlign%>&ratio=<%=ratio%>';
+export const TEXT_SRC = '/api/product/text/textImage?&ratio=1&&textAutoWrap=%7B%22autoWrapType%22%3A%22noWrap%22%2C%22autowrapPosition%22%3A%5B%5D%7D&text=<%=text%>&font=<%=fontFamily%>&fontSize=<%=fontSize%>&color=<%=fontColor%>&align=<%=textAlign%>&verticalTextAlign=<%=verticalTextAlign%>&width=<%=width%>&height=<%=height%>&originalWidth=<%=originalWidth%>&originalHeight=<%=originalHeight%>&originalFontSize=<%=originalFontSize%>';
 
-//获取模板地址
-export const GET_TEMPLATE_LIST = '<%=baseUrl%>template/global/list?designSize=<%=designSize%>&imageNum=0&autoRandomNum=<%=autoRandomNum%>&customerId=<%=customerId%>&webClientId=1&productType=0'
+// 获取模板地址
+export const GET_TEMPLATE_LIST = '<%=baseUrl%>template/global/list?designSize=<%=designSize%>&imageNum=0&autoRandomNum=<%=autoRandomNum%>&customerId=<%=customerId%>&webClientId=1&productType=0';
 
-//获取模板详情
+// 获取模板详情
 // export const APPLY_LAYOUT = '<%=baseUrl%>template/global/item/guid/<%=guid%>/size/<%=size%>/viewData';
 export const APPLY_LAYOUT = '<%=baseUrl%>/template/global/item/guid/viewData';
 
-//模板图片地址
+// 模板图片地址
 export const TEMPLATE_SRC = '<%=templateThumbnailPrefx%><%=size%>/<%=guid%>.jpg?size=<%=size%>';
 
-//获取装饰地址
+// 获取装饰地址
 export const GET_STICKER_LIST = '<%=productBaseURL%>product/decoration/assetList?webClientId=1&&autoRandomNum=<%=autoRandomNum%>&type=sticker&productType=PB';
 
-//装饰图片地址
+// 装饰图片地址
 export const STICKER_SRC = '<%=stickerThumbnailPrefix%><%=guid%>.png';
 
-//Download Book Spec的地址
+// Download Book Spec的地址
 export const DOWNLOAD_BOOKSPEC_URL = '<%=baseUrl%>userid/download?photoBookName=<%=bookName%>&cover=<%=cover%>&size=<%=size%>&client=h5';
 // book FAQ 地址
 export const FAQ_ADDRESS = 'http://zno.instaknowledgebase.com/category?id=29';
@@ -111,4 +111,4 @@ export const UPLOAD_COVER_IMAGE = '<%=uploadBaseUrl%>upload/servlet/UploadCoverI
 export const GET_SHARE_URLS = '<%=baseUrl%>clientH5/getShareUrls?initGuid=<%=projectid%>&product=<%=projectType%>';
 
 // 查看当前项是否在购物车中和下单情况的接口。
-export const CHECK_PROJECT_INFO = '<%=baseUrl%>clientH5/projectInfo/<%=projectid%>?<%=autoRandomNum%>'
+export const CHECK_PROJECT_INFO = '<%=baseUrl%>clientH5/projectInfo/<%=projectid%>?<%=autoRandomNum%>';

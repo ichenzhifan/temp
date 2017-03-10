@@ -58,9 +58,6 @@ export const INIT_IMAGE_USED_COUNT_MAP = 'INIT_IMAGE_USED_COUNT_MAP';
 
 export const UPDATE_IMAGE_USED_COUNT_MAP = 'UPDATE_IMAGE_USED_COUNT_MAP';
 
-// 获取project订单状态
-export const SET_PROJECT_ORDERED_STATE = 'SET_PROJECT_ORDERED_STATE';
-
 // --------------------- system actions ------------------------------
 
 

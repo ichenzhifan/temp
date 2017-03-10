@@ -124,7 +124,7 @@ class PreviewModal extends Component {
       const index = this.getCurrentSpreadIndex();
       this.setState({
         allSpreads: newAllSpreads,
-        currentSpread: newAllSpreads[index]
+        currentSpread: allSpreads[index]
       });
     }
   }

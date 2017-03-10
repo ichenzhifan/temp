@@ -1,5 +1,3 @@
-@import '../../../../common/styles/fonts.scss';
-
 $width: 530px;
 $height: 360px;
 $padding: 38px 40px 8px;
@@ -19,15 +17,6 @@ $padding: 38px 40px 8px;
   }
   .editor{
     margin-top: 18px;
-    .illegal-char-tip {
-      @include font-light();
-      font-size: 12px;
-      font-style: italic;
-      color: #DE3418;
-      text-align: right;
-      margin: 0;
-      height: 16px;
-    }
     .disabled{
       opacity: 0.4;
       pointer-events: none;

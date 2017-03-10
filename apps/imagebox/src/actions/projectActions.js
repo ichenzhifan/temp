@@ -14,10 +14,7 @@ import {
   SAVE_PROJECT,
   NEW_PROJECT,
   GET_MAIN_PROJECT_IMAGE,
-  GET_ENCODE_IMAGE_IDS,
-  GET_PROJECT_ORDERED_STATE,
-  GET_PROJECT_ORDERED_INFO,
-  UPDATE_CHECK_STATUS
+  GET_ENCODE_IMAGE_IDS
 } from '../contants/apiUrl';
 import {
   CHANGE_PROJECT_SETTING,
@@ -30,8 +27,7 @@ import {
   DELETE_ELEMENT,
   DELETE_PROJECT_IMAGE,
   PROJECT_LOAD_COMPLETED,
-  AUTO_ADD_PHOTO_TO_CANVAS,
-  SET_PROJECT_ORDERED_STATE
+  AUTO_ADD_PHOTO_TO_CANVAS
 } from '../contants/actionTypes';
 import { DONE } from '../contants/uploadStatus';
 import { IMAGE_SRC } from '../contants/apiUrl';
@@ -109,68 +105,6 @@ export function getPreviewProjectData(projectId) {
       handleProjectData(res, dispatch);
     });
   };
-}
-
-export function getProjectOrderedState(userId, projectId) {
-  return async (dispatch, getState) => {
-    const state = getState();
-    const baseUrl = get(state, 'system.env.urls.baseUrl');
-    const webClientId = 1;
-    const autoRandomNum = 1;
-    const timestamp = Date.now();
-    let {resultData: orderedState} = await dispatch({
-      [CALL_API]: {
-        apiPattern: {
-          name: GET_PROJECT_ORDERED_STATE,
-          params: { baseUrl, userId, projectId, webClientId, autoRandomNum }
-        }
-      }
-    });
-
-    orderedState = {
-      checkFailed: orderedState.checkFailed === 'true' ? true : false,
-      ordered: orderedState.ordered === 'true' ? true : false,
-    }
-
-    let orderInfo = await dispatch({
-      [CALL_API]: {
-        apiPattern: {
-          name: GET_PROJECT_ORDERED_INFO,
-          params: { baseUrl, projectId, timestamp }
-        }
-      }
-    });
-
-    orderInfo = {
-      isOrdered: orderInfo.order === 1 ? true : false,
-      isInCart: orderInfo.cart === 1 ? true : false,
-      isInMarket: orderInfo.market === 1 || orderInfo.market === 2 ? true : false,
-      isShowPostToSale: (typeof orderInfo.market) !== 'undefined'
-    }
-
-    dispatch({
-      type: SET_PROJECT_ORDERED_STATE,
-      orderState: Object.assign({}, orderedState, orderInfo)
-    });
-  };
-}
-
-export function updateCheckStatus(userId, projectId) {
-  return async (dispatch, getState) => {
-    const state = getState();
-    const baseUrl = get(state, 'system.env.urls.baseUrl');
-
-    const res = await dispatch({
-      [CALL_API]: {
-        apiPattern: {
-          name: UPDATE_CHECK_STATUS,
-          params: { baseUrl, userId, projectId }
-        }
-      }
-    });
-
-    return res.resultData.code == 200
-  }
 }
 
 export function projectLoadCompleted() {
@@ -325,10 +259,6 @@ export function loadMainProjectImages(mainProjectUid, encImgId) {
       } catch(e) {
         mainProjectImages = get(x2jsInstance.xml2js(mainProjectImages), 'images.image');
 
-        if(!(mainProjectImages instanceof Array)) {
-          mainProjectImages = [mainProjectImages]
-        }
-
         const imageIds = getImageIdsString(mainProjectImages);
 
         let encImgIds = await dispatch({
@@ -381,10 +311,6 @@ function getImageIdsString(mainProjectImages) {
 }
 
 function mappingEncImgIdToMainProjectImages(mainProjectImages, encImgIds) {
-  if(!(encImgIds instanceof Array)) {
-    encImgIds = [encImgIds]
-  }
-
   return mainProjectImages.map((mainProjectImage) => {
     const encImage = encImgIds.filter(encImgId => encImgId.id === mainProjectImage.id)[0];
     mainProjectImage.encImgId = encImage.encImgId;

@@ -1,12 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { translate } from 'react-translate';
-import { merge, get } from 'lodash';
+import { merge } from 'lodash';
 import Immutable, { List } from 'immutable';
 import classNames from 'classnames';
 import { transform } from '../../../../common/utils/transform';
 
-import { elementTypes, pageTypes, productTypes } from '../../contants/strings';
-import { checkIsSupportImageInCover, checkIsSupportFullImageInCover, checkIsSupportHalfImageInCover } from '../../utils/cover';
+import { elementTypes } from '../../contants/strings';
 
 import './index.scss';
 
@@ -21,6 +20,11 @@ import PhotoActionBar from '../PhotoActionBar';
 import Handler from '../Handler';
 import DisableHandler from '../DisableHandler';
 
+import Rotatable from '../Rotatable';
+import Resizable from '../Resizable';
+
+import Selection from '../Selection';
+
 // 导入处理函数
 import * as elementHandler from './handler/element';
 import * as pageHandler from './handler/page';
@@ -34,14 +38,8 @@ import * as autoLayoutHandler from './handler/autoLayout';
 
 
 function getOffset(el) {
-  let _x = 0;
-  let _y = 0;
-  while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
-    _x += el.offsetLeft - el.scrollLeft;
-    _y += el.offsetTop - el.scrollTop;
-    el = el.offsetParent;
-  }
-  return { top: _y, left: _x };
+  if (!el) return null;
+  return el.getBoundingClientRect();
 }
 
 class BookPage extends Component {
@@ -49,8 +47,8 @@ class BookPage extends Component {
     super(props);
 
     // element的相关方法.
-    this.computedElementOptions = (props, element, ratio) => {
-      return elementHandler.computedElementOptions(this, props, element, ratio);
+    this.computedElementOptions = (element, ratio) => {
+      return elementHandler.computedElementOptions(this, element, ratio);
     };
 
     // autolayout
@@ -104,6 +102,13 @@ class BookPage extends Component {
     };
 
     this.onMouseDown = (data, e) => {
+      const { isRatioChanged } = this.state;
+      if (isRatioChanged) {
+        this.updateOffset();
+        this.setState({
+          isRatioChanged: false
+        });
+      }
       return draggableHandler.onMouseDown(this, data, e);
     };
 
@@ -133,19 +138,23 @@ class BookPage extends Component {
 
     this.toggleModal = (type, status) => contextMenuEventsHandler.toggleModal(this, type, status);
 
-    this.showActionBar = (data) => {
+    this.showActionBar = () => {
       const { elementArray } = this.state;
-      const { element } = data;
-      const elementId = element.get('id');
-      const currentSelectElement = elementArray.find((item) => {
-        return item.get('id') === elementId;
-      });
-      const html = this.renderActionBar.bind(this)(currentSelectElement);
-      this.setState({
-        actionBarHtml: html
-      }, () => {
-        actionbarHandler.showActionBar(this, element);
-      });
+      const selectedElementArray = elementArray.filter(o => o.get('isSelected'));
+
+      if (selectedElementArray.size === 1) {
+        const element = selectedElementArray.first();
+        const elementId = element.get('id');
+        const currentSelectElement = elementArray.find((item) => {
+          return item.get('id') === elementId;
+        });
+        const html = this.renderActionBar.bind(this)(currentSelectElement);
+        this.setState({
+          actionBarHtml: html
+        }, () => {
+          actionbarHandler.showActionBar(this, element);
+        });
+      }
     };
 
     this.hideActionBar = () => {
@@ -210,8 +219,12 @@ class BookPage extends Component {
         },
         elementId: '',
         rotate: 0
-      }
+      },
+      isRatioChanged: false
     };
+
+    this.onSelect = this.onSelect.bind(this);
+    this.onSelectStop = this.onSelectStop.bind(this);
   }
 
   componentWillMount() {
@@ -225,22 +238,21 @@ class BookPage extends Component {
   componentWillReceiveProps(nextProps) {
     pageHandler.componentWillReceiveProps(this, nextProps);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('mouseup', this.onMouseUp);
+  }
+
   updateOffset() {
     this.setState({
       containerOffset: getOffset(this.bookPage)
     });
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('mouseup', this.onMouseUp);
-  }
-
   renderElement(element, index) {
     const { actions, data } = this.props;
+    const { containerOffset } = this.state;
     const {
-      // 渲染时忽略空的图片框.
-      ignoreEmpty = false,
-
       isPreview,
       summary,
       page,
@@ -254,7 +266,6 @@ class BookPage extends Component {
     } = data;
     const isCover = summary.get('isCover');
 
-    const { containerOffset } = this.state;
     switch (element.get('type')) {
       case elementTypes.cameo: {
         const cameoData = {
@@ -274,7 +285,7 @@ class BookPage extends Component {
       }
       case elementTypes.photo: {
         // 在预览模式下, 要过滤空的图片框.
-        if (ignoreEmpty && !element.get('encImgId')) {
+        if (isPreview && !element.get('encImgId')) {
           return null;
         }
 
@@ -378,17 +389,14 @@ class BookPage extends Component {
   }
 
   getPhotoActionBarStyle() {
-    const { actionBarData, elementArray } = this.state;
+    const { actionBarData, elementArray, containerOffset } = this.state;
     const { data } = this.props;
     const { page, ratio } = data;
     const pageWidth = page.get('width') * ratio.workspace;
     const pageHeight = page.get('height') * ratio.workspace;
     const bleedTop = page.getIn(['bleed', 'top']) * ratio.workspace;
     const bleedBottom = page.get('bleed', 'bottom') * ratio.workspace;
-    const elementDom = document.querySelector(`[data-guid="${actionBarData.elementId}"]`);
-    const containerPosition = elementDom
-      ? pageHandler.getOffset(elementDom.parentNode)
-      : { left: 0, top: 0 };
+    const containerPosition = containerOffset || { left: 0, top: 0 };
     // 最顶层元素
     const topElements = List(elementArray).maxBy((item) => {
       return item.get('dep');
@@ -532,18 +540,23 @@ class BookPage extends Component {
     return html;
   }
 
+  onSelect(selectionBox) {
+
+  }
+
+  onSelectStop(selectionBox) {
+
+  }
+
   render() {
     const { data, actions } = this.props;
     const { boundImagesActions } = actions;
-    const { page, ratio, summary, size } = data;
+    const { page, ratio, summary } = data;
 
     const offset = page.get('offset');
     const pageEnabled = page.get('enabled');
     const isPressBook = summary.get('isPressBook');
     const isCover = summary.get('isCover');
-    const isCrystal = summary.get('isCrystal');
-    const isMetal = summary.get('isMetal');
-    const pageType = page.get('type');
 
     const bookPageClassName = classNames('book-page', {
       enabled: pageEnabled,
@@ -561,16 +574,53 @@ class BookPage extends Component {
 
     const bookPageStyle = {
       position: 'absolute',
-      top: `${offset.get('top') * ratio.workspace }px`,
-      left: `${left * ratio.workspace }px`,
-      width: `${Math.round(page.get('width') * ratio.workspace)  }px`,
-      height: `${Math.round(page.get('height') * ratio.workspace)  }px`,
+      top: `${offset.get('top') * ratio.workspace}px`,
+      left: `${left * ratio.workspace}px`,
+      width: `${Math.round(page.get('width') * ratio.workspace)}px`,
+      height: `${Math.round(page.get('height') * ratio.workspace)}px`,
       background: page.get('bgColor'),
       userSelect: 'none'
     };
 
-    // disable handler的数据.
-    const disableHandlerData = { style: merge({}, bookPageStyle) };
+    const { elementArray, containerOffset } = this.state;
+
+    const selectedElementArray = elementArray.filter(o => o.get('isSelected'));
+    const firstElement = selectedElementArray.first();
+
+    let elementControlsStyle = {};
+
+
+    let selectionProps = null;
+    let degree = 0;
+
+    if (containerOffset) {
+      if (firstElement) {
+        const computed = firstElement.get('computed');
+
+        degree = firstElement.get('rot');
+
+        elementControlsStyle = {
+          width: computed.get('width'),
+          height: computed.get('height'),
+          left: containerOffset.left + computed.get('left'),
+          top: containerOffset.top + computed.get('top'),
+          transform: `rotate(${degree}deg)`
+        };
+      }
+
+      selectionProps = {
+        parentNode: this.bookPage,
+        containerOffsetTop: containerOffset.top,
+        containerOffsetLeft: containerOffset.left,
+        containerOffsetWidth: containerOffset.width,
+        containerOffsetHeight: containerOffset.height,
+        actions: {
+          onSelect: this.onSelect,
+          onSelectStop: this.onSelectStop
+        }
+      };
+    }
+
 
     return (
       <div
@@ -594,6 +644,37 @@ class BookPage extends Component {
           ) : null
         }
 
+        <div
+          className="element-controls"
+          style={elementControlsStyle}
+          data-html2canvas-ignore="true"
+        >
+          <Rotatable
+            isShown={Boolean(selectedElementArray.size)}
+            rot={degree}
+            actions={{
+              onRotate: this.onRotate,
+              onRotateStart: this.onRotateStart,
+              onRotateStop: this.onRotateStop
+            }}
+          />
+          <Resizable
+            isShown={Boolean(selectedElementArray.size)}
+            rot={degree}
+            actions={{
+              onResizeStart: this.onResizeStart,
+              onResize: this.onResize,
+              onResizeStop: this.onResizeStop
+            }}
+          />
+        </div>
+
+
+        { /*
+          selectionProps
+          ? <Selection {...selectionProps} />
+          : null
+        */ }
       </div>
     );
   }

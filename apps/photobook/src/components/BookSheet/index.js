@@ -79,7 +79,6 @@ class BookSheet extends Component {
       index,
       thumbnail,
       snipping,
-      ignoreEmpty,
       isPreview,
       parameters
     } = data;
@@ -178,7 +177,6 @@ class BookSheet extends Component {
           index,
           images,
           settings,
-          ignoreEmpty,
           isPreview,
           parameters
         };

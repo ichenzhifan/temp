@@ -21,6 +21,8 @@ const MIN_FONT_SIZE = 4;
 const MAX_FONT_SIZE = 120;
 const MIN_PHOTO_HEIGHT = 180;
 const MIN_PHOTO_WIDTH = 180;
+const MIN_TEXT_HEIGHT = 140;
+const MIN_TEXT_WIDTH = 140;
 
 // 计算缩放比例
 export const getCurrentScale = (that, element) => {
@@ -62,8 +64,8 @@ export const getCurrentScale = (that, element) => {
  * @param  {object} element 原始数据
  * @param  {number} ratio 原始值与显示值的缩放比
  */
-export const computedElementOptions = (that, nexProps, element, workspaceRatio) => {
-  const { data, t } = nexProps || that.props;
+export const computedElementOptions = (that, element, workspaceRatio) => {
+  const { data, t } = that.props;
   const { urls, page, images, settings } = data;
   const ratio = workspaceRatio || data.ratio.workspace;
 
@@ -97,28 +99,28 @@ export const computedElementOptions = (that, nexProps, element, workspaceRatio) 
   switch (element.get('type')) {
     case elementTypes.text:
       {
-        const text = element.get('text') || t('DOUBLE_CLICK_TO_EDIT_TEXT');
+        const text = element.get('text');
         const fontSizePercent = element.get('fontSize');
-        const fontSize = fontSizePercent * page.get('height');
+        const originalFontSize = fontSizePercent * page.get('height');
+        const scale = 1 / ratio;
 
         obj.imgUrl = template(TEXT_SRC)({
-          fontBaseUrl: urls.productBaseURL,
           text: window.encodeURIComponent(text),
+          fontSize: originalFontSize / scale,
           fontColor: hexString2Number(element.get('fontColor')),
           fontFamily: window.encodeURIComponent(element.get('fontFamily')),
-          textAlign: window.encodeURIComponent(element.get('textAlign')),
-          fontSize,
-          ratio
+          width: obj.width,
+          height: obj.height,
+          originalWidth: element.get('width'),
+          originalHeight: element.get('height'),
+          originalFontSize,
+          fontBaseUrl: urls.productBaseURL,
+          textAlign: element.get('textAlign'),
+          verticalTextAlign: element.get('textVAlign')
         });
-        obj.keepRatio = true;
 
-        if (obj.height) {
-          const fontRatio = obj.height / fontSize;
-
-          obj.maxHeight = fontRatio * getPxByPt(MAX_FONT_SIZE);
-          obj.minHeight = fontRatio * getPxByPt(MIN_FONT_SIZE);
-        }
-
+        obj.minHeight = MIN_TEXT_HEIGHT * ratio;
+        obj.minWidth = MIN_TEXT_WIDTH * ratio;
         break;
       }
     case elementTypes.decoration:

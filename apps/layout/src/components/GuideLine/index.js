@@ -12,7 +12,7 @@ class GuideLine extends Component {
       isShown
     });
     return (
-      <div className={guideLineStyle} style={style} />
+      <div className={guideLineStyle} style={style}></div>
     );
   }
 }

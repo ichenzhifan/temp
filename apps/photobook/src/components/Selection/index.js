@@ -17,13 +17,16 @@ class Selection extends Component {
     this.onSelectStart = this.onSelectStart.bind(this);
     this.onSelectStop = this.onSelectStop.bind(this);
 
-    window.addEventListener('mousedown', this.onSelectStart);
+    const parentNode = this.props.parentNode || window;
+
+    parentNode.addEventListener('mousedown', this.onSelectStart);
     window.addEventListener('mousemove', this.onSelect);
     window.addEventListener('mouseup', this.onSelectStop);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mousedown', this.onSelectStart);
+    const parentNode = this.props.parentNode || window;
+    parentNode.removeEventListener('mousedown', this.onSelectStart);
     window.removeEventListener('mousemove', this.onSelect);
     window.removeEventListener('mouseup', this.onSelectStop);
   }
@@ -129,7 +132,8 @@ Selection.propTypes = {
   containerOffsetTop: PropTypes.number.isRequired,
   containerOffsetLeft: PropTypes.number.isRequired,
   containerOffsetWidth: PropTypes.number.isRequired,
-  containerOffsetHeight: PropTypes.number.isRequired
+  containerOffsetHeight: PropTypes.number.isRequired,
+  parentNode: PropTypes.instanceOf(Element)
 };
 
 export default Selection;

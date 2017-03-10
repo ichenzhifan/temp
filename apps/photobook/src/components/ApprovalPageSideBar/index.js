@@ -2,7 +2,6 @@ import { translate } from 'react-translate';
 import React, { Component, PropTypes } from 'react';
 import { get } from 'lodash';
 import { allOptionMap } from '../../reducers/project/projectReducer';
-import { productNames } from '../../contants/strings';
 
 import './index.scss';
 
@@ -35,10 +34,6 @@ class ApprovalPageSideBar extends Component {
     const size = this.getItemLabel(allOptionMap, 'size', setting.get('size'));
     const paper = this.getItemLabel(allOptionMap, 'paper', setting.get('paper'));
     const thickness = this.getItemLabel(allOptionMap, 'paperThickness', setting.get('paperThickness'));
-
-    const product = setting.get('product');
-    const productFullName = productNames[product];
-
     return (
       <div className="approval-sidebar-wrap">
         <div className="approval-sidebar-item">
@@ -53,7 +48,7 @@ class ApprovalPageSideBar extends Component {
         <div className="approval-sidebar-item">
           <h2>{`${t('PARAGRAPH2_TITLE')}:`}</h2>
           <ul>
-            <li>{`${t('PARAGRAPH2_TEXT1')}: ${productFullName}(${cover})`}</li>
+            <li>{`${t('PARAGRAPH2_TEXT1')}: ${cover}`}</li>
             <li>{`${t('PARAGRAPH2_TEXT2')}: ${size}`}</li>
             <li>{`${t('PARAGRAPH2_TEXT3')}: ${paper}`}</li>
             <li>{`${t('PARAGRAPH2_TEXT4')}: ${thickness}`}</li>

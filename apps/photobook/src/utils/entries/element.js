@@ -52,14 +52,7 @@ export default class Element {
 
       // 裁剪时, 裁剪的宽高相对于图片的比例
       cropRLX = 0,
-      cropRLY = 0,
-
-      // 元素边框.
-      border = {
-        color: '#000000',
-        size: 0,
-        opacity: 100
-      }
+      cropRLY = 0
     } = options;
 
 
@@ -110,8 +103,5 @@ export default class Element {
     // 裁剪时, 裁剪的宽高相对于图片的比例
     this.cropRLX = cropRLX;
     this.cropRLY = cropRLY;
-
-    // element的边框.
-    this.border = border;
   }
 }

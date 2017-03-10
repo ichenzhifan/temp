@@ -25,8 +25,7 @@ import {
   DELETE_ELEMENT,
   UPLOAD_COMPLETE,
   DELETE_PROJECT_IMAGE,
-  PROJECT_LOAD_COMPLETED,
-  SET_PROJECT_ORDERED_STATE
+  PROJECT_LOAD_COMPLETED
 } from '../contants/actionTypes';
 import {
   GET_PROJECT_DATA,
@@ -62,8 +61,7 @@ const initialState = {
   imageUsedCountMap: {},
   isProjectLoadCompleted: false,
   isProjectEdited: false,
-  createdDate: new Date(),
-  orderState: {}
+  createdDate: new Date()
 };
 
 const affectedDrawSettingKeys = ['size', 'type'];
@@ -475,12 +473,6 @@ const project = (state = initialState, action) => {
       return merge({}, state, {
         isProjectLoadCompleted: true,
         isProjectEdited: false
-      });
-    }
-    case SET_PROJECT_ORDERED_STATE: {
-      const { orderState } = action;
-      return merge({}, state, {
-        orderState
       });
     }
     default:

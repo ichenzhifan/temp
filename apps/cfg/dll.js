@@ -85,16 +85,6 @@ const vendorMap = {
     'redux-logger',
     'redux-thunk',
     'x2js',
-  ],
-  myphoto: [
-    'babel-polyfill',
-    'classnames',
-    'isomorphic-fetch',
-    'lodash',
-    'react',
-    'react-dom',
-    'mobx',
-    'mobx-react'
   ]
 };
 

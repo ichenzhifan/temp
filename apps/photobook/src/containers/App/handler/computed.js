@@ -86,34 +86,6 @@ export const recomputedPreviewRatios = (props) => {
  * 重新计算spread在当前页面上的缩放比.
  * @param that editPage组件的this指向.
  */
-export const recomputedOrderRatios = (props) => {
-  const { boundRatioActions, size } = props;
-
-  const orderCoverWorkspaceRatio = computedWorkSpaceRatio(size.coverSpreadSize, {
-    top: 70,
-    right: 380,
-    bottom: 250,
-    left: 0
-  }, percent.big);
-
-  const orderInnerWorkspaceRatio = computedWorkSpaceRatio(size.innerSpreadSize, {
-    top: 70,
-    right: 380,
-    bottom: 250,
-    left: 0
-  }, percent.big);
-
-  // 更新workspace和preview的ratio
-  boundRatioActions.updateRatio([
-    { type: ratioType.orderCoverWorkspace, ratio: orderCoverWorkspaceRatio },
-    { type: ratioType.orderInnerWorkspace, ratio: orderInnerWorkspaceRatio }
-  ]);
-};
-
-/**
- * 重新计算spread在当前页面上的缩放比.
- * @param that editPage组件的this指向.
- */
 export const recomputedScreenRatios = (props) => {
   const { boundRatioActions, size } = props;
 
@@ -175,7 +147,6 @@ export const resizingHandler = (that) => {
     // 重新计算ratio.
     recomputedWorkspaceRatio(that.props);
     recomputedPreviewRatios(that.props);
-    recomputedOrderRatios(that.props);
     recomputedRenderRatios(that.props);
   }, 500);
 };

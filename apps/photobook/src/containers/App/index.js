@@ -61,7 +61,6 @@ class App extends Component {
     // 计算ratio的方法.
     this.recomputedScreenRatios = props => computedHandler.recomputedScreenRatios(props);
     this.recomputedPreviewRatios = props => computedHandler.recomputedPreviewRatios(props);
-    this.recomputedOrderRatios = props => computedHandler.recomputedOrderRatios(props);
     this.recomputedWorkspaceRatio = props => computedHandler.recomputedWorkspaceRatio(props);
     this.recomputedRenderRatios = props => computedHandler.recomputedRenderRatios(props);
 
@@ -162,7 +161,6 @@ class App extends Component {
         (oldProductSize && oldProductSize !== newProductSize)) {
       this.recomputedScreenRatios(nextProps);
       this.recomputedPreviewRatios(nextProps);
-      this.recomputedOrderRatios(nextProps);
       this.recomputedWorkspaceRatio(nextProps);
     }
 
@@ -272,18 +270,13 @@ class App extends Component {
       parameters,
       snipping,
       allImages,
-      allSheets,
-      allElements,
 
       // preview
       previewRatios,
       previewSize,
       previewPosition,
-
-      // order page
-      orderRatios,
-      orderSize,
-      orderPosition,
+      allSheets,
+      allElements,
 
       // used count
       imageUsedCountMap,
@@ -362,12 +355,8 @@ class App extends Component {
       // 重新计算preview的coverWorkspace.
       previewRatios.coverWorkspace = previewSize.coverWorkspaceSize.width / previewSize.coverSpreadSize.width;
 
-      // 重新计算order page的coverWorkspace.
-      orderRatios.coverWorkspace = orderSize.coverWorkspaceSize.width / orderSize.coverSpreadSize.width;
-
       if (pagination.get('sheetIndex') === 0) {
         previewRatios.workspace = previewRatios.coverWorkspace;
-        orderRatios.workspace = orderRatios.coverWorkspace;
       }
     }
 
@@ -442,18 +431,13 @@ class App extends Component {
       settings,
       parameters,
       snipping,
-      allSheets,
-      allImages,
 
       // preview
       previewRatios,
       previewSize,
       previewPosition,
-
-      // order page
-      orderRatios,
-      orderSize,
-      orderPosition
+      allSheets,
+      allImages
     };
 
     const viewTabsActions = { boundTrackerActions };

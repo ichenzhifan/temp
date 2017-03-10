@@ -3,6 +3,7 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const VersionFile = require('webpack-version-file-plugin');
+const ExtractPlugin = require('extract-text-webpack-plugin');
 
 const commonConfig = require('./common');
 
@@ -28,6 +29,7 @@ module.exports = merge(commonConfig, {
       paths: true,
       caching: true
     }),
+    new ExtractPlugin('bundle.css'),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false }, sourceMap: false }),
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -44,6 +46,10 @@ module.exports = merge(commonConfig, {
   ],
   module: {
     loaders: [
+      {
+        test: /\.s?css$/,
+        loader: ExtractPlugin.extract('style', 'css!postcss!sass')
+      },
       {
         test: /\.jsx?$/,
         loaders: ['happypack/loader?id=babel'],

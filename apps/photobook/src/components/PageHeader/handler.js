@@ -5,7 +5,6 @@
 import React from 'react';
 import { template } from 'lodash';
 import { orderType, productTypes } from '../../contants/strings';
-import { errors } from '../../contants/errorMessage';
 import { FAQ_ADDRESS, ORDER_PATH } from '../../contants/apiUrl';
 import { reviewPhotoBook } from '../../utils/reviewPhotoBook';
 
@@ -116,7 +115,7 @@ export const onOrder = (that) => {
   boundTrackerActions.addTracker('ClickOrder');
 
   const isCoverBlank = reviewResult.cover.length ? true : false;
-  if (isCoverBlank && reviewResult['cover'][0].errorMessage === errors.blankCameo) {
+  if (isCoverBlank && reviewResult['cover'][0].errorMessage === 'blank cameo') {
     boundConfirmModalActions.showConfirm({
       confirmTitle: t('ORDER_ERROR_TITLE'),
       confirmMessage: t('ORDER_ERROR_EMPTYCAMEO_MESSAGE'),

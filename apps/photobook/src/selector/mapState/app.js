@@ -229,16 +229,6 @@ const getPaginationSpread = createSelector(getAllContainers, getAllPages, getAll
     return Map(obj);
   });
 
-const getAllSpreads = createSelector(getAllPages,
-  getCoverSpread,
-  getAllElements,
-  getAllDecorations,
-  getAllImages,
-  getAllSettings,
-  (allPages, coverSpread, allElements, allDecorations, allImages, settings) => {
-    return getRenderAllSpreads(allPages, coverSpread, allElements, allDecorations, allImages, settings);
-  });
-
 /**********preview**********/
 const getPreviewRatiosData = createSelector(getRatiosData, getPagination, (ratios, pagination) => {
   const sheetIndex = pagination.get('sheetIndex');
@@ -267,37 +257,23 @@ const getPreviewPosition = createSelector(getPreviewSize,
     return getRenderPosition(size, ratios);
   });
 
+/*
+ * 获取翻页后的spreads, 只返回3个spreads:
+ * - 如果当前页为第一页: 那么返回1,2,3页
+ * - 如果当前页为最后一页: 那么返回倒数3页.
+ * - 否则返回当前页, 前一页和后一页.
+ * - 如果spreads的总数小于3, 那么返回所有.
+ */
+const getAllSpreads = createSelector(getAllPages,
+  getCoverSpread,
+  getAllElements,
+  getAllDecorations,
+  getAllImages,
+  getAllSettings,
+  (allPages, coverSpread, allElements, allDecorations, allImages, settings) => {
+    return getRenderAllSpreads(allPages, coverSpread, allElements, allDecorations, allImages, settings);
+  });
 /**********end preview**********/
-
-
-/**********order page**********/
-const getOrderRatiosData = createSelector(getRatiosData, getPagination, (ratios, pagination) => {
-  const sheetIndex = pagination.get('sheetIndex');
-
-  return merge({}, ratios, cameoPaddingsRatio, {
-    workspace: sheetIndex === 0 ? ratios.orderCoverWorkspace : ratios.orderInnerWorkspace,
-    coverWorkspace: ratios.orderCoverWorkspace,
-    innerWorkspace: ratios.orderInnerWorkspace
-  });
-});
-
-const getOrderSize = createSelector(project,
-  getOrderRatiosData,
-  getSpineSize,
-  getSpainExpandingSize,
-  getAllParameters,
-  getAllMaterials,
-  (project, ratios, spineSize, spainExpanding, parameters, materials) => {
-    return getRenderSize(project, ratios, spineSize, spainExpanding, parameters, materials);
-  });
-
-// 计算渲染效果和sheet相对于workspace时, 白边需要调整的距离.
-const getOrderPosition = createSelector(getOrderSize,
-  getRatiosData,
-  (size, ratios) => {
-    return getRenderPosition(size, ratios);
-  });
-/**********end order page**********/
 
 // 包装 component ，注入 dispatch 和 state 到其默认的 connect(select)(App) 中；
 export const mapStateToProps = state => ({
@@ -344,15 +320,10 @@ export const mapStateToProps = state => ({
   ratio: getRatiosData(state),
   allElements: getAllElements(state),
   snipping: getSnipping(state),
-  allSheets: getAllSpreads(state),
 
   // preview
   previewRatios: getPreviewRatiosData(state),
   previewSize: getPreviewSize(state),
   previewPosition: getPreviewPosition(state),
-
-  // order
-  orderRatios: getOrderRatiosData(state),
-  orderSize: getOrderSize(state),
-  orderPosition: getOrderPosition(state)
+  allSheets: getAllSpreads(state)
 });

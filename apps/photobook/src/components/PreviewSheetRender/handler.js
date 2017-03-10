@@ -1,4 +1,4 @@
-import {get, merge } from 'lodash';
+import {get } from 'lodash';
 import Immutable from 'immutable';
 import { smallViewWidthInMyProjects } from '../../contants/strings';
 import { checkIsSetCoverAsInnerBg } from '../../utils/cover';
@@ -45,17 +45,9 @@ export const updatePaginationInState = (that, props, sheetIndex) => {
  * 预览时的翻页.
  */
 export const switchSheet = (that, param) => {
-  const { actions = {} } = that.props;
-  const { onSwitchSheet } = actions;
   const { current } = param;
-
   updatePaginationSpreadInState(that, that.props, current);
   updatePaginationInState(that, that.props, current);
-
-  const newPagination = merge({}, that.state.pagination, {
-    sheetIndex: current
-  });
-  onSwitchSheet && onSwitchSheet(newPagination);
 };
 
 export const doSnipping = (that) => {

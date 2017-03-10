@@ -351,10 +351,10 @@ class Spread extends Component {
 
     const customClass = classNames('spread', className);
 
-    // spread的样式: 在preview模式下spread的高度一定要比canvase高1px，不然会造成canvas的1px溢出
+    // spread的样式
     const styles = {
       width: `${width}px`,
-      height: `${!isPreview ? height : height + 1}px`
+      height: `${!isPreview ? height : Math.ceil(height)}px`
     };
 
     return (

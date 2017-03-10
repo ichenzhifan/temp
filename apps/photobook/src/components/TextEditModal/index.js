@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
+import classNames from 'classnames';
 
 import { template } from 'lodash';
 
@@ -12,12 +13,9 @@ import FontUrl from '../../components/FontUrl';
 
 import TextPreviewBox from '../TextPreviewBox';
 
-import { TEXT_SRC, GET_FONT_THUMBNAIL } from '../../contants/apiUrl';
-
-import { elementTypes } from '../../contants/strings';
-import { hexString2Number } from '../../../../common/utils/colorConverter';
 import { getPxByPt, getPtByPx } from '../../../../common/utils/math';
-import { getNewPosition } from '../../utils/elementPosition';
+import { hexString2Number } from '../../../../common/utils/colorConverter';
+import { TEXT_SRC, GET_FONT_THUMBNAIL } from '../../contants/apiUrl';
 
 
 import './index.scss';
@@ -32,20 +30,36 @@ class TextEditModal extends Component {
     const alignOptionList = [
       {
         value: 'left',
-        label: 'Left'
+        title: 'Align Text Left'
       },
       {
         value: 'center',
-        label: 'Center'
+        title: 'Center Text'
       },
       {
         value: 'right',
-        label: 'Right'
+        title: 'Align Text Right'
+      }
+    ];
+
+    const verticalAlignOptionList = [
+      {
+        value: 'top',
+        title: 'Vertical Align Text Top'
+      },
+      {
+        value: 'middle',
+        title: 'Middle Text'
+      },
+      {
+        value: 'bottom',
+        title: 'Vertical Align Text Bottom'
       }
     ];
 
     this.state = {
       alignOptionList,
+      verticalAlignOptionList,
       previewTextImageSrc: null,
       timer: null,
       lastRequestTime: null,
@@ -63,8 +77,6 @@ class TextEditModal extends Component {
     this.onSliderChange = this.onSliderChange.bind(this);
     this.onSizeInputChange = this.onSizeInputChange.bind(this);
     this.onSizeInputBlur = this.onSizeInputBlur.bind(this);
-
-    this.onAlignChange = this.onAlignChange.bind(this);
 
     this.onSubmit = this.onSubmit.bind(this);
 
@@ -90,6 +102,7 @@ class TextEditModal extends Component {
       this.state.fontName !== nextState.fontName ||
       this.state.fontWeight !== nextState.fontWeight ||
       this.state.align !== nextState.align ||
+      this.state.verticalAlign !== nextState.verticalAlign ||
       this.state.fontSize !== nextState.fontSize ||
       this.state.fontColor !== nextState.fontColor ||
       this.state.inputText !== nextState.inputText ||
@@ -133,6 +146,12 @@ class TextEditModal extends Component {
       this.updatePreviewTextSrc();
     }
 
+    const oldVerticalAlign = prevState.verticalAlign;
+    const newVerticalAlign = this.state.verticalAlign;
+    if (oldVerticalAlign !== newVerticalAlign) {
+      this.updatePreviewTextSrc();
+    }
+
     const oldIsShown = prevProps.isShown;
     const newIsShown = this.props.isShown;
     if (oldIsShown !== newIsShown && newIsShown) {
@@ -143,15 +162,27 @@ class TextEditModal extends Component {
   initData(element) {
     const { fontList, bookSetting, baseUrl, currentPage } = this.props;
     const fontSetting = bookSetting.get('font');
-    const avaiableFontList = fontList.filter(font => !font.deprecated);
 
-    const { alignOptionList } = this.state;
+    const fontOptionList = fontList.map((font) => {
+      return {
+        title: font.displayName,
+        label: font.displayName,
+        value: font.id,
+        fontThumbnailUrl: template(GET_FONT_THUMBNAIL)({
+          baseUrl,
+          fontName: font.name
+        })
+      };
+    });
+
+    const { alignOptionList, verticalAlignOptionList } = this.state;
 
     let fontFamilyId = fontSetting.get('fontFamilyId');
     let fontId = fontSetting.get('fontId');
     let fontSize = fontSetting.get('fontSize');
     let fontColor = fontSetting.get('color');
-    let align = fontSetting.get('align') || alignOptionList[0].value;
+    let align = alignOptionList[0].value;
+    let verticalAlign = verticalAlignOptionList[0].value;
     let inputText = '';
     let previewTextImageSrc = null;
 
@@ -172,10 +203,17 @@ class TextEditModal extends Component {
       );
       fontColor = element.get('fontColor');
       align = element.get('textAlign');
+      verticalAlign = element.get('textVAlign');
       inputText = element.get('text') || '';
 
       previewTextImageSrc = this.getPreviewTextImageSrc(
-        inputText, fontSize, fontColor, element.get('fontFamily'), align
+        inputText,
+        fontSize,
+        fontColor,
+        element.get('fontFamily'),
+        align,
+        verticalAlign,
+        element
       );
     }
 
@@ -183,24 +221,9 @@ class TextEditModal extends Component {
       return font.id === fontFamilyId;
     });
 
-    const theFontList = !selectedFont.deprecated ? avaiableFontList : fontList;
-    const fontOptionList = theFontList.map((font) => {
-      return {
-        disabled: font.deprecated,
-        title: font.displayName,
-        label: font.displayName,
-        value: font.id,
-        fontThumbnailUrl: template(GET_FONT_THUMBNAIL)({
-          baseUrl,
-          fontName: font.name
-        })
-      };
-    });
-
     const fontWeightOptionList = selectedFont.font.map((o) => {
       const displayName = o.displayName.replace(/\s*\d+/, '');
       return {
-        disabled: selectedFont.deprecated,
         title: displayName,
         label: displayName,
         value: o.id
@@ -217,6 +240,7 @@ class TextEditModal extends Component {
       fontSize,
       fontColor,
       align,
+      verticalAlign,
       inputText,
       fontOptionList,
       fontWeightOptionList
@@ -256,12 +280,6 @@ class TextEditModal extends Component {
     this.setState({
       fontSize,
       inputSize: fontSize
-    });
-  }
-
-  onAlignChange(selectedOption) {
-    this.setState({
-      align: selectedOption.value
     });
   }
 
@@ -365,15 +383,14 @@ class TextEditModal extends Component {
       fontSize,
       fontColor,
       align,
+      verticalAlign,
       inputText
     } = this.state;
 
     const {
-      createElement,
       updateElement,
       closeTextEditModal,
       currentPage,
-      elementArray,
       element
     } = this.props;
 
@@ -381,62 +398,50 @@ class TextEditModal extends Component {
 
     const text = inputText.replace(/\s+$/g, '');
 
-    if (element) {
-      updateElement({
-        fontSize: getPxByPt(fontSize) / currentPage.get('height'),
-        fontColor,
-        text,
-        id: element.get('id'),
-        textAlign: align,
-        fontWeight: fontObj.weight,
-        fontFamily: fontObj.fontFace
-      });
-    } else {
-      const maxDepElement = elementArray.maxBy((e) => {
-        return e.get('dep');
-      });
-
-      const newElementPosition = getNewPosition(elementArray, currentPage);
-
-      const newElement = {
-        fontSize: getPxByPt(fontSize) / currentPage.get('height'),
-        fontColor,
-        text,
-        type: elementTypes.text,
-        textAlign: align,
-        fontWeight: fontObj.weight,
-        fontFamily: fontObj.fontFace,
-        dep: maxDepElement ? maxDepElement.get('dep') + 1 : 0,
-        x: newElementPosition.x,
-        y: newElementPosition.y,
-        px: newElementPosition.x / currentPage.get('width'),
-        py: newElementPosition.y / currentPage.get('height'),
-        pw: 0,
-        ph: 0,
-        rot: 0,
-        width: 0,
-        height: 0
-      };
-
-      createElement(currentPage.get('id'), newElement);
-    }
+    updateElement({
+      fontSize: getPxByPt(fontSize) / currentPage.get('height'),
+      fontColor,
+      text,
+      id: element.get('id'),
+      textAlign: align,
+      textVAlign: verticalAlign,
+      fontWeight: fontObj.weight,
+      fontFamily: fontObj.fontFace
+    });
 
     closeTextEditModal();
   }
 
-  getPreviewTextImageSrc(text, fontSize, fontColor, fontFamily, textAlign) {
-    const { fontBaseUrl, ratio } = this.props;
+  getPreviewTextImageSrc(
+    text,
+    fontSize,
+    fontColor,
+    fontFamily,
+    textAlign,
+    verticalTextAlign,
+    element) {
+    const { fontBaseUrl } = this.props;
 
     if (!text && !text.trim().length) return null;
 
+    const computed = element.get('computed');
+
+    const originalFontSize = getPxByPt(fontSize);
+    const scale = element.get('width') / computed.get('width');
+
     return template(TEXT_SRC)({
       text: window.encodeURIComponent(text),
-      fontSize: getPxByPt(fontSize),
+      fontSize: originalFontSize / scale,
       fontColor: hexString2Number(fontColor),
       fontFamily: window.encodeURIComponent(fontFamily),
+      width: computed.get('width'),
+      height: computed.get('height'),
+      originalWidth: element.get('width'),
+      originalHeight: element.get('height'),
+      originalFontSize,
       fontBaseUrl,
       textAlign,
-      ratio
+      verticalTextAlign
     });
   }
 
@@ -446,6 +451,7 @@ class TextEditModal extends Component {
       fontSize,
       fontColor,
       align,
+      verticalAlign,
       inputText
     } = this.state;
     if (!inputText) {
@@ -459,7 +465,13 @@ class TextEditModal extends Component {
 
     this.setState({
       previewTextImageSrc: this.getPreviewTextImageSrc(
-        inputText, fontSize, fontColor, fontObj.fontFace, align
+        inputText,
+        fontSize,
+        fontColor,
+        fontObj.fontFace,
+        align,
+        verticalAlign,
+        this.props.element
       )
     });
   }
@@ -482,11 +494,20 @@ class TextEditModal extends Component {
     }
   }
 
+  onAlignChange(align) {
+    this.setState({ align });
+  }
+
+  onVerticalAlignChange(verticalAlign) {
+    this.setState({ verticalAlign });
+  }
+
   render() {
     const {
       fontOptionList,
       fontWeightOptionList,
       alignOptionList,
+      verticalAlignOptionList,
       fontName,
       fontWeight,
       fontSize,
@@ -494,6 +515,7 @@ class TextEditModal extends Component {
       inputSize,
       inputText,
       align,
+      verticalAlign,
       previewTextImageSrc,
       isShowIllegalCharTip
     } = this.state;
@@ -538,16 +560,6 @@ class TextEditModal extends Component {
             </div>
             <div className="divider" />
             <div className="option-item">
-              <div className="select-container">
-                <XSelect
-                  className="font"
-                  options={alignOptionList}
-                  searchable={false}
-                  onChanged={this.onAlignChange}
-                  value={align}
-                />
-              </div>
-
               <div className="size-container">
                 <input
                   type="number"
@@ -570,45 +582,91 @@ class TextEditModal extends Component {
                   />
                 </div>
               </div>
+            </div>
 
+            <XColorPicker
+              needResetColor={needResetColor}
+              initHexString={fontColor}
+              onColorChange={this.onFontColorChange}
+            />
 
-              <XColorPicker
-                needResetColor={needResetColor}
-                initHexString={fontColor}
-                onColorChange={this.onFontColorChange}
-              />
+            <div className="divider" />
+            <div className="align-container">
+              <div className="horizonal-group">
+                {
+                  alignOptionList.map((alignOption) => {
+                    const alignClass = `align-${alignOption.value}`;
+                    const alignOptionStyle = classNames('icon', alignClass, {
+                      selected: alignOption.value === align
+                    });
+                    return (
+                      <button
+                        type="button"
+                        className={alignOptionStyle}
+                        title={alignOption.title}
+                        onClick={this.onAlignChange.bind(this, alignOption.value)}
+                      />
+                    );
+                  })
+                }
+              </div>
+              <div className="divider" />
+              <div className="vertical-group">
+                {
+                  verticalAlignOptionList.map((verticalAlignOption) => {
+                    const alignClass = `align-${verticalAlignOption.value}`;
+                    const alignOptionStyle = classNames('icon', alignClass, {
+                      selected: verticalAlignOption.value === verticalAlign
+                    });
+                    return (
+                      <button
+                        type="button"
+                        className={alignOptionStyle}
+                        title={verticalAlignOption.title}
+                        onClick={this.onVerticalAlignChange.bind(this, verticalAlignOption.value)}
+                      />
+                    );
+                  })
+                }
+              </div>
             </div>
           </div>
 
-          <textarea
-            className="text-box"
-            placeholder="Type here..."
-            onInput={this.onTextAreaChange}
-            value={inputText}
-            ref="inputText"
-          />
 
-          <p className="illegal-char-tip">
-            {
-              isShowIllegalCharTip
-              ? (
-                <span>
-                  Invalid characters removed
-                </span>
-              )
-              : null
-            }
+          <div className="text-box">
+            <textarea
+              className="text-box"
+              placeholder="Type here..."
+              onInput={this.onTextAreaChange}
+              value={inputText}
+              ref="inputText"
+            />
+
+            <p className="illegal-char-tip">
+              {
+                isShowIllegalCharTip
+                ? (
+                  <span>
+                    Invalid characters removed
+                  </span>
+                )
+                : null
+              }
+            </p>
+          </div>
+
+
+          <p className="button-container">
+            <XButton
+              onClicked={this.onSubmit}
+              disabled={!inputText.trim() || !inputText.length}
+            >Done</XButton>
           </p>
 
           <TextPreviewBox imageSrc={previewTextImageSrc} />
         </div>
 
-        <p className="button-container">
-          <XButton
-            onClicked={this.onSubmit}
-            disabled={!inputText.trim() || !inputText.length}
-          >Done</XButton>
-        </p>
+
 
       </XModal>
     );
@@ -621,12 +679,10 @@ TextEditModal.propTypes = {
   bookSetting: PropTypes.object.isRequired,
   isShown: PropTypes.bool.isRequired,
   closeTextEditModal: PropTypes.func.isRequired,
-  createElement: PropTypes.func.isRequired,
   updateElement: PropTypes.func.isRequired,
   ratio: PropTypes.number.isRequired,
   fontBaseUrl: PropTypes.string.isRequired,
-  elementArray: PropTypes.instanceOf(Immutable.List).isRequired,
-  element: PropTypes.instanceOf(Immutable.Map),
+  element: PropTypes.instanceOf(Immutable.Map).isRequired,
   currentPage: PropTypes.instanceOf(Immutable.Map),
   requestInterval: PropTypes.number,
   hideTipInterval: PropTypes.number

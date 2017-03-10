@@ -14,11 +14,14 @@ function getElement(that, elementId) {
   return elementArray.get(elementIndex);
 }
 
-export const onRotateStart = (that, data, e) => {
-  const { containerOffset } = that.state;
+export const onRotateStart = (that, e) => {
+  const { containerOffset, elementArray } = that.state;
   const containerOffsetTop = containerOffset.top;
   const containerOffsetLeft = containerOffset.left;
-  const { element } = data;
+
+  const selectedElementArray = elementArray.filter(o => o.get('isSelected'));
+  const element = selectedElementArray.first();
+
   const elementId = element.get('id');
 
   const theElement = getElement(that, elementId);
@@ -51,13 +54,14 @@ export const onRotateStart = (that, data, e) => {
   );
 };
 
-export const onRotate = (that, data, e, rotateData) => {
-  const { containerOffset } = that.state;
+export const onRotate = (that, e, rotateData) => {
+  const { containerOffset, elementArray } = that.state;
   const containerOffsetTop = containerOffset.top;
   const containerOffsetLeft = containerOffset.left;
 
-  const { elementArray } = that.state;
-  const { element } = data;
+  const selectedElementArray = elementArray.filter(o => o.get('isSelected'));
+  const element = selectedElementArray.first();
+
   const elementId = element.get('id');
 
   const theElementIndex = getElementIndex(that, elementId);
@@ -108,10 +112,13 @@ export const onRotate = (that, data, e, rotateData) => {
   });
 };
 
-export const onRotateStop = (that, data, e) => {
+export const onRotateStop = (that, e) => {
   const { actions } = that.props;
+  const { elementArray } = that.state;
   const { boundProjectActions } = actions;
-  const { element } = data;
+
+  const selectedElementArray = elementArray.filter(o => o.get('isSelected'));
+  const element = selectedElementArray.first();
 
   boundProjectActions.updateElement({
     id: element.get('id'),

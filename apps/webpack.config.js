@@ -41,20 +41,7 @@ function getValidEnv(env) {
  */
 function buildConfig(env) {
   var usedEnv = getValidEnv(env);
-  removeI18nForSomeProducts(configs[usedEnv]);
   return configs[usedEnv];
-}
-
-/**
- * Remove webpack I18N feature for some products
- * @param  {Object} Webpack config with I18N
- * @return {Object} Webpack config no I18N
- */
-function removeI18nForSomeProducts(configs) {
-  if(process.env.product === 'myphoto') {
-    delete configs.entry.i18n
-  }
-  return configs
 }
 
 module.exports = buildConfig(env);

@@ -1,16 +1,21 @@
 .book-page {
   position: absolute;
   overflow: hidden;
-
   &.pressbook.inner.disabled {
     .element-container {
-      .backgorund-element{
-         background-color: #c1c1c1;
-
-         .tip{
+      .backgorund-element {
+        background-color: #c1c1c1;
+        .tip {
           color: #000;
-         }
+        }
       }
     }
+  }
+
+  .element-controls {
+    pointer-events: none;
+    position: fixed;
+    z-index: 9000;
+    box-sizing: border-box;
   }
 }

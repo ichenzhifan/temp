@@ -21,9 +21,7 @@ class BookSettingsModal extends Component {
     super(props);
 
     const { fontList, bookSetting, baseUrl } = this.props;
-    const avaiableFontList = fontList.filter(font => !font.deprecated);
-
-    const fontOptionList = avaiableFontList.map((font) => {
+    const fontOptionList = fontList.map((font) => {
       return {
         title: font.displayName,
         label: font.displayName,
@@ -34,7 +32,15 @@ class BookSettingsModal extends Component {
         })
       };
     });
-
+    const firstFont = fontList[0];
+    const fontWeightOptionList = firstFont.font.map((o) => {
+      const displayName = o.displayName.replace(/\s*\d+/, '');
+      return {
+        title: displayName,
+        label: displayName,
+        value: o.id
+      };
+    });
 
     const layoutOptionList = [
       {
@@ -57,6 +63,7 @@ class BookSettingsModal extends Component {
       defaultLayout: bookSetting.get('autoLayout'),
       inputSize: fontSetting.get('fontSize'),
       fontOptionList,
+      fontWeightOptionList,
       layoutOptionList
     };
 
@@ -82,35 +89,15 @@ class BookSettingsModal extends Component {
       const bookSetting = nextProps.bookSetting;
       const fontSetting = bookSetting.get('font');
 
-      const { fontList, baseUrl } = this.props;
+      const { fontList } = this.props;
 
       const selectedFont = fontList.find((font) => {
         return font.id === fontSetting.get('fontFamilyId');
       });
 
-      if (selectedFont.deprecated) {
-        const fontOptionList = fontList.map((font) => {
-          return {
-            disabled: font.deprecated,
-            title: font.displayName,
-            label: font.displayName,
-            value: font.id,
-            fontThumbnailUrl: template(GET_FONT_THUMBNAIL)({
-              baseUrl,
-              fontName: font.name
-            })
-          };
-        });
-
-        this.setState({
-          fontOptionList
-        });
-      }
-
       const fontWeightOptionList = selectedFont.font.map((o) => {
         const displayName = o.displayName.replace(/\s*\d+/, '');
         return {
-          disabled: selectedFont.deprecated,
           title: displayName,
           label: displayName,
           value: o.id

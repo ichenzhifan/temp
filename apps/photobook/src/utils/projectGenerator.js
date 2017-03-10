@@ -129,7 +129,7 @@ function generatePage(product, parameterMap, index, bgColor = DEFAULT_BG_COLOR) 
   return {
     id: guid(),
     ...innerPageSize,
-    // surfaceNumber: index + 1,
+    surfaceNumber: index + 1,
     type: 'Page',
     bgColor,
     pageAlign: isLeftPage ? 'Left' : 'Right',
@@ -156,7 +156,7 @@ function generateSheet(parameterMap, index, bgColor = DEFAULT_BG_COLOR) {
   return {
     id: guid(),
     ...innerSheetSize,
-    // surfaceNumber: index + 1,
+    surfaceNumber: index + 1,
     type: 'Sheet',
     bgColor,
     bleed: { ...innerPageBleed },

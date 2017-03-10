@@ -22,10 +22,3 @@
     clear: both;
   }
 }
-
-// Mixin itself
-@mixin text-overflow {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}

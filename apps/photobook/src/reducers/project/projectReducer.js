@@ -57,16 +57,6 @@ const defaultBookSetting = {
     color: '#000000',
     fontFamilyId: 'roboto',
     fontId: 'roboto'
-  },
-
-  // 是否自动应用全局的边框设置到所有的图片元素.
-  borderFrame: true,
-
-  // 全局边框的默认值.
-  border: {
-    color: '#000000',
-    size: 0,
-    opacity: 100
   }
 };
 
@@ -416,20 +406,17 @@ export let allOptionMap = null;
 export let parameterArray = null;
 export let variableArray = null;
 
+
 const project = (state = initialState, action) => {
   switch (action.type) {
     case types.API_SUCCESS: {
       switch (action.apiPattern.name) {
         case apiUrl.GET_PROJECT_DATA: {
           const projectObj = action.response.project;
-          const bookSetting = state.get('bookSetting');
 
           return state.merge(Immutable.fromJS({
             createdDate: new Date(projectObj.createdDate),
-
-            // border frame的设置是后面才加上的, 为了兼容以前新建的项目.
-            // 打开老项目时后, 合并默认的bookSetting设置.
-            bookSetting: bookSetting.merge(projectObj.summary.editorSetting)
+            bookSetting: projectObj.summary.editorSetting
           }));
         }
         case apiUrl.GET_PROJECT_TITLE: {
@@ -607,13 +594,10 @@ const project = (state = initialState, action) => {
     case types.INIT_COVER: {
       const { cover, addedSheetNumber } = action;
 
-      const bgColor = state.getIn(['bookSetting', 'background', 'color']);
-
       const newCover = generateCover(
         state.getIn(['setting', 'cover']),
         state.get('parameterMap').toJS(),
         state.get('variableMap').toJS(),
-        bgColor,
         addedSheetNumber
       );
 
@@ -634,16 +618,10 @@ const project = (state = initialState, action) => {
       let newElementArray = [];
       mergedCover.containers.forEach((container) => {
         const fixedElements = addElementIdIfHasNoId(container.elements);
-        const mergedElements = fixedElements.map(ele => {
-          return merge({}, {
-            border: defaultBookSetting.border
-          }, ele);
-        });
-
-        newElementArray = newElementArray.concat(mergedElements);
+        newElementArray = newElementArray.concat(fixedElements);
 
         const detachedContainer = merge({}, container, {
-          elements: mergedElements.map(e => e.id)
+          elements: fixedElements.map(e => e.id)
         });
 
         switch (detachedContainer.type) {
@@ -691,19 +669,13 @@ const project = (state = initialState, action) => {
       let newElements = [];
       pages.forEach((page, index) => {
         const fixedElements = addElementIdIfHasNoId(page.elements);
-        const mergedElements = fixedElements.map(ele => {
-          return merge({}, {
-            border: defaultBookSetting.border
-          }, ele);
-        });
-
-        newElements = newElements.concat(mergedElements);
+        newElements = newElements.concat(fixedElements);
 
         const overwritePageObj = pick(newPageArray[index], [
           'width', 'height', 'bleed'
         ]);
         const detachedPage = merge({}, page, {
-          elements: mergedElements.map(e => e.id)
+          elements: fixedElements.map(e => e.id)
         }, overwritePageObj);
 
         detachedPageArray.push(detachedPage);
@@ -1125,12 +1097,11 @@ const project = (state = initialState, action) => {
     case types.CHANGE_BOOK_SETTING: {
       const { bookSetting } = action;
 
+      const backgroundColor = get(bookSetting, 'background.color');
+
       let newState = state.merge({
         bookSetting
       });
-
-      // 获取新的背景色.
-      const backgroundColor = get(bookSetting, 'background.color');
 
       if (backgroundColor) {
         const pageArray = newState.get('pageArray');
@@ -1147,25 +1118,6 @@ const project = (state = initialState, action) => {
           newState = newState.setIn(
             containersPathArr.concat([String(index), 'bgColor']),
             backgroundColor
-          );
-        });
-      }
-
-      // 获取自动应用全局的边框设置开关的值.
-      const borderFrame = get(bookSetting, 'borderFrame');
-
-      // 获取全局的边框信息.
-      const border = get(bookSetting, 'border');
-
-      // 如果自动应用全局的边框设置开关设置为true.
-      // 就更新所有page下的所有图片框的border设置.
-      if(borderFrame){
-        const elementArray = newState.get('elementArray');
-
-        elementArray.forEach((element, index) => {
-          newState = newState.setIn(
-            ['elementArray', String(index), 'border'],
-            border
           );
         });
       }

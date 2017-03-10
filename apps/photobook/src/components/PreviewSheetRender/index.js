@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import Immutable from 'immutable';
-import { get, isEqual, merge, template } from 'lodash';
+import { isEqual, merge, template } from 'lodash';
 import * as handler from './handler.js';
 
 // 导入组件
@@ -24,7 +24,7 @@ class PreviewSheetRender extends Component {
       pagination: {
         prevSheetIndex: -1,
         prevPageIndex: -1,
-        sheetIndex: pagination.get('sheetIndex') || 0,
+        sheetIndex: 0,
         pageIndex: 0,
         pageId: '',
         total: pagination.get('total')
@@ -52,13 +52,6 @@ class PreviewSheetRender extends Component {
       this.updatePaginationInState(nextProps, this.state.pagination.sheetIndex);
     }
 
-    const oldPagination = get(this.props, 'data.pagination');
-    const newPagination = get(nextProps, 'data.pagination');
-    if( oldPagination.get('sheetIndex') !== newPagination.get('sheetIndex')) {
-      this.updatePaginationInState(nextProps, newPagination.get('sheetIndex'));
-      this.updatePaginationSpreadInState(nextProps, newPagination.get('sheetIndex'));
-    }
-
     // 更新snipping.
     if(!Immutable.is(this.props.data.snipping, nextProps.data.snipping)){
       this.setState({
@@ -79,8 +72,7 @@ class PreviewSheetRender extends Component {
       settings,
       project,
       parameters,
-      allSheets,
-      ignoreEmpty
+      allSheets
     } = data;
 
     //
@@ -109,7 +101,6 @@ class PreviewSheetRender extends Component {
       snipping,
       project,
       parameters,
-      ignoreEmpty,
       isPreview: true
     };
 

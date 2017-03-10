@@ -12,8 +12,8 @@ import './index.scss';
 
 class UploadModal extends Component {
 	constructor (props) {
+		const { t } = props;
 	  super(props);
-
     this.state = {
       allImages: [],
       syncedGuids: [],
@@ -21,15 +21,15 @@ class UploadModal extends Component {
       successUploaded: 0,
       errorUploaded: 0
     };
-
-    this.receiveProps = nextProps => handler.receiveProps(this, nextProps);
-    this.handleUploadModalClosed = isManuClick => handler.handleUploadModalClosed(this, isManuClick);
+    this.receiveProps = (nextProps) => handler.receiveProps(this, nextProps);
+    this.handleUploadModalClosed = (isManuClick) => handler.handleUploadModalClosed(this, isManuClick);
     this.onUploadMoreClick = () => handler.onUploadMoreClick(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.receiveProps(nextProps);
   }
+
 
   render() {
     const { opened, t, uploadingImages, boundUploadedImagesActions, toggleModal } = this.props;

@@ -1,11 +1,13 @@
 import Immutable from 'immutable';
-import {get } from 'lodash';
+import { get } from 'lodash';
 import { elementTypes, productTypes } from '../../../contants/strings';
 import { getNewPosition } from '../../../utils/elementPosition';
 import Element from '../../../utils/entries/element';
 
 import { getAutoFillData } from '../../../utils/autofill/autofill';
 import { checkIsSupportImageInCover } from '../../../utils/cover';
+
+import { getPxByPt } from '../../../../../common/utils/math';
 
 /**
  * design setting的处理函数
@@ -210,18 +212,8 @@ export const onAutoFill = (that) => {
    });
  };
 
-/**
- * add text的处理函数
- */
-export const onAddText = (that) => {
-  const { boundTextEditModalActions } = that.props;
-  boundTextEditModalActions.showTextEditModal();
-};
 
-/**
- * add frame的处理函数
- */
-export const onAddFrame = (that) => {
+function addFrame(that, type, width, height) {
   const {
     boundProjectActions,
     project,
@@ -252,23 +244,70 @@ export const onAddFrame = (that) => {
 
   const newElementPosition = getNewPosition(elementArray, currentPage);
 
+  let newElement = null;
+  if (type === elementTypes.photo) {
+    newElement = new Element({
+      type,
+      width,
+      height,
+      x: newElementPosition.x,
+      y: newElementPosition.y,
+      px: newElementPosition.x / currentPage.get('width'),
+      py: newElementPosition.y / currentPage.get('height'),
+      pw: width / currentPage.get('width'),
+      ph: height / currentPage.get('height'),
+      dep: maxDepElement ? maxDepElement.get('dep') + 1 : 0,
+    });
+  } else if (type === elementTypes.text) {
+    const bookSetting = project.get('bookSetting');
+    const fontColor = bookSetting.getIn(['font', 'color']);
+    const fontSize = bookSetting.getIn(['font', 'fontSize']);
+    const fontWeight = bookSetting.getIn(['font', 'fontId']);
+    const fontFamily = bookSetting.getIn(['font', 'fontFamilyId']);
+
+    newElement = {
+      width,
+      height,
+      fontColor,
+      fontWeight,
+      fontFamily,
+      fontSize: getPxByPt(fontSize) / currentPage.get('height'),
+      text: '',
+      type: elementTypes.text,
+      textAlign: 'left',
+      textVAlign: 'top',
+      dep: maxDepElement ? maxDepElement.get('dep') + 1 : 0,
+      x: newElementPosition.x,
+      y: newElementPosition.y,
+      px: newElementPosition.x / currentPage.get('width'),
+      py: newElementPosition.y / currentPage.get('height'),
+      pw: width / currentPage.get('width'),
+      ph: height / currentPage.get('height'),
+      rot: 0,
+    };
+  }
+
+  boundProjectActions.createElement(currentPageId, newElement);
+}
+
+/**
+ * add text的处理函数
+ */
+export const onAddText = (that) => {
+  const DEFAULT_TEXT_WIDTH = 1970;
+  const DEFAULT_TEXT_HEIGHT = 810;
+
+  addFrame(that, elementTypes.text, DEFAULT_TEXT_WIDTH, DEFAULT_TEXT_HEIGHT);
+};
+
+/**
+ * add frame的处理函数
+ */
+export const onAddFrame = (that) => {
   const DEFAULT_FRAME_WIDTH = 960;
   const DEFAULT_FRAME_HEIGHT = 640;
 
-  const newPhotoElement = new Element({
-    type: elementTypes.photo,
-    x: newElementPosition.x,
-    y: newElementPosition.y,
-    width: DEFAULT_FRAME_WIDTH,
-    height: DEFAULT_FRAME_HEIGHT,
-    px: newElementPosition.x / currentPage.get('width'),
-    py: newElementPosition.y / currentPage.get('height'),
-    pw: DEFAULT_FRAME_WIDTH / currentPage.get('width'),
-    ph: DEFAULT_FRAME_HEIGHT / currentPage.get('height'),
-    dep: maxDepElement ? maxDepElement.get('dep') + 1 : 0,
-  });
-
-  boundProjectActions.createElement(currentPageId, newPhotoElement);
+  addFrame(that, elementTypes.photo, DEFAULT_FRAME_WIDTH, DEFAULT_FRAME_HEIGHT);
 };
 
 

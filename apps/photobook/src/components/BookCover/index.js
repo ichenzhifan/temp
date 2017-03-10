@@ -53,7 +53,6 @@ class BookCover extends Component {
       settings,
       parameters,
       isPreview,
-      ignoreEmpty,
       isCameoActionBarShow
     } = data;
 
@@ -110,7 +109,6 @@ class BookCover extends Component {
     if (pages && pages.size) {
       pages.forEach((page, index) => {
         const pageData = {
-          ignoreEmpty,
           isPreview,
           urls,
           summary,

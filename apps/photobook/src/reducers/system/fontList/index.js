@@ -11,10 +11,12 @@ function prepareFontList(fontObj) {
   const outArray = [];
 
   fontFamilyList.forEach((fontFamily) => {
-    const newFontFamily = merge({}, fontFamily, {
-      font: isArray(fontFamily.font) ? [...fontFamily.font] : [fontFamily.font]
-    });
-    outArray.push(newFontFamily);
+    if (!fontFamily.deprecated) {
+      const newFontFamily = merge({}, fontFamily, {
+        font: isArray(fontFamily.font) ? [...fontFamily.font] : [fontFamily.font]
+      });
+      outArray.push(newFontFamily);
+    }
   });
 
   return outArray;

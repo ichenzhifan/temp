@@ -1,9 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import classNames from 'classnames';
-
-import './index.scss';
-
 class FontUrl extends Component {
   constructor(props, context) {
     super(props, context);
@@ -15,9 +11,9 @@ class FontUrl extends Component {
 
   handleMouseDown(event) {
     const { onSelect, option } = this.props;
-    onSelect(option, event);
     event.preventDefault();
     event.stopPropagation();
+    onSelect(option, event);
   }
 
   handleMouseEnter(event) {
@@ -32,14 +28,10 @@ class FontUrl extends Component {
 
   render() {
     const { className } = this.props;
-    const { label, title, fontThumbnailUrl, disabled } = this.props.option;
-
-    const fontOptionStyle = classNames(className, {
-      'font-option-disabled': disabled
-    });
+    const { label, title, fontThumbnailUrl } = this.props.option;
     return (
       <div
-        className={fontOptionStyle}
+        className={className}
         onMouseDown={this.handleMouseDown}
         onMouseEnter={this.handleMouseEnter}
         onMouseMove={this.handleMouseMove}

@@ -1,5 +1,4 @@
 @import "../../../../common/styles/fonts.scss";
-@import "../../../../common/styles/common.scss";
 
 .approval-sidebar-wrap {
   width: 100%;
@@ -25,7 +24,6 @@
 
     li {
       @include font-light();
-      // @include text-overflow();
       font-size: 13px;
       line-height: 1.5;
     }

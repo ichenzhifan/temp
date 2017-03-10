@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import classNames from 'classnames';
 import { DraggableCore } from 'react-draggable';
 
 import './index.scss';
@@ -54,9 +53,7 @@ class Resizable extends Component {
     const oldStartIndex = this.state.startIndex;
     const newStartIndex = nextState.startIndex;
 
-    if (this.props.isDisabled !== nextProps.isDisabled ||
-      this.props.isSelected !== nextProps.isSelected ||
-      this.props.keepRatio !== nextProps.keepRatio ||
+    if (this.props.isShown !== nextProps.isShown ||
       oldStartIndex !== newStartIndex) {
       return true;
     }
@@ -118,7 +115,7 @@ class Resizable extends Component {
   }
 
   render() {
-    const { isDisabled, isSelected, keepRatio } = this.props;
+    const { isShown } = this.props;
     const { cursorStyleArray, startIndex } = this.state;
 
     const length = cursorStyleArray.length;
@@ -198,7 +195,7 @@ class Resizable extends Component {
 
 
     return (
-      !isDisabled && isSelected
+      isShown
       ? (
         <div className="resizable">
           <DraggableCore
@@ -233,45 +230,37 @@ class Resizable extends Component {
             <div className="handle bottom-left" style={bottomLeftStyle} />
           </DraggableCore>
 
-          {
-            !keepRatio
-            ? (
-              <div>
-                <DraggableCore
-                  onStart={this.onResizeStart}
-                  onDrag={this.onResizeTop}
-                  onStop={this.onResizeStop}
-                >
-                  <div className="handle top" style={topStyle} />
-                </DraggableCore>
+          <DraggableCore
+            onStart={this.onResizeStart}
+            onDrag={this.onResizeTop}
+            onStop={this.onResizeStop}
+          >
+            <div className="handle top" style={topStyle} />
+          </DraggableCore>
 
-                <DraggableCore
-                  onStart={this.onResizeStart}
-                  onDrag={this.onResizeRight}
-                  onStop={this.onResizeStop}
-                >
-                  <div className="handle right" style={rightStyle} />
-                </DraggableCore>
+          <DraggableCore
+            onStart={this.onResizeStart}
+            onDrag={this.onResizeRight}
+            onStop={this.onResizeStop}
+          >
+            <div className="handle right" style={rightStyle} />
+          </DraggableCore>
 
-                <DraggableCore
-                  onStart={this.onResizeStart}
-                  onDrag={this.onResizeBottom}
-                  onStop={this.onResizeStop}
-                >
-                  <div className="handle bottom" style={bottomStyle} />
-                </DraggableCore>
+          <DraggableCore
+            onStart={this.onResizeStart}
+            onDrag={this.onResizeBottom}
+            onStop={this.onResizeStop}
+          >
+            <div className="handle bottom" style={bottomStyle} />
+          </DraggableCore>
 
-                <DraggableCore
-                  onStart={this.onResizeStart}
-                  onDrag={this.onResizeLeft}
-                  onStop={this.onResizeStop}
-                >
-                  <div className="handle left" style={leftStyle} />
-                </DraggableCore>
-              </div>
-            )
-            : null
-          }
+          <DraggableCore
+            onStart={this.onResizeStart}
+            onDrag={this.onResizeLeft}
+            onStop={this.onResizeStop}
+          >
+            <div className="handle left" style={leftStyle} />
+          </DraggableCore>
         </div>
       )
       : null
@@ -285,9 +274,7 @@ Resizable.propTypes = {
     onResizeStart: PropTypes.func.isRequired,
     onResizeStop: PropTypes.func.isRequired
   }).isRequired,
-  isDisabled: PropTypes.bool.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  keepRatio: PropTypes.bool.isRequired,
+  isShown: PropTypes.bool.isRequired,
   rot: PropTypes.number.isRequired
 };
 

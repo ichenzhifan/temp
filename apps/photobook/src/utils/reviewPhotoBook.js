@@ -1,7 +1,5 @@
 import { elementTypes, productTypes } from '../contants/strings';
-import { errors } from '../contants/errorMessage';
 import { checkIsSupportImageInCover } from './cover';
-
 /*
  * checkWholeBookElements 函数：检测书中是否包含 有效元素
  *
@@ -28,33 +26,19 @@ const checkBlankElement = (elementIds, elementArray, pageNumber, sheetIndex, pag
   let hasEmptyElement = false;
   let allElementsEmpty = true;
   let emptyItems = [];
-
   /**
-   *  检测依据
-   *  图片元素 或者 天窗元素 的的 encImgId 有一个 不存在则 判定 包含 空元素；
-   *  包含文字元素 或者 有图片元素或者天窗元素的encImgId 不为空则判断不是所有元素无效；
-   */
+  *  检测依据
+  *  图片元素 或者 天窗元素 的的 encImgId 有一个 不存在则 判定 包含 空元素；
+  *  包含文字元素 或者 有图片元素或者天窗元素的encImgId 不为空则判断不是所有元素无效；
+  */
   elementArray.forEach((item) => {
-    if (elementIds.indexOf(item.id) !== -1) {
-      if (item.type === elementTypes.cameo || item.type === elementTypes.photo) {
+    if (item.type === elementTypes.cameo || item.type === elementTypes.photo) {
+      if (elementIds.indexOf(item.id) > -1) {
         if (!item.encImgId) {
           hasEmptyElement = true;
           emptyItems.push({
             pageNumber,
-            errorMessage: errors.emptyPhotoFrame,
-            elementId: item.id,
-            sheetIndex,
-            pageId,
-            errorType: 1
-          });
-        } else {
-          allElementsEmpty = false;
-        }
-      } else if (item.type === elementTypes.text) {
-        if (!item.text || (!item.text.trim())) {
-          emptyItems.push({
-            pageNumber,
-            errorMessage: errors.emptyTextFrame,
+            errorMessage: 'Empty photo frame',
             elementId: item.id,
             sheetIndex,
             pageId,
@@ -64,9 +48,10 @@ const checkBlankElement = (elementIds, elementArray, pageNumber, sheetIndex, pag
           allElementsEmpty = false;
         }
       }
+    } else if (item.type === elementTypes.text) {
+      allElementsEmpty = false;
     }
   });
-
   return { hasEmptyElement, allElementsEmpty, emptyItems };
 };
 
@@ -93,12 +78,14 @@ const checkImageQuality = (elementIds, elementArray, imageArray, pageNumber, she
         imageArray.forEach((imageItem) => {
           if (imageItem.encImgId === encImgId) {
             const cropWidth = imageItem.width * cropW;
-            const imageScaleWidth = cropWidth < elementWidth ? Math.round((elementWidth - cropWidth) * 100 / elementWidth) : 0;
+            const imageScaleWidth = cropWidth < elementWidth
+            ? Math.round((elementWidth - cropWidth) * 100 / elementWidth)
+            : 0;
             isPoorQualityImage = imageScaleWidth > 50 ? true : false;
             if (isPoorQualityImage) {
               poorQualityImageItems.push({
                 pageNumber,
-                errorMessage: `Image is enlarged ${imageScaleWidth}% beyond original size. Most images print well up to 50% beyond original size.`,
+                errorMessage: `Image is enlarged ${imageScaleWidth}% beyond original size .`,
                 elementId,
                 sheetIndex,
                 pageId,
@@ -145,7 +132,6 @@ const reviewCover = (cover, elementArray, imageArray, reviewResult, coverType) =
     sheetIndex: 0,
     errorType: 0
   };
-
   const isSupportImage = checkIsSupportImageInCover(coverType);
   let elementIds = [];
   cover.containers.forEach((item) => {
@@ -157,7 +143,7 @@ const reviewCover = (cover, elementArray, imageArray, reviewResult, coverType) =
   });
   if (isSupportImage) {
     if (!elementIds.length) {
-      coverError.errorMessage = errors.emptyPage;
+      coverError.errorMessage = 'Empty page';
       reviewResult.cover.push(coverError);
       reviewResult.errorItems.push(coverError);
     } else {
@@ -165,7 +151,7 @@ const reviewCover = (cover, elementArray, imageArray, reviewResult, coverType) =
       const { hasEmptyElement, allElementsEmpty, emptyItems } = checkBlankElementResult;
       reviewResult.errorItems = reviewResult.errorItems.concat(emptyItems);
       if (allElementsEmpty) {
-        coverError.errorMessage = errors.emptyPage;
+        coverError.errorMessage = 'Empty page';
         reviewResult.cover.push(coverError);
       } else {
         const poorQualityImageItems = checkImageQuality(elementIds, elementArray, imageArray, coverError.pageNumber, coverError.sheetIndex, coverError.pageId);
@@ -177,7 +163,7 @@ const reviewCover = (cover, elementArray, imageArray, reviewResult, coverType) =
   if (elementIds.length) {
     const cameoMes = getCameoMes(elementIds, elementArray);
     if (cameoMes.id && cameoMes.isBlank) {
-      coverError.errorMessage = errors.blankCameo;
+      coverError.errorMessage = 'blank cameo';
       reviewResult.cover.push(coverError);
     } else if (cameoMes.id && !cameoMes.isBlank) {
       const poorQualityImageItems = checkImageQuality(elementIds, elementArray, imageArray, coverError.pageNumber, coverError.sheetIndex, coverError.pageId);
@@ -202,14 +188,14 @@ const reviewInnerPages = (pageArray, elementArray, imageArray, product, reviewRe
     if (index % 2 === 0) {
       sheetsResult.push({
         sheetIndex: Math.ceil((index + 1) / 2),
-        pageNumber: `${errors.page} ${index + 1} - ${index + 2}`,
+        pageNumber: `page ${index + 1} - ${index + 2}`,
         errorMessage: '',
         page0Result: '',
         page1Result: ''
       });
       // if (!(pageArray[index].elements.length + pageArray[index + 1].elements.length)) {
       //   sheetsResult[Math.ceil((index) / 2)].errorMessage = 'Empty sheet';
-      // return;
+        // return;
       // };
     }
 
@@ -218,29 +204,35 @@ const reviewInnerPages = (pageArray, elementArray, imageArray, product, reviewRe
       const pageId = pageArray[index].id;
       if (item.elements.length) {
         const elementIds = item.elements;
-        const pageNumber = product === productTypes.PS ? `${errors.page} ${index}` : sheetsResult[Math.floor((index) / 2)].pageNumber;
+        const pageNumber = product === productTypes.PS
+          ? `page ${index}`
+          : sheetsResult[Math.floor((index) / 2)].pageNumber;
         const checkBlankElementResult = checkBlankElement(elementIds, elementArray, pageNumber, sheetsResult[Math.floor((index) / 2)].sheetIndex, pageId);
         const { hasEmptyElement, allElementsEmpty, emptyItems } = checkBlankElementResult;
         reviewResult.errorItems = reviewResult.errorItems.concat(emptyItems);
         if (allElementsEmpty) {
-          currentSheetResult.errorMessage = errors.emptyPage;
-          currentSheetResult[`${errors.page} ${index % 2} ${errors.result}`] = errors.emptyPage;
+          currentSheetResult.errorMessage = 'Empty Page';
+          currentSheetResult[`page${index % 2}Result`] = 'Empty page';
           reviewResult.emptyPageArray.push(index);
         } else {
           const poorQualityImageItems = checkImageQuality(elementIds, elementArray, imageArray, pageNumber, sheetsResult[Math.floor((index) / 2)].sheetIndex, pageId);
           reviewResult.errorItems = reviewResult.errorItems.concat(poorQualityImageItems);
         }
       } else {
-        // 如果不是 PS 产品的 第一页和最后一页就将 该页推入 空页数组。
+         // 如果不是 PS 产品的 第一页和最后一页就将 该页推入 空页数组。
         if (!(product === productTypes.PS && (index === 0 || (index === pageArray.length - 1)))) {
           currentSheetResult.errorMessage =
-            currentSheetResult.errorMessage === 'hasPoorQualityImage' || !currentSheetResult.errorMessage || currentSheetResult.errorMessage === 'hasEmptyElement' ? 'hasEmptyPage' : currentSheetResult.errorMessage;
-          sheetsResult[Math.floor((index) / 2)][`${errors.page} ${index % 2} ${errors.result}`] = errors.emptyPage;
+          currentSheetResult.errorMessage === 'hasPoorQualityImage' || !currentSheetResult.errorMessage || currentSheetResult.errorMessage === 'hasEmptyElement'
+          ? 'hasEmptyPage'
+          : currentSheetResult.errorMessage;
+          sheetsResult[Math.floor((index) / 2)][`page${index % 2}Result`] = 'Empty page';
           reviewResult.emptyPageArray.push(index);
-          const pageNumber = product === productTypes.PS ? `${errors.page} ${index}` : sheetsResult[Math.floor((index) / 2)].pageNumber;
+          const pageNumber = product === productTypes.PS
+            ? `page ${index}`
+            : sheetsResult[Math.floor((index) / 2)].pageNumber;
           reviewResult.errorItems.push({
             pageNumber: pageNumber,
-            errorMessage: errors.emptyPage,
+            errorMessage: 'Empty page',
             sheetIndex: Math.ceil((index + 1) / 2),
             pageId,
             errorType: 0
@@ -275,11 +267,10 @@ export const reviewPhotoBook = (project) => {
   // 检查书中是否函数有效元素， 有效元素的定义是 textElement 或者 imageis 不为空的 photoEmelemnt
   // reviewResult.hasUsefulElement = checkWholeBookElements(project.elementArray);
   // if (reviewResult.hasUsefulElement) {
-  // 检查封面的元素情况并将检测结果存入 reviewResult 中的 cover 中；
-  reviewCover(project.cover, project.elementArray, project.imageArray, reviewResult, coverType);
-
-  // 检查内页中每个 sheet 的情况并将结果存入 reviewResult 中的 pages 和 emptyPageArray 中；
-  reviewInnerPages(project.pageArray, project.elementArray, project.imageArray, product, reviewResult);
+    // 检查封面的元素情况并将检测结果存入 reviewResult 中的 cover 中；
+    reviewCover(project.cover, project.elementArray, project.imageArray, reviewResult, coverType);
+    // 检查内页中每个 sheet 的情况并将结果存入 reviewResult 中的 pages 和 emptyPageArray 中；
+    reviewInnerPages(project.pageArray, project.elementArray, project.imageArray, product, reviewResult);
   // }
   return reviewResult;
 };

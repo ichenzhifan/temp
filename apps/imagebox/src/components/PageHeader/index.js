@@ -10,7 +10,6 @@ class PageHeader extends Component {
     super(props);
     this.handleDownload = this.handleDownload.bind(this);
     this.handlePreview = this.handlePreview.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
     this.handleSave = this.handleSave.bind(this);
   }
@@ -78,41 +77,6 @@ class PageHeader extends Component {
     });
   }
 
-  async handleSubmit() {
-    const {
-      boundProjectActions,
-      boundSystemActions,
-      orderState,
-      projectId,
-      userId
-    } = this.props;
-
-    if(orderState.checkFailed) {
-      const isUpdateSuccess = await boundProjectActions.updateCheckStatus(userId, projectId);
-      await boundProjectActions.getProjectOrderedState(userId, projectId);
-
-      if(isUpdateSuccess) {
-        boundSystemActions.showConfirm({
-          confirmMessage: 'Thank you for submitting your changes to this ordered frame project. ' +
-          'We will review this frame project again. If no issue is found, ' +
-          'we will proceed with your order processing.',
-          onOkClick: () => {
-            boundSystemActions.hideConfirm();
-          },
-          okButtonText: 'OK'
-        });
-      } else {
-        boundSystemActions.showConfirm({
-          confirmMessage: 'Submit failed, please try again or contact us.',
-          onOkClick: () => {
-            boundSystemActions.hideConfirm();
-          },
-          okButtonText: 'OK'
-        });
-      }
-    }
-  }
-
   render() {
     const {
       boundSystemActions,
@@ -123,8 +87,7 @@ class PageHeader extends Component {
       isProjectEdited,
       onSaveProject,
       baseUrls,
-      typeText,
-      orderState
+      typeText
     } = this.props;
 
     let projectDescString = '';
@@ -151,12 +114,12 @@ class PageHeader extends Component {
           <span className="nav-item" onClick={ showOptionsModal }>Options</span>
           <span className="nav-item" onClick={ onPreviewHandle}>Preview</span>
           <span className="nav-item" onClick={ this.handleSave }>Save</span>
-          {orderState.checkFailed
-            ? <span className="nav-item" onClick={ this.handleSubmit }>Submit</span>
-            : <span className="nav-item" onClick={ this.handleOrder }>Order</span>}
-          {__DEVELOPMENT__
+          <span className="nav-item" onClick={ this.handleOrder }>Order</span>
+          {
+            __DEVELOPMENT__
             ? <span className="nav-item" onClick={ onLoginHandle }>Login</span>
-            : null}
+            : null
+          }
         </div>
       </XHeader>
     );

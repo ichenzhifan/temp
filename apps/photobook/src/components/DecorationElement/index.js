@@ -21,8 +21,8 @@ class DecorationElement extends Component {
     super(props);
 
     // 处理函数
-    this.handleDragOver = (event) => handler.handleDragOver(this, event);
-    this.onDrop = (event) => handler.onDrop(this, event);
+    this.handleDragOver = event => handler.handleDragOver(this, event);
+    this.onDrop = event => handler.onDrop(this, event);
     this.toggleActionBar = (data, event) => handler.toggleActionBar(this, data, event);
 
     // 内部state
@@ -66,12 +66,9 @@ class DecorationElement extends Component {
 
   render() {
     const { t, actions, data } = this.props;
-    const { element, ratio, page } = data;
+    const { element } = data;
     const computed = element.get('computed');
     const imgUrl = element.getIn(['computed', 'imgUrl']);
-
-    const pageWidth = page.get('width') * ratio.workspace;
-    const pageHeight = page.get('height') * ratio.workspace;
 
     // element 容器的样式.
     const containerStyle = {
@@ -84,8 +81,8 @@ class DecorationElement extends Component {
     };
     const handlerStyle = {
       position: 'absolute',
-      width: computed.get('width') + 'px',
-      height: computed.get('height') + 'px',
+      width: `${computed.get('width')}px`,
+      height: `${computed.get('height')}px`,
       top: 0,
       left: 0
     };
@@ -102,9 +99,7 @@ class DecorationElement extends Component {
         selected: element.get('isSelected')
       }),
       style: containerStyle,
-      handlerStyle,
-      pageWidth,
-      pageHeight
+      handlerStyle
     });
 
     const { isImgLoading } = this.state;
@@ -113,7 +108,8 @@ class DecorationElement extends Component {
       <Element actions={elementActions} data={elementData}>
         <div className="layer-image">
           <XLoading isShown={isImgLoading} />
-          <img className="decoration-img"
+          <img
+            className="decoration-img"
             src={imgUrl}
             style={imgStyle}
             onLoad={this.hideLoading}

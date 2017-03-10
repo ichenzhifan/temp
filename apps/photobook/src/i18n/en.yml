@@ -331,11 +331,11 @@ ApprovalPageActionBar:
 
 ApprovalPageSideBar:
   PARAGRAPH1_TITLE: "Check for these errors"
-  PARAGRAPH1_TEXT1: "- Photoshop bleed layer left on"
+  PARAGRAPH1_TEXT1: "- Photoshop bleed layout left on"
   PARAGRAPH1_TEXT2: "- Typos"
   PARAGRAPH1_TEXT3: "- Cut off images"
   PARAGRAPH1_TEXT4: "- Blank pages"
-  PARAGRAPH2_TITLE: "Confirm these options"
+  PARAGRAPH2_TITLE: "Comfirm these options"
   PARAGRAPH2_TEXT1: "Cover"
   PARAGRAPH2_TEXT2: "Size"
   PARAGRAPH2_TEXT3: "Paper"

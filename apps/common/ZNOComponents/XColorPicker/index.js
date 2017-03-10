@@ -4,7 +4,6 @@ import { SketchPicker } from 'react-color';
 
 import {
   hexToRGB,
-  RGBToHex
 } from '../../utils/colorConverter';
 
 import './index.scss';
@@ -49,7 +48,14 @@ class XColorPicker extends Component {
   }
 
   handleClick() {
-    this.setState({ displayColorPicker: !this.state.displayColorPicker });
+    this.setState(
+      { displayColorPicker: !this.state.displayColorPicker },
+      () => {
+        if (this.state.displayColorPicker) {
+          this.popover.focus();
+        }
+      }
+    );
   }
 
   handleChange(color) {
@@ -78,8 +84,12 @@ class XColorPicker extends Component {
         {
           displayColorPicker
           ? (
-            <div className="popover">
-              <div className="cover" onClick={this.handleClose} />
+            <div
+              className="popover"
+              tabIndex="-1"
+              ref={(div) => { this.popover = div; }}
+              onBlur={this.handleClose}
+            >
               <SketchPicker
                 color={color}
                 onChange={this.handleChange}

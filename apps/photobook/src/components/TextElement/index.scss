@@ -1,11 +1,13 @@
 .text-element{
+  border: 1px dashed #3a3a3a;
+  overflow: hidden;
+
   &.element{
     background-color: transparent;
   }
 
   .text-img {
     display: block;
-    width: 100%;
     height: auto;
   }
 }

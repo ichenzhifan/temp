@@ -3,7 +3,7 @@
  */
 import React, { Component, PropTypes } from 'react';
 import { translate } from 'react-translate';
-import { get, merge } from 'lodash';
+import { get } from 'lodash';
 
 import ConfirmModal from '../../components/ConfirmModal';
 import UploadModal from '../../components/UploadModal';
@@ -128,17 +128,12 @@ class Modals extends Component {
       parameters,
       paginationSpread,
       allImages,
-      allSheets,
 
       // preview
       previewRatios,
       previewSize,
       previewPosition,
-
-      // order page
-      orderRatios,
-      orderSize,
-      orderPosition
+      allSheets,
     } = data;
 
     const {
@@ -192,9 +187,7 @@ class Modals extends Component {
       variables,
       settings,
       project,
-
-      // 总是显示在封面.
-      pagination: pagination.merge({sheetIndex: 0}),
+      pagination,
       parameters,
       allSheets
     };
@@ -203,7 +196,6 @@ class Modals extends Component {
       closePreviewModal: this.closePreviewModal
     };
 
-    // approval page
     const approvalPageActions = {
       onSaveProject,
       boundTrackerActions,
@@ -214,15 +206,10 @@ class Modals extends Component {
       closeApprovalPage: boundApprovalPageActions.hideApprovalPage,
       deleteElement: boundProjectActions.deleteElement
     };
-    const approvalPageModelData = merge({}, previewModalData, {
-      ratios: orderRatios,
-      size: orderSize,
-      position: orderPosition,
-    });
     const approvalPageData = {
       env,
       project,
-      previewModalData: approvalPageModelData,
+      previewModalData,
       isShown: approvalPage.get('isShown'),
       reviewResult: approvalPage.get('reviewResult')
     };
@@ -293,7 +280,6 @@ class Modals extends Component {
                 fontBaseUrl={baseUrls.get('productBaseURL')}
                 elementArray={elementArray}
                 closeTextEditModal={this.closeTextEditModal}
-                createElement={boundProjectActions.createElement}
                 updateElement={boundProjectActions.updateElement}
               />
             </div>
@@ -309,132 +295,106 @@ class Modals extends Component {
           page={currentPage}
         />
 
-        {
-          confirmModal.get('isShown') ? (
-            <ConfirmModal
-              isShown={true}
-              onOkClick={confirmModal.get('onOkClick')}
-              confirmTitle={confirmModal.get('confirmTitle')}
-              confirmMessage={confirmModal.get('confirmMessage')}
-              okButtonText={confirmModal.get('okButtonText')}
-              cancelButtonText={confirmModal.get('cancelButtonText')}
-              onCancelClick={confirmModal.get('onCancelClick')}
-              hideOnOk={confirmModal.get('hideOnOk')}
-              closeConfirmModal={boundConfirmModalActions.hideConfirm}
-              closeConfirmModalByX={this.closeConfirmModalByX}
-            />
-          ) : null
-        }
+        <ConfirmModal
+          isShown={confirmModal.get('isShown')}
+          onOkClick={confirmModal.get('onOkClick')}
+          confirmTitle={confirmModal.get('confirmTitle')}
+          confirmMessage={confirmModal.get('confirmMessage')}
+          okButtonText={confirmModal.get('okButtonText')}
+          cancelButtonText={confirmModal.get('cancelButtonText')}
+          onCancelClick={confirmModal.get('onCancelClick')}
+          hideOnOk={confirmModal.get('hideOnOk')}
+          closeConfirmModal={boundConfirmModalActions.hideConfirm}
+          closeConfirmModalByX={this.closeConfirmModalByX}
+
+        />
 
         <XImageEditModal
           {...imageEditModalObj}
           onCancelClick={this.closeImageEditModal}
         />
 
-        {
-          howThisWorksModal.get('isShown') ? (
-            <HowThisWorksModal
-              isShown={true}
-              closeHowThisWorksModal={boundHowThisWorksActions.hideHowThisWorksModal}
-            />
-          ) : null
-        }
+        <HowThisWorksModal
+          isShown={howThisWorksModal.get('isShown')}
+          closeHowThisWorksModal={boundHowThisWorksActions.hideHowThisWorksModal}
+        />
 
-        {
-          quickStartModal.get('isShown') ? (
-            <QuickStartModal
-              isShown={true}
-              closeQuickStartModal={boundQuickStartActions.hideQuickStartModal}
-            />
-          ) : null
-        }
+        <QuickStartModal
+          isShown={quickStartModal.get('isShown')}
+          closeQuickStartModal={boundQuickStartActions.hideQuickStartModal}
+        />
 
-        {
-          contactUsModal.get('isShown')? (
-            <ContactUsModal
-              env={env}
-              project={project}
-              isShown={true}
-              boundContactUsActions={boundContactUsActions}
-              addNotification={boundNotificationActions.addNotification}
-            />
-          ) : null
-        }
+        <ContactUsModal
+          env={env}
+          project={project}
+          isShown={contactUsModal.get('isShown')}
+          boundContactUsActions={boundContactUsActions}
+          addNotification={boundNotificationActions.addNotification}
+        />
 
-        {
-          shareProjectModal.get('isShown') ? (
-            <ShareModal
-              isShown={true}
-              znoUrl={shareProjectModal.get('znoUrl')}
-              anonymousUrl={shareProjectModal.get('anonymousUrl')}
-              closeShareModal={boundShareProjectActions.hideShareProjectModal}
-              getShareUrls={boundShareProjectActions.getShareUrls}
-              projectId={project.get('projectId')}
-              baseUrl={baseUrl}
-              productType={productType}
-            />
-          ) : null
-        }
+        <ShareModal
+          isShown={shareProjectModal.get('isShown')}
+          znoUrl={shareProjectModal.get('znoUrl')}
+          anonymousUrl={shareProjectModal.get('anonymousUrl')}
+          closeShareModal={boundShareProjectActions.hideShareProjectModal}
+          getShareUrls={boundShareProjectActions.getShareUrls}
+          projectId={project.get('projectId')}
+          baseUrl={baseUrl}
+          productType={productType}
+        />
 
-        {
-          cloneModal.get('isShown')? (
-            <CloneModal
-              env={env}
-              userId={userId}
-              isShown={true}
-              onCloneProject={onCloneProject}
-              addAlbum={boundEnvActions.addAlbum}
-              checkProjectTitle={boundProjectActions.checkProjectTitle}
-              closeCloneModal={boundCloneModalActions.hideCloneModal}
-              addTracker={boundTrackerActions.addTracker}
-              uploadCoverImage={boundProjectActions.uploadCoverImage}
-            />
-          ) : null
-        }
+        <SaveTemplateModal
+          env={env}
+          project={project}
+          pageInfo={saveTemplateModal.toJS()}
+          isShown={saveTemplateModal.get('isShown')}
+          saveTemplate={boundSaveTemplateActions.saveTemplate}
+          checkTemplateName={boundSaveTemplateActions.checkTemplateName}
+          addTemplate={boundTemplateActions.addTemplate}
+          closeSaveTemplateModal={boundSaveTemplateActions.hideSaveTemplateModal}
+          addNotification={boundNotificationActions.addNotification}
+          boundPageLoadingModalActions={boundPageLoadingModalActions}
+        />
 
-        {
-          alertModal.get('isShown')? (
-            <AlertModal
-              isShown={true}
-              title={alertModal.get('title')}
-              onButtonClick={alertModal.get('onButtonClick')}
-              message={alertModal.get('message')}
-              escapeClose={alertModal.get('escapeClose')}
-              isHideIcon={alertModal.get('isHideIcon')}
-              closeAlertModal={boundAlertModalActions.hideAlertModal}
-            />
-          ) : null
-        }
+        <CloneModal
+          env={env}
+          userId={userId}
+          isShown={cloneModal.get('isShown')}
+          onCloneProject={onCloneProject}
+          addAlbum={boundEnvActions.addAlbum}
+          checkProjectTitle={boundProjectActions.checkProjectTitle}
+          closeCloneModal={boundCloneModalActions.hideCloneModal}
+          addTracker={boundTrackerActions.addTracker}
+          uploadCoverImage={boundProjectActions.uploadCoverImage}
+        />
 
-        {
-          pageLoadingModal.get('isShown') ? (
-            <PageLoadingModal
-              isShown={true}
-              text={pageLoadingModal.get('text')}
-            />
-          ) : null
-        }
+        <AlertModal
+          isShown={alertModal.get('isShown')}
+          title={alertModal.get('title')}
+          onButtonClick={alertModal.get('onButtonClick')}
+          message={alertModal.get('message')}
+          escapeClose={alertModal.get('escapeClose')}
+          isHideIcon={alertModal.get('isHideIcon')}
+          closeAlertModal={boundAlertModalActions.hideAlertModal}
+        />
 
-        {
-          changeBgColorModal.get('isShown')? (
-            <PageBackgroundModal
-              isShown={true}
-              bgColor={changeBgColorModal.get('bgColor')}
-              selectedPageId={changeBgColorModal.get('selectedPageId')}
-              updatePageInfo={boundProjectActions.changePageBgColor}
-              closeModal={boundChangeBgColorModalActions.hideChangeBgColorModal}
-            />
-          ) : null
-        }
+        <PageLoadingModal
+          isShown={pageLoadingModal.get('isShown')}
+          text={pageLoadingModal.get('text')}
+        />
 
-        {
-          approvalPageData.isShown ? (
-            <ApprovalPage
-              actions={approvalPageActions}
-              data={approvalPageData}
-            />
-          ) : null
-        }
+        <PageBackgroundModal
+          isShown={changeBgColorModal.get('isShown')}
+          bgColor={changeBgColorModal.get('bgColor')}
+          selectedPageId={changeBgColorModal.get('selectedPageId')}
+          updatePageInfo={boundProjectActions.changePageBgColor}
+          closeModal={boundChangeBgColorModalActions.hideChangeBgColorModal}
+        />
+
+        <ApprovalPage
+          actions={approvalPageActions}
+          data={approvalPageData}
+        />
 
         <PreviewModal
           actions={previewModalActions}

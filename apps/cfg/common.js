@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
-const ExtractPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -38,7 +37,6 @@ module.exports = {
         query: '?' + JSON.stringify({ cacheDirectory: true })
       }]
     }),
-    new ExtractPlugin('bundle.css'),
     new CopyWebpackPlugin([
       { from: path.join(PRODUCT_SRC, '/sources/fonts.xml'), to: 'fonts.xml' },
       { from: path.join(PRODUCT_SRC, '/sources/spec.xml'), to: 'spec.xml' },
@@ -68,10 +66,6 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.s?css$/,
-        loader: ExtractPlugin.extract('style', 'css!postcss!sass')
-      },
-      {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loaders: ['file']
       },
@@ -84,7 +78,7 @@ module.exports = {
         loaders: ['url?limit=10000&mimetype=image/svg+xml']
       },
       {
-        test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(woff|woff2)$/,
         loaders: ['url?prefix=font/&limit=5000']
       },
       {

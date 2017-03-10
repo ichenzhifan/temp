@@ -43,7 +43,7 @@ class MainContainer extends Component {
     });
   }
 
-  async componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const oldUserId = this.props.userId;
     const newUserId = nextProps.userId;
 
@@ -58,7 +58,7 @@ class MainContainer extends Component {
     } = this.props;
     if (oldUserId !== newUserId) {
       if (!newUserId) {
-        await boundSystemActions.showConfirm({
+        boundSystemActions.showConfirm({
           confirmMessage: 'Please log in!',
           okButtonText: 'Done',
           cancelButtonText: 'Cancel',
@@ -70,29 +70,29 @@ class MainContainer extends Component {
       }
 
       if (projectId !== -1) {
-        await boundProjectActions.getProjectData(newUserId, projectId);
-        await boundProjectActions.getProjectOrderedState(newUserId, projectId);
-        const res = await boundEnvActions.getProjectTitle(newUserId, projectId);
-
-        if (res.respCode === '200') {
-          await boundProjectActions.changeProjectSetting({ title: res.projectName });
-        }
-
-        await boundProjectActions.projectLoadCompleted();
+        boundProjectActions.getProjectData(newUserId, projectId).then(() => {
+          boundEnvActions.getProjectTitle(newUserId, projectId).then((res) => {
+            if (res.respCode === '200') {
+              boundProjectActions.changeProjectSetting({ title: res.projectName });
+            }
+            boundProjectActions.projectLoadCompleted();
+          });
+        });
       } else {
         if (setting.title) {
-          await boundEnvActions.addAlbum(newUserId, setting.title);
-          await boundEnvActions.getAlbumId(newUserId, setting.title);
+          boundEnvActions.addAlbum(newUserId, setting.title).then(() => {
+            boundEnvActions.getAlbumId(newUserId, setting.title);
+          });
         }
 
-        await boundPriceActions.getProductPrice(setting);
+        boundPriceActions.getProductPrice(setting);
       }
     }
 
     const oldProjectTitle = this.props.setting.title;
     const newProjectTitle = nextProps.setting.title;
     if (oldProjectTitle !== newProjectTitle) {
-      await boundEnvActions.getAlbumId(newUserId, newProjectTitle);
+      boundEnvActions.getAlbumId(newUserId, newProjectTitle);
     }
   }
 

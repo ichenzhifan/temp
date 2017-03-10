@@ -13,7 +13,6 @@ const templateList = (state = [], action) => {
           const { response } = action;
           const productType = action.apiPattern.productType;
           const pageType = productType.indexOf(productTypes.PS)>=0 ? 'half' : 'full';
-
           // 模版中的 pressBookSheet 有值的模版表示老的 pressbook 的模版，将此模版过滤掉。
           const resTemplateList = convertObjIn(response.result.list.template);
           let fliteredList = (resTemplateList instanceof Array) && resTemplateList.filter(item => !item.pressBookSheet);

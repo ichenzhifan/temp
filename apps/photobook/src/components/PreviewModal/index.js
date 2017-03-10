@@ -21,7 +21,7 @@ class PreviewModal extends Component {
 
   render() {
     const {data, actions} = this.props;
-    const {boundSnippingActions, onSwitchSheet} = actions;
+    const {boundSnippingActions} = actions;
     const {
       // 标记当前是不是处于预览模式,
       // 在预览模式下, 关闭按钮不显示.
@@ -38,13 +38,11 @@ class PreviewModal extends Component {
       snipping,
       project,
       parameters,
-      allSheets,
-      ignoreEmpty = true
+      allSheets
     } = data;
 
     const sheetRenderActions = {
-      boundSnippingActions,
-      onSwitchSheet
+      boundSnippingActions
     };
 
     const sheetRenderData = {
@@ -59,8 +57,7 @@ class PreviewModal extends Component {
       snipping,
       project,
       parameters,
-      allSheets,
-      ignoreEmpty
+      allSheets
     };
 
     return (

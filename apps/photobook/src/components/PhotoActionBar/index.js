@@ -10,18 +10,18 @@ class PhotoActionBar extends Component {
   constructor(props) {
     super(props);
 
-    this.onCrop = (event) => handler.onCrop(this, event);
-    this.onRotate = (event) => handler.onRotate(this, event);
-    this.onFlip = (event) => handler.onFlip(this, event);
+    this.onCrop = event => handler.onCrop(this, event);
+    this.onRotate = event => handler.onRotate(this, event);
+    this.onFlip = event => handler.onFlip(this, event);
   }
 
   render() {
     const { t, actions, data, children } = this.props;
-    const {className, style, hasImage} = data;
+    const { className, style, hasImage } = data;
 
     return (
       <ul style={style} className="photo-action-bar" data-html2canvas-ignore="true">
-          { children }
+        { children }
       </ul>
     );
   }

@@ -185,13 +185,13 @@ export const switchPage = (that, e, callback) => {
   }
 };
 
-function convertElements(that, nextProps, elements, ratio) {
+function convertElements(that, elements, ratio) {
   let outList = Immutable.List();
-  const props = nextProps || that.props;
+
   const { elementArray } = that.state;
 
   elements.forEach((element) => {
-    const computed = that.computedElementOptions(props, element, ratio);
+    const computed = that.computedElementOptions(element, ratio);
 
     const stateElement = elementArray.find((o) => {
       return o.get('id') === element.get('id');
@@ -218,7 +218,7 @@ function convertElements(that, nextProps, elements, ratio) {
 export const componentWillMount = (that) => {
   const { elements, ratio } = that.props.data;
   that.setState({
-    elementArray: convertElements(that, that.props, elements, ratio.workspace)
+    elementArray: convertElements(that, elements, ratio.workspace)
   });
 };
 
@@ -233,11 +233,21 @@ export const componentWillReceiveProps = (that, nextProps) => {
   const newRatio = newData.ratio.workspace;
 
   if (!Immutable.is(oldElements, newElements) || oldRatio !== newRatio) {
-    const newElementArray = convertElements(that, nextProps, newElements, newRatio);
+    const newElementArray = convertElements(that, newElements, newRatio);
 
     that.setState({
       elementArray: newElementArray
     });
+  }
+
+  if (oldRatio !== newRatio) {
+    // FIXME: 需要知道render材质后的时机
+    setTimeout(() => {
+      that.updateOffset();
+      that.setState({
+        isRatioChanged: true
+      });
+    }, 1200);
   }
 
   const oldPageId = oldData.pagination.pageId;
@@ -255,10 +265,6 @@ export const componentWillReceiveProps = (that, nextProps) => {
     });
   }
 
-  if (oldRatio !== newRatio) {
-    that.updateOffset();
-  }
-
   // autolayout
   const oldPhotoElementsSize = oldData.elements.filter(ele => ele.get('type') === elementTypes.photo);
   const newPhotoElementsSize = newData.elements.filter(ele => ele.get('type') === elementTypes.photo);
@@ -266,11 +272,13 @@ export const componentWillReceiveProps = (that, nextProps) => {
   // 当在sidebar上选择模板并应用时, isManualApplied会被设为true. 在这种情况下, 这里就不需要再做一次autolayout.
   const isInApplyingTemplate = get(nextProps, 'data.template.isInApplyingTemplate');
 
-  if (!isInApplyingTemplate &&
+  if (
+    !isInApplyingTemplate &&
     newPhotoElementsSize &&
     oldPhotoElementsSize &&
     oldPhotoElementsSize.size !== newPhotoElementsSize.size &&
-    newPhotoElementsSize.size) {
+    newPhotoElementsSize.size
+  ) {
     that.doAutoLayout(nextProps);
   }
 };

@@ -11,7 +11,6 @@
 
     ul li {
       @include font-medium();
-      padding-left: 0 !important;
       text-align: center;
     }
   }
@@ -29,23 +28,11 @@
     }
 
     .selectedPage {
-      background-color: #7B7B7B !important;
-      color: #ffffff;
-
-      a {
-        color: #fff;
-      }
+      background-color: #bbbbdf;
     }
 
     ul {
       position: relative;
-
-      li.item-line {
-        height: 24px;
-        &:nth-of-type(2n+1){
-          background-color: #fff;
-        }
-      }
 
       li {
         @include font-normal();
@@ -60,6 +47,10 @@
 
           &:last-child {
             margin-left: 40px;
+          }
+
+          &:hover {
+            color: blue;
           }
         }
       }
@@ -78,12 +69,12 @@
     }
 
     .line2{
-      right: 240px;
+      left: 82%;
     }
   }
 
   ul.approval-actionbar-item li {
-    position: absolute;
+    float: left;
     height: 24px;
     font-size: 13px;
     line-height: 24px;
@@ -91,26 +82,14 @@
     box-sizing: border-box;
 
     &:nth-of-type(1){
-      top: 0;
-      left: 0;
       width: 26%;
     }
     &:nth-of-type(2){
-      top: 0;
-      left: 26%;
-      right: 240px;
-      padding-right: 40px;
-      overflow: hidden;
-      text-overflow:ellipsis;
-      white-space: nowrap;
+      width: 56%;
     }
 
     &:nth-of-type(3){
-      top: 0;
-      right: 0;
-      width: 240px;
-      padding-left: 0;
-      text-align: center;
+      width: 18%;
     }
   }
 }

@@ -2,7 +2,6 @@ import Loader from 'react-loader';
 import Immutable from 'immutable';
 import classNames from 'classnames';
 import { translate } from 'react-translate';
-import ReactDOM from 'react-dom';
 import React, { Component, PropTypes } from 'react';
 import { template, merge, isEqual, get } from 'lodash';
 
@@ -20,16 +19,7 @@ class LayoutList extends Component {
 
     this.state = {
       numTemplate: {},
-      templateList: [],
-
-      // layout 图片的大小.
-      imageSize: {
-        width: 0,
-        height: 0
-      },
-
-      // 每行显示的个数.
-      colNumber: 0
+      templateList: []
     };
 
     this.getTemplateHTML = () => handler.getTemplateHTML(this);
@@ -70,6 +60,19 @@ class LayoutList extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const oldSelectedId = get(prevProps, 'data.paginationSpread').getIn(['page', 'template', 'tplGuid']);
+    const newSelectedId = get(this.props, 'data.paginationSpread').getIn(['page', 'template', 'tplGuid']);
+    if (oldSelectedId !== newSelectedId) {
+        setTimeout(() => {
+          const selectedLayout = document.querySelector('.layout-list .list .selected');
+          if (selectedLayout) {
+            selectedLayout.scrollIntoView();
+          }
+        }, 100);
+    }
+  }
+
   componentDidMount() {
     const { actions } = this.props;
     const { onSelectFilter } = actions;
@@ -83,7 +86,6 @@ class LayoutList extends Component {
     } else {
       currentFilterTag = filter;
     }
-
     this.setState({
       templateList: list,
       numTemplate
@@ -105,16 +107,33 @@ class LayoutList extends Component {
       'hide': !!!data.templateList.length
     });
 
+    const options = {
+      lines: 9,
+      length: 35,
+      width: 17,
+      radius: 33,
+      scale: 0.25,
+      corners: 1,
+      color: '#000',
+      opacity: 0.25,
+      rotate: 21,
+      direction: 1,
+      speed: 1,
+      trail: 60,
+      fps: 20,
+      zIndex: 2e9,
+      className: 'spinner',
+      top: '50%',
+      left: '50%',
+      shadow: false,
+      hwaccel: false,
+      position: 'absolute'
+    };
     const nums = Object.keys(numTemplate);
 
     const layoutWidthStyle = {
       width: 'auto'
     };
-
-    // 当模板列表为空时, 就是用flex布局.
-    const listClassName = classNames('list', {
-      'display-flex': !templateList.length
-    });
 
     return (
       <div className="layout-list">
@@ -124,7 +143,7 @@ class LayoutList extends Component {
           currentFilterTag={currentFilterTag}
           onSelectFilter={onSelectFilter}
         />
-        <div className={listClassName}>
+        <div className="list">
           {
             templateList.length
             ? this.getTemplateHTML()

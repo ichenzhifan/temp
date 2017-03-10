@@ -31,7 +31,6 @@ export const receiveProps = (that, nextProps) => {
   const oldImages = that.props.uploadingImages;
   const newImages = nextProps.uploadingImages;
   const newAddedImages = [];
-
   if (!isEqual(oldImages, newImages)) {
     const allImages = that.state.allImages;
     const syncedGuids = that.state.syncedGuids;
@@ -44,7 +43,6 @@ export const receiveProps = (that, nextProps) => {
         newAddedImages.push(item.file);
       }
     });
-
     that.setState({
       allImages,
       syncedGuids

@@ -40,7 +40,7 @@ class Rotatable extends Component {
   }
 
   render() {
-    const { isDisabled, isSelected, rot } = this.props;
+    const { isShown, rot } = this.props;
 
     const degreeStringStyle = {
       transform: `rotate(${-rot}deg)`
@@ -49,13 +49,12 @@ class Rotatable extends Component {
     return (
       <div className="rotatable">
         {
-          !isDisabled && isSelected
+          isShown
           ? (
             <DraggableCore
               onStart={this.onRotateStart}
               onDrag={this.onRotate}
               onStop={this.onRotateStop}
-              disabled={isDisabled}
             >
               <div className="icon-rotate" />
             </DraggableCore>
@@ -78,8 +77,7 @@ Rotatable.propTypes = {
     onRotateStart: PropTypes.func.isRequired,
     onRotateStop: PropTypes.func.isRequired
   }).isRequired,
-  isDisabled: PropTypes.bool.isRequired,
-  isSelected: PropTypes.bool.isRequired,
+  isShown: PropTypes.bool.isRequired,
   rot: PropTypes.number.isRequired
 };
 

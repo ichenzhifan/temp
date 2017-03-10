@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Immutable from 'immutable';
-import { get, merge } from 'lodash';
+import { merge } from 'lodash';
 import ApprovalPageHeader from '../ApprovalPageHeader';
 import ApprovalPageSideBar from '../ApprovalPageSideBar';
 import ApprovalPageActionBar from '../ApprovalPageActionBar';
@@ -19,25 +18,11 @@ class ApprovalPage extends Component {
     };
 
     this.changeStateSheetIndex = index => handler.changeStateSheetIndex(this, index);
-    this.onSwitchSheet = pagination => this.changeStateSheetIndex(pagination.sheetIndex);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const oldData = this.props.data;
-    const newData = nextProps.data;
-
-    // order page: orderCoverWorkspace
-    const oldOrderCoverWorkspace = get(oldData, 'previewModalData.ratios.orderCoverWorkspace');
-    const newOrderCoverWorkspace = get(newData, 'previewModalData.ratios.orderCoverWorkspace');
-
-    if (this.props.data.isShown === nextProps.data.isShown &&
-          this.state.sheetIndex === nextState.sheetIndex &&
-          oldOrderCoverWorkspace === newOrderCoverWorkspace &&
-          Immutable.is(oldData.previewModalData, newData.previewModalData)) {
-      return false;
-    }
-
-    return true;
+    return (this.props.data.isShown !== nextProps.data.isShown ||
+          this.state.sheetIndex !== nextState.sheetIndex);
   }
 
   render() {
@@ -49,7 +34,6 @@ class ApprovalPage extends Component {
       reviewResult,
       previewModalData
     } = data;
-
     const {
       deleteElement,
       onSaveProject,
@@ -60,23 +44,7 @@ class ApprovalPage extends Component {
       boundCloneModalActions,
       boundNotificationActions
     } = actions;
-
-    const newPagination = previewModalData.pagination.merge({
-      sheetIndex: this.state.sheetIndex
-    });
-
-    // preview
-    const newPreviewModalActions = merge({}, previewModalActions, {
-      onSwitchSheet: this.onSwitchSheet
-    });
-
-    const scopePreviewModalData = merge({}, previewModalData, {
-      isShown: true,
-      isInPreviewModel: true,
-      ignoreEmpty: true
-    },{
-      pagination: newPagination
-    });
+    const scopePreviewModalData = merge({}, previewModalData, { isShown: true, isInPreviewModel: true });
 
     const approvalPageHeaderActions = {
       onSaveProject,
@@ -113,7 +81,7 @@ class ApprovalPage extends Component {
               />
               <div className="approval-preview">
                 <PreviewModal
-                  actions={newPreviewModalActions}
+                  actions={previewModalActions}
                   data={scopePreviewModalData}
                 />
               </div>

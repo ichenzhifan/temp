@@ -256,7 +256,6 @@ class App extends Component {
       isProjectLoadCompleted,
       isProjectEdited,
       encProjectIdString,
-      orderState,
 
       uploadingImages,
       price,
@@ -314,9 +313,6 @@ class App extends Component {
             projectId={projectId}
             boundSystemActions={boundSystemActions}
             isProjectEdited={isProjectEdited}
-            orderState={orderState}
-            boundProjectActions={boundProjectActions}
-            userId={userId}
           />
 
           {
@@ -429,7 +425,6 @@ const mapStateToProps = state => ({
   encProjectIdString: get(state, 'project.encProjectIdString'),
   userId: get(state, 'system.env.userInfo.id'),
   albumId: get(state, 'system.env.albumId'),
-  orderState: get(state, 'project.orderState'),
 
   // 标识图片的使用次数.
   imageUsedCountMap: get(state, 'project.imageUsedCountMap'),

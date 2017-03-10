@@ -39,6 +39,13 @@ class TextPreviewBox extends Component {
         },
         isLoaded: false
       });
+
+      if (!newImageSrc) {
+        this.setState({
+          imgWidth: 0,
+          imgHeight: 0
+        });
+      }
     }
   }
 
@@ -71,8 +78,8 @@ class TextPreviewBox extends Component {
     let newImgPositionX = previewImgPosition.x + deltaX;
     let newImgPositionY = previewImgPosition.y + deltaY;
 
-    const containerWidth = this.textPreviewBox.offsetWidth;
-    const containerHeight = this.textPreviewBox.offsetHeight;
+    const containerWidth = this.imgContainer.offsetWidth;
+    const containerHeight = this.imgContainer.offsetHeight;
 
     const minX = imgWidth > containerWidth ?
       (containerWidth - imgWidth) : 0;
@@ -181,27 +188,56 @@ class TextPreviewBox extends Component {
 
   render() {
     const { imgWidth, imgHeight } = this.state;
+    const {
+      maxImgContainerWidth,
+      maxImgContainerHeight,
+      initImgContainerWidth,
+      initImgContainerHeight,
+      imageSrc
+    } = this.props;
 
-    const previewBoxStyle = classNames('text-preview-box', {
-      grab: this.textPreviewBox && imgWidth && imgHeight &&
-        (imgWidth > this.textPreviewBox.offsetWidth ||
-          imgHeight > this.textPreviewBox.offsetHeight)
+    const imgContainerClass = classNames('img-container', {
+      grab: this.imgContainer && imgWidth && imgHeight &&
+        (imgWidth > maxImgContainerWidth ||
+          imgHeight > maxImgContainerHeight)
     });
 
+    const imgContainerStyle = {
+      width: imgWidth || initImgContainerWidth,
+      height: imgHeight || initImgContainerHeight,
+      maxHeight: maxImgContainerHeight,
+      maxWidth: maxImgContainerWidth,
+      border: (imgWidth && imgHeight) ? '1px dashed #7b7b7b' : 'none'
+    };
+
     return (
-      <div
-        className={previewBoxStyle}
-        ref={(div) => { this.textPreviewBox = div; }}
-        onMouseDown={this.onDragStart}
-      >
-        {this.renderPreviewBox()}
+      <div className="text-preview-box">
+        <div
+          className={imgContainerClass}
+          style={imgContainerStyle}
+          ref={(div) => { this.imgContainer = div; }}
+          onMouseDown={this.onDragStart}
+        >
+          {this.renderPreviewBox()}
+        </div>
       </div>
     );
   }
 }
 
 TextPreviewBox.propTypes = {
-  imageSrc: PropTypes.string
+  imageSrc: PropTypes.string,
+  maxImgContainerWidth: PropTypes.number,
+  maxImgContainerHeight: PropTypes.number,
+  initImgContainerWidth: PropTypes.number,
+  initImgContainerHeight: PropTypes.number
+};
+
+TextPreviewBox.defaultProps = {
+  maxImgContainerWidth: 720,
+  maxImgContainerHeight: 500,
+  initImgContainerHeight: 100,
+  initImgContainerWidth: 720
 };
 
 export default TextPreviewBox;

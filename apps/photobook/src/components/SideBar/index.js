@@ -33,7 +33,6 @@ class SideBar extends Component {
     this.getMore = () => layoutHandler.getMore(this);
     this.receiveProps = (nextProps) => layoutHandler.receiveProps(this, nextProps);
     this.willMount = () => layoutHandler.willMount(this);
-    this.didMount = () => layoutHandler.didMount(this);
 
     // 禁用默认的tabs样式.
     Tabs.setUseDefaultStyles(false);
@@ -44,10 +43,6 @@ class SideBar extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.receiveProps(nextProps);
-  }
-
-  componentDidMount(){
-    this.didMount();
   }
 
   render() {

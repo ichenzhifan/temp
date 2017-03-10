@@ -13,7 +13,7 @@ const PRODUCT_DIST = path.join(__dirname, '../dist', product, '/assets');
 
 module.exports = merge(commonConfig, {
   debug: true,
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     app: [
       'webpack-dev-server/client?http://localhost:8000',
@@ -37,6 +37,10 @@ module.exports = merge(commonConfig, {
   ],
   module: {
     loaders: [
+      {
+        test: /\.s?css$/,
+        loader: 'style!css!postcss!sass'
+      },
       {
         test: /\.jsx?$/,
         loaders: ['react-hot', 'happypack/loader?id=babel'],

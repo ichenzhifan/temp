@@ -20,7 +20,6 @@
       "useTextPrinting": false,
       "editorSetting": {
         "autoLayout": true,
-        "borderFrame": true,
         "border": {
           "color": "#000000",
           "size": 1,
@@ -332,7 +331,6 @@
         "ph": 0.8324555243445,
         "dep": 91,
         "textAlign": "left",
-        "textVAlign": "top/middle/bottom",
         "fontWeight": "normal",
         "fontFamily": "Arial Narrow",
         "textAutoWrap": "%7B%22autoWrapType%22%3A%22wordWrap%22%2C%22autowrapPosition%22%3A%5B%5D%7D",

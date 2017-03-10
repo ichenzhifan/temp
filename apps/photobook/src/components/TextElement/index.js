@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import classNames from 'classnames';
+import { merge } from 'lodash';
 
 import XLoading from '../../../../common/ZNOComponents/XLoading';
 import * as Events from './handler/events';
-import { merge } from 'lodash';
 import Element from '../Element';
 import './index.scss';
 
@@ -13,50 +13,23 @@ class TextElement extends Component {
     super(props);
 
     this.state = {
-      needInitSize: true,
       isImgLoading: false
     };
 
     this.onLoad = this.onLoad.bind(this);
     this.loadComplete = this.loadComplete.bind(this);
-    this.handleDragOver = (event) => Events.handleDragOver(this, event);
-    this.onDrop = (event) => Events.onDrop(this, event);
+    this.handleDragOver = event => Events.handleDragOver(this, event);
+    this.onDrop = event => Events.onDrop(this, event);
   }
 
   componentWillReceiveProps(nextProps) {
     const oldElement = this.props.data.element;
     const newElement = nextProps.data.element;
 
-    const oldFontSize = oldElement.get('fontSize');
-    const newFontSize = newElement.get('fontSize');
-
-    const oldFontColor = oldElement.get('fontColor');
-    const newFontColor = newElement.get('fontColor');
-
-    const oldTextAlign = oldElement.get('textAlign');
-    const newTextAlign = newElement.get('textAlign');
-
-    const oldFontWeight = oldElement.get('fontWeight');
-    const newFontWeight = newElement.get('fontWeight');
-
-    const oldFontFamily = oldElement.get('fontFamily');
-    const newFontFamily = newElement.get('fontFamily');
-
-    const oldText = oldElement.get('text');
-    const newText = newElement.get('text');
-
-    if (oldFontSize !== newFontSize || oldFontColor !== newFontColor ||
-      oldTextAlign !== newTextAlign || oldFontWeight !== newFontWeight ||
-      oldFontFamily !== newFontFamily || oldText !== newText) {
-      this.setState({
-        needInitSize: true
-      });
-    }
-
     const oldImgUrl = oldElement.getIn(['computed', 'imgUrl']);
     const newImgUrl = newElement.getIn(['computed', 'imgUrl']);
 
-    if (oldImgUrl !== newImgUrl) {
+    if (oldImgUrl !== newImgUrl && newElement.get('text')) {
       this.setState({
         isImgLoading: true
       });
@@ -79,39 +52,6 @@ class TextElement extends Component {
   }
 
   onLoad(e) {
-    const { data, actions } = this.props;
-    const { element, ratio, page } = data;
-    const { boundProjectActions } = actions;
-    const elementId = element.get('id');
-
-    const { needInitSize } = this.state;
-
-    if (needInitSize) {
-      const width = e.target.naturalWidth / ratio.workspace;
-      const height = e.target.naturalHeight / ratio.workspace;
-      const pw = width / page.get('width');
-      const ph = height / page.get('height');
-
-      // 如果有数据变更，才更新element
-      if ((element.get('width') !== width ||
-        element.get('height') !== height ||
-        element.get('pw') !== pw ||
-        element.get('ph') !== ph) &&
-        boundProjectActions) {
-        boundProjectActions.updateElement({
-          id: elementId,
-          width,
-          height,
-          pw: width / page.get('width'),
-          ph: height / page.get('height')
-        });
-      }
-
-      this.setState({
-        needInitSize: false
-      });
-    }
-
     this.loadComplete();
   }
 
@@ -123,11 +63,8 @@ class TextElement extends Component {
 
   render() {
     const { data, actions } = this.props;
-    const { element, ratio, page, containerOffset } = data;
+    const { element, containerOffset } = data;
     const imageSrc = element.getIn(['computed', 'imgUrl']);
-
-    const pageWidth = page.get('width') * ratio.workspace;
-    const pageHeight = page.get('height') * ratio.workspace;
 
     const computed = element.get('computed');
     const handlerStyle = {
@@ -141,6 +78,9 @@ class TextElement extends Component {
       handleDrop: this.onDrop,
       handleDragOver: this.handleDragOver
     });
+
+    const text = element.get('text');
+
     const elementData = {
       className: classNames('text-element', {
         selected: element.get('isSelected')
@@ -153,15 +93,14 @@ class TextElement extends Component {
         top: computed.get('top'),
         transform: `rotate(${element.get('rot')}deg)`
       },
+      title: !text ? 'Double click to edit. Text will not print if blank' : '',
       handlerStyle,
       handlerData: element,
       element,
-      pageWidth,
-      pageHeight,
       containerOffset
     };
 
-    const text = element.get('text');
+
     const { isImgLoading } = this.state;
 
     const snapshotAttributes = {};
@@ -173,15 +112,21 @@ class TextElement extends Component {
     return (
       <Element data={elementData} actions={elementActions}>
         <XLoading isShown={isImgLoading} />
-        <img
-          className="text-img"
-          alt=""
-          src={imageSrc}
-          onLoad={this.onLoad}
-          onError={this.loadComplete}
-          data-html2canvas-manual-ignore="true"
-          {...snapshotAttributes}
-        />
+        {
+          text
+          ? (
+            <img
+              className="text-img"
+              alt=""
+              src={imageSrc}
+              onLoad={this.onLoad}
+              onError={this.loadComplete}
+              data-html2canvas-manual-ignore="true"
+              {...snapshotAttributes}
+            />
+          )
+          : null
+        }
       </Element>
     );
   }

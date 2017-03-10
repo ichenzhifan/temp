@@ -31,28 +31,28 @@ class ShareModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.productType !== nextProps.productType||
-      this.props.projectId !== nextProps.projectId) {
+    if (this.props.productType !== nextProps.productType　||　this.props.projectId !== nextProps.projectId) {
       const { baseUrl, projectId, productType, getShareUrls } = nextProps;
       if (baseUrl && projectId != -1 && productType) {
         getShareUrls(baseUrl, projectId, productType);
+       //  getShareUrls(baseUrl, projectId, productType).then((res) => {
+       //    const shareUrls = {};
+       //    if (res.status === 'success') {
+       //      this.setState({
+       //        znoUrl: res.data.znoUrl,
+       //        anonymousUrl: res.data.anonymousUrl,
+       //        embedCode: `<iframe src="${res.data.znoUrl}" width="800px" height="461px"></iframe>`
+       //      });
+       //    }
+       // });
       }
     }
-
-    if (this.props.znoUrl !== nextProps.znoUrl ||
-      this.props.anonymousUrl !== nextProps.anonymousUrl) {
+    if (this.props.znoUrl !== nextProps.znoUrl ||　this.props.anonymousUrl !== nextProps.anonymousUrl) {
       this.setState({
         znoUrl: nextProps.znoUrl,
         anonymousUrl: nextProps.anonymousUrl.replace(/\/\/prod/, '/prod'),
         embedCode: `<iframe src="${nextProps.znoUrl}" width="800px" height="461px"></iframe>`
       });
-    }
-  }
-
-  componentDidMount() {
-    const { baseUrl, projectId, productType, getShareUrls } = this.props;
-    if (baseUrl && projectId != -1 && productType) {
-      getShareUrls(baseUrl, projectId, productType);
     }
   }
 

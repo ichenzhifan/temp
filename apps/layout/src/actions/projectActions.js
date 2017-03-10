@@ -265,9 +265,6 @@ export function saveProject(ops={isPublish:false}) {
     const { project } = state;
     const { spread, setting, spreadOptions } = project;
     const { oriWidth, oriHeight } = spreadOptions;
-
-    let photoH = 0, photoV = 0, photoQ = 0, textH = 0, textV = 0;
-
     spread.elements.element.map(element => {
       const ratio = element.width / element.height;
       element.px = element.x / oriWidth;
@@ -293,8 +290,8 @@ export function saveProject(ops={isPublish:false}) {
         }
       }
     });
-
     const templateXmlString = generateTemplate(spread);
+    let photoH = 0, photoV = 0, photoQ = 0, textH = 0, textV = 0;
     const copySetting = merge({}, setting, {
       frameHorizonNum: photoH,
       frameVertialNum: photoV,

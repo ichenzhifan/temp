@@ -57,21 +57,26 @@ export const computedElementOptions = (that, element, workspaceRatio) => {
 
   switch (element.get('type')) {
     case elementTypes.text: {
+      const text = element.get('text');
       const fontSizePercent = element.get('fontSize');
-      const fontSize = fontSizePercent * page.get('height');
+      const originalFontSize = fontSizePercent * page.get('height');
+      const scale = 1 / ratio;
 
       obj.imgUrl = template(TEXT_SRC)({
-        fontBaseUrl: urls.productBaseURL,
-        text: window.encodeURIComponent(element.get('text')),
+        text: window.encodeURIComponent(text),
+        fontSize: originalFontSize / scale,
         fontColor: hexString2Number(element.get('fontColor')),
         fontFamily: window.encodeURIComponent(element.get('fontFamily')),
-        textAlign: window.encodeURIComponent(element.get('textAlign')),
-        ratio,
-        fontSize
+        width: obj.width,
+        height: obj.height,
+        originalWidth: element.get('width'),
+        originalHeight: element.get('height'),
+        originalFontSize,
+        fontBaseUrl: urls.productBaseURL,
+        textAlign: element.get('textAlign'),
+        verticalTextAlign: element.get('textVAlign')
       });
-      obj.keepRatio = true;
-      obj.maxHeight = getPxByPt(MAX_FONT_SIZE) * ratio;
-      obj.minHeight = getPxByPt(MIN_FONT_SIZE) * ratio;
+
       break;
     }
     case elementTypes.decoration : {

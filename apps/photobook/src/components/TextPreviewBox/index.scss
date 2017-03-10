@@ -1,16 +1,18 @@
 @import '../../../../common/styles/fonts.scss';
+@import '../../../../common/styles/common.scss';
 .text-preview-box {
-  margin-bottom: 20px;
-  position: relative;
-  height: 80px;
-  border: 1px solid #ccc;
+  @include clearfix;
   overflow: hidden;
-  box-sizing: border-box;
-  cursor: default;
 
-  &.grab {
-    cursor: move;
-    cursor: -webkit-grab;
+  .img-container {
+    position: relative;
+    cursor: default;
+    box-sizing: border-box;
+    margin: 0 auto;
+    &.grab {
+      cursor: move;
+      cursor: -webkit-grab;
+    }
   }
 
   .preview-img {

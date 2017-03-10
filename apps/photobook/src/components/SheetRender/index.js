@@ -19,7 +19,7 @@ class SheetRender extends Component {
   render() {
     const { actions, data } = this.props;
     const { boundTemplateActions, boundPaginationActions, boundProjectActions, boundImageEditModalActions, boundImagesActions, boundUploadImagesActions, boundTextEditModalActions, boundPropertyModalActions, boundTrackerActions, hideCameoActionBar, doSnipping } = actions;
-    const { urls, size, ratios, position, materials, variables, template, pagination, paginationSpread, index, settings, project, parameters, snipping, isPreview, ignoreEmpty, isCameoActionBarShow } = data;
+    const { urls, size, ratios, position, materials, variables, template, pagination, paginationSpread, index, settings, project, parameters, snipping, isPreview, isCameoActionBarShow } = data;
     const summary = paginationSpread.get('summary');
     const pages = paginationSpread.get('pages');
     const bookCoverActions = { boundTemplateActions, boundPaginationActions, boundProjectActions, boundImageEditModalActions, boundImagesActions, boundUploadImagesActions, boundTextEditModalActions, boundPropertyModalActions, boundTrackerActions, hideCameoActionBar, doSnipping };
@@ -34,10 +34,10 @@ class SheetRender extends Component {
       // 是否为封面.
       if (summary.get('isCover')) {
         // cover
-        const bookCoverData = {urls, size, ratios, position: position.cover, materials, variables, template, pagination, paginationSpread, settings, parameters, isPreview, ignoreEmpty, isCameoActionBarShow };
+        const bookCoverData = {urls, size, ratios, position: position.cover, materials, variables, template, pagination, paginationSpread, settings, parameters, isPreview, isCameoActionBarShow };
         sheets.push(<BookCover key={sheetPageIndex} actions={bookCoverActions} data={bookCoverData} />)
       } else {
-        const bookData = {urls, size, ratios, position: position.inner, materials, variables, template, pagination, paginationSpread, project, settings, snipping, isPreview, ignoreEmpty, parameters};
+        const bookData = {urls, size, ratios, position: position.inner, materials, variables, template, pagination, paginationSpread, project, settings, snipping, isPreview, parameters};
         sheets.push(<BookSheet key={sheetPageIndex} actions={bookSheetActions} data={bookData} />)
       }
     }

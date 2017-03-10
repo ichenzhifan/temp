@@ -8,15 +8,8 @@ export const clientType = 'H5';
 export const ratioType = {
   coverWorkspace: 'coverWorkspace',
   innerWorkspace: 'innerWorkspace',
-
-  // preview
   previewCoverWorkspace: 'previewCoverWorkspace',
   previewInnerWorkspace: 'previewInnerWorkspace',
-
-  // order page
-  orderCoverWorkspace: 'orderCoverWorkspace',
-  orderInnerWorkspace: 'orderInnerWorkspace',
-
   screen: 'screen',
 
   // 渲染效果图与封面workspace大小的比例
@@ -130,13 +123,13 @@ export const percent = {
 };
 
 /**
- * elType 类型
- */
+* elType 类型
+*/
 
 export const elType = {
   cameo: 'cameo',
   image: 'image',
-  text: 'text'
+  text:  'text'
 };
 
 // element类型.
@@ -278,12 +271,4 @@ export const cropLimitedSize = 1500;
 export const dragPageSelector = {
   targetPage: '.book-page-thumbnail',
   clonedPage: 'book-page-thumbnail-cloned'
-};
-
-// product名称, 简写与全称的对应关系.
-export const productNames = {
-  LF: 'Layflat Photo Book',
-  FM: 'Flush Mount Album',
-  LB: 'Little Black Book',
-  PS: 'Press Book'
 };

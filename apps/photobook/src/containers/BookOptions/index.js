@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { get, template, merge, isEqual } from 'lodash';
+import { template, merge, isEqual } from 'lodash';
 import { translate } from 'react-translate';
 import Immutable from 'immutable';
 import React, { Component, PropTypes } from 'react';
@@ -18,7 +18,6 @@ import { mapStateToProps } from '../../selector/mapState/editPage';
 // 导入handler
 import * as optionsBarHandler from './handler/optionBar';
 import * as bookOptionsHandler from './handler/bookOptions';
-import * as snippingHandler from './handler/snipping';
 
 class BookOptions extends Component {
   constructor(props) {
@@ -28,7 +27,7 @@ class BookOptions extends Component {
     this.changeSetting = param => optionsBarHandler.changeSetting(this, param, (newSetting, selectMap)=> bookOptionsHandler.updateBookOptionsData(this, newSetting, selectMap));
     this.cancelSetting = () => optionsBarHandler.cancelSetting(this, (settingState)=> {
       const newState = this.destructorObject();
-      this.setState(merge({}, settingState, newState));
+      this.setState(merge({}, this.state, settingState, newState));
     });
     this.saveSetting = () => optionsBarHandler.saveSetting(this);
     this.beforeSaveSetting = () => optionsBarHandler.beforeSaveSetting(this);
@@ -36,9 +35,6 @@ class BookOptions extends Component {
 
     // bookOption的处理函数.
     this.destructorObject = (props) => bookOptionsHandler.destructorObject(this, props);
-
-    // 截图.
-    this.doSnipping = () => snippingHandler.doSnipping(this);
 
     // 设置state.
     const bookOptionsData = this.destructorObject();
@@ -76,13 +72,6 @@ class BookOptions extends Component {
       this.setState({
         isLoading: false
       });
-    }
-
-    // 判断是否需要截图.
-    const oldPaginationSpreadForCover = get(this.props, 'paginationSpreadForCover');
-    const newPaginationSpreadForCover = get(nextProps, 'paginationSpreadForCover');
-    if (!Immutable.is(oldPaginationSpreadForCover, newPaginationSpreadForCover)) {
-      this.doSnipping();
     }
   }
 
@@ -157,9 +146,6 @@ class BookOptions extends Component {
     // book cover数据.
     const bookCoverData = {
       isPreview,
-
-      // 不显示空的图片框.
-      ignoreEmpty: true,
       urls,
       size,
       ratios,
